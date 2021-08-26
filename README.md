@@ -1,6 +1,6 @@
 ![Synak logo](/public/img/logo.png)
 
-**Synak** is a C++ header-only network library providing networking support for **video games**.\
+**Synak** is a C++ network library providing networking support for **video games**.\
 It can handle **Client/Public Dedicated Server**, **P2P Client/Server** and **full P2P** architecture.\
 It also provides a **Master Server** and a **Web Admin Panel** for an Unix dedicated server.
 

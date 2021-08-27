@@ -19,8 +19,8 @@ Create your password to access to the Web Panel
 &#160;
 
 ## VI. ZONE DNS
-In case you are lost with you dns zone, here three useful lines
+In case you are lost with you dns zone, here three useful lines (the ending dot is **NOT** a mistake)
 
-    *```synak        3600 IN A     %IPV4%```
-    * ```synak        3600 IN AAAA  %IPV6%```
-    * ```www.synak    3600 IN CNAME synak.%DOMAIN%.%EXTENTION%.``` (the ending dot is **NOT** a mistake)
+    synak        3600 IN A     %IPV4%
+    synak        3600 IN AAAA  %IPV6%
+    www.synak    3600 IN CNAME synak.%DOMAIN%.%EXTENTION%.

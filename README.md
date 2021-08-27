@@ -68,6 +68,8 @@ Feature | Status | Notes
   - [JsonCpp](https://github.com/open-source-parsers/jsoncpp)
 
 - **Web Panel**
-  - Python 3.x
   - Apache 2.x
+    - mod_rewrite
+  - Python 3.x
+  - Fail2ban
   - [Semantic UI](https://semantic-ui.com/)

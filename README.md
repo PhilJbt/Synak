@@ -40,7 +40,7 @@ Feature | Status | Notes
 &#9472; **MASTER SERVER** |   |  
 &#160; &#9492; Port assignation | :construction: |  
 &#160; &#9492; Matchmaking | :construction: |  
-&#160; &#9492; IP alias | :construction: | Allows to share an endpoint without disclosing its IP address for a P2P connection.<br/>Also useful when showing player's ID on screen.
+&#160; &#9492; IP alias | :construction: | Obfuscate endpoint IP for P2P connections
   |   |  
 &#9472; **HTTP** |   |  
 &#160; &#9492; Send GET requests | :construction: |  

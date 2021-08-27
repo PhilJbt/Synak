@@ -4,6 +4,16 @@
 It can handle **Client/Public Server** and **P2P** architectures — even behind a NAT.\
 It also provides a **Master Server** (for matchmaking, to coordinate connection between P2P nodes, etc) and a **Web Admin Panel** (to start/stop, to ban/unban, for logs, etc) for an Unix public dedicated server.
 
+&#160;
+___
+
+[FEATURES](https://github.com/PhilJbt/Synak/blob/main/README.md#FEATURES) &#183;
+[DEPENDENCIES](https://github.com/PhilJbt/Synak/blob/main/README.md#DEPENDENCIES) 
+
+___
+
+&#160;
+
 # FEATURES
 
 Feature | Status | Notes
@@ -49,3 +59,17 @@ Feature | Status | Notes
 &#160; &#9492; Extrapolation | :construction: | Distant position
 &#160; &#9492; Prediction | :construction: | Local position
 &#160; &#9492; Reconciliation | :construction: | Local position
+
+&#160;
+
+# DEPENDENCIES
+
+- **Network Layer**
+  - [JsonCpp](https://github.com/open-source-parsers/jsoncpp)
+
+- **Master Server**
+  - [JsonCpp](https://github.com/open-source-parsers/jsoncpp)
+
+- **Web Panel**
+  - Python 3.x
+  - Apache 2.x

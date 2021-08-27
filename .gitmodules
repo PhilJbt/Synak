@@ -1,0 +1,3 @@
+[submodule "code/source/web/root/var/www/synak/dependencies/three/master/dist"]
+	path = code/source/web/root/var/www/synak/dependencies/three/master/dist
+	url = https://github.com/Semantic-Org/Semantic-UI

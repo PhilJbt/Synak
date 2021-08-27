@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow" />
+<title>Synak &#8212; Web Panel</title>
+<link rel="stylesheet" type="text/css" href="../dep/semantic-ui-css/semantic.min.css">
+<link rel="stylesheet" type="text/css" href="res/styles.css">
+<script src="../dep/jquery/jquery-3.1.1.min.js"></script>
+<script src="../dep/semantic-ui-css/semantic.min.js"></script>
+<script src="res/scripts.js" defer></script>
+</head>
+<body>
+
+<div>
+  <div id="loader" class="ui indeterminate text loader">Please wait...</div>
+  <div id="menu" class="ui menu massive">
+    <div class="item ui image">
+      <img src="res/img/logo.png">
+    </div>
+    <div class="ui dropdown item">
+      <i class="cog icon"></i>
+      Managing
+      <div class="menu">
+        <a class="item" onclick="showModal('mng_start')"><i class="icon play"></i> Start</a>
+        <a class="item" onclick="showModal('mng_stop')"><i class="icon stop"></i> Stop</a>
+        <a class="item" onclick="showModal('mng_kill')"><i class="icon close"></i> Kill</a>
+      </div>
+    </div>
+    <div class="ui dropdown item">
+      <i class="user icon"></i>
+      Moderation
+      <div class="menu">
+        <a class="item" onclick="showModal('mod_ban')"><i class="icon ban"></i> Ban IP</a>
+        <a class="item" onclick="showModal('mod_uban')"><i class="icon check"></i> Unban IP</a>
+      </div>
+    </div>
+    <div class="ui dropdown item">
+      <i class="archive icon"></i>
+      Log
+      <div class="menu">
+        <a class="item" onclick="showModal('log_get')"><i class="icon level down alternate"></i> Get</a>
+        <a class="item" onclick="showModal('log_erase')"><i class="icon eraser"></i> Erase</a>
+      </div>
+    </div>
+  </div>
+  <div class="cmdoutputcont">
+    <div class="ui segment cmdoutputseg">
+      <div class="ui two column centered grid">
+        <div class="five ten centered row">
+          <div class="column">
+            <div class="ui inverted segment">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nec ante varius, lacinia libero nec, rhoncus urna. Aliquam vel malesuada diam, non tincidunt purus. Nunc vitae bibendum nisi. Fusce nec scelerisque mi. Vivamus fringilla gravida est, sit amet auctor odio fermentum ac. Fusce hendrerit turpis lectus, condimentum elementum libero sodales vitae. Nulla et sagittis risus, eu hendrerit nisl. Morbi dictum turpis luctus, pretium dolor nec, dapibus nibh. Mauris eget vehicula lorem. Cras id ex sagittis tortor tincidunt euismod. Quisque porta bibendum enim, vel fringilla sem dignissim nec. Cras finibus nibh orci, a laoreet erat fringilla eget. Aliquam erat volutpat. Nullam non placerat ligula, in lobortis ipsum. Aliquam sollicitudin faucibus turpis, ut laoreet tellus eleifend nec.<br/>
+<br/>
+Suspendisse suscipit dolor in ipsum malesuada scelerisque. In at ligula sit amet mi tincidunt sollicitudin in vel tellus. Suspendisse et nunc vel enim ullamcorper gravida. In maximus rhoncus nunc, et placerat lacus rhoncus in. Pellentesque ut nibh sed ex pretium laoreet. Praesent pretium ante vitae tellus faucibus facilisis. Aenean euismod sit amet lorem tristique ornare. Nullam efficitur sem vitae sapien scelerisque pretium. Aliquam id enim in orci efficitur vestibulum. Nulla vitae sapien quis mauris pretium suscipit. Quisque egestas feugiat augue, at finibus ligula tempus at. Suspendisse eget orci quam.<br/>
+<br/>
+Pellentesque vel imperdiet arcu. Nulla mauris libero, interdum semper urna ut, accumsan mattis augue. Praesent accumsan, risus quis hendrerit imperdiet, orci ligula fermentum urna, nec elementum nunc nisl sit amet neque. Curabitur mi ipsum, consequat id vulputate sit amet, tempor pulvinar nisi. Suspendisse potenti. Aliquam semper, eros sit amet pretium consectetur, purus mauris consequat augue, in tempor ante nulla ut odio. Morbi convallis, risus sit amet pellentesque fringilla, nisi quam posuere magna, id vulputate quam velit at ex. In gravida ligula vitae ante pellentesque bibendum.<br/>
+<br/>
+Nullam mattis urna pulvinar consequat mattis. In leo enim, interdum ut metus et, efficitur auctor massa. Curabitur pulvinar dui vel elit congue, at dignissim enim aliquet. Vivamus aliquet hendrerit nisl vitae ullamcorper. Sed in nunc dui. Praesent purus leo, sodales non sodales at, tempor sit amet mauris. Phasellus tristique risus id dui ultricies tristique. Nullam leo sem, elementum ut nulla id, ullamcorper pellentesque urna. Curabitur facilisis fringilla tortor at elementum. Vestibulum a velit commodo, rutrum ante eu, fringilla augue. Nunc tempus nisl tristique elementum convallis. Curabitur vitae justo sit amet elit porta iaculis. Sed dictum interdum eros a pulvinar. Aenean ut justo gravida, aliquam magna eget, porta augue. Vestibulum nec diam vulputate, fringilla risus sed, imperdiet quam.<br/>
+<br/>
+Sed vitae tempus sem. Cras volutpat suscipit mauris. Pellentesque congue venenatis felis et ornare. Suspendisse mollis nibh et quam commodo volutpat. Proin nisi enim, interdum eu tincidunt quis, pulvinar in lorem. Vivamus finibus porta iaculis. Fusce tempus volutpat risus a feugiat. Nam molestie luctus libero nec euismod. 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal">
+</div>
+
+</body>
+</html>

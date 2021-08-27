@@ -14,7 +14,7 @@
     Cancel
     <i class="close icon"></i>
   </div>
-  <div class="ui positive right labeled icon button">
+  <div class="ui positive right labeled icon button" onclick="getPython()">
     Proceed
     <i class="checkmark icon"></i>
   </div>

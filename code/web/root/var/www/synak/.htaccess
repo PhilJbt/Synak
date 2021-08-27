@@ -1,0 +1,4 @@
+AuthName "Synak - Web Panel"
+AuthType Basic
+AuthUserFile "/var/www/synak/.htpasswd"
+Require valid-user

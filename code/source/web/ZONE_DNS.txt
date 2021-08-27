@@ -1,3 +1,0 @@
-synak        3600 IN A     %IPV4%
-synak        3600 IN AAAA  %IPV6%
-www.synak    3600 IN CNAME synak.%DOMAIN%.%EXTENTION%.

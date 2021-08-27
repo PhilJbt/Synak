@@ -8,7 +8,8 @@ It also provides a **Master Server** (for matchmaking, to coordinate connection 
 ___
 
 [FEATURES](README.md#FEATURES) &#183;
-[DEPENDENCIES](README.md#DEPENDENCIES) 
+[DEPENDENCIES](README.md#DEPENDENCIES) &#183;
+[WIKI](https://github.com/PhilJbt/Synak/wiki)
 
 ___
 

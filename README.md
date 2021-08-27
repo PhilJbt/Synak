@@ -32,12 +32,12 @@ Feature | Status | Notes
 &#9472; **UDP** |   |  
 &#160; &#9492; Reliable | :construction: |  
 &#160; &#9492; Ordered | :construction: |  
-&#160; &#9492; Hole punching | :construction: | Clients P2P Connection
-&#160; &#9492; Host migration | :construction: | Clients P2P Connection
+&#160; &#9492; Hole punching | :construction: | P2P only
+&#160; &#9492; Host migration | :construction: | P2P only
 &#160; &#9492; Keep alive | :construction: | TTL reduced
   |   |  
 &#9472; **TCP** |   |  
-&#160; &#9492; Socket set-up control | :construction: | Enable/disable Nagle algorithm, buffers size, etc
+&#160; &#9492; Socket options | :construction: | Enable/disable Nagle algorithm, buffers size, etc
   |   |  
 &#9472; **MASTER SERVER** |   |  
 &#160; &#9492; Port assignation | :construction: |  

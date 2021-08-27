@@ -64,8 +64,12 @@ Feature | Status | Notes
 - **Network Layer**
   - [JsonCpp](https://github.com/open-source-parsers/jsoncpp)
 
+&#160;
+
 - **Master Server**
   - [JsonCpp](https://github.com/open-source-parsers/jsoncpp)
+
+&#160;
 
 - **Web Panel**
   - Apache 2.x

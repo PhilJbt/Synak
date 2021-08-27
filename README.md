@@ -25,6 +25,7 @@ Feature | Status | Notes
 &#160; &#9492; Serializing | :construction: |  
 &#160; &#9492; Ping | :construction: |  
 &#160; &#9492; Synchronize packet sending | :construction: |  
+&#160; &#9492; Compression | :construction: |  
   |   |  
 &#9472; **UDP** |   |  
 &#160; &#9492; Reliable | :construction: |  

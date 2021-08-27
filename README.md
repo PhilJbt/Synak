@@ -5,13 +5,9 @@ It can handle **Client/Public Server** and **P2P** architectures — even behind
 It also provides a **Master Server** (for matchmaking, to coordinate connection between P2P nodes, etc) and a **Web Admin Panel** (to start/stop, to ban/unban, for logs, etc) for an Unix public dedicated server.
 
 &#160;
-___
 
-[FEATURES](README.md#FEATURES) &#183;
-[DEPENDENCIES](README.md#DEPENDENCIES) &#183;
-[WIKI](https://github.com/PhilJbt/Synak/wiki)
-
-___
+[FEATURES](README.md#FEATURES) | [DEPENDENCIES](README.md#DEPENDENCIES) | [WIKI](https://github.com/PhilJbt/Synak/wiki)
+------------ | ------------ | ------------
 
 &#160;
 

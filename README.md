@@ -6,8 +6,9 @@ It also provides a **Master Server** (for matchmaking, to coordinate connection 
 
 &#160;
 
-[FEATURES](README.md#FEATURES) | [DEPENDENCIES](README.md#DEPENDENCIES) | [WIKI](https://github.com/PhilJbt/Synak/wiki)
------------- | ------------ | ------------
+[FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES)
+------------ |
+[NETWORK LAYER README](#) &#65073; [WEB PANEL README](https://github.com/PhilJbt/Synak/blob/main/code/web/README.md) &#65073; [MASTER SERVER README](#)
 
 &#160;
 

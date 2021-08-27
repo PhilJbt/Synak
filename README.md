@@ -73,3 +73,4 @@ Feature | Status | Notes
 - **Web Panel**
   - Python 3.x
   - Apache 2.x
+  - [Semantic UI](https://semantic-ui.com/)

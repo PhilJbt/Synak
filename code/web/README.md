@@ -21,7 +21,7 @@ Generate your password to access to the Web Panel
 3. In [/var/www/synak/.htpasswd](root/var/www/synak/.htpasswd#L1), replace ```<USER>``` by your login name
 
 ## 2. IP PERMISSION
-Go to the line 14 of the [/var/www/synak/.htaccess](root/var/www/synak/.htaccess#L14) file and add your IP.\
+Go to the line 14 of the [/var/www/synak/.htaccess](root/var/www/synak/.htaccess#L14) file and add your IP by replacing ```<IP>```.\
 To add a new IP, add a new ```Allow from``` line (IPv4 and IPv6 are supported).
     
 &#160;

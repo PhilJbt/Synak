@@ -16,15 +16,15 @@ function showModal(_type) {
     });
 }
 
-function getPython(){
+function getPython(_scriptname){
   bFetching = true;
   $('.ui.modal').modal('show');
-  $('#loader').addClass("active");
-  fetch('res/python/test.py')
+  $('#btn_proceed').addClass("loading");
+  fetch('res/python/' + _scriptname + '.py')
     .then(function(response) {
       response.text().then(function(text) {
-        console.log(text);
-        $('#loader').removeClass("active");
+        $('#mdl_output').html(text);
+        $('#btn_proceed').removeClass("loading");
       });
     });
 }

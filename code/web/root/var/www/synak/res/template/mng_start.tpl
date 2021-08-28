@@ -1,4 +1,3 @@
-<i class="close icon"></i>
 <div class="header">
   Master Server &#8212; Start
 </div>
@@ -14,7 +13,7 @@
     Cancel
     <i class="close icon"></i>
   </div>
-  <div class="ui positive right labeled icon button" onclick="getPython()">
+  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="getPython('mng_start')">
     Proceed
     <i class="checkmark icon"></i>
   </div>

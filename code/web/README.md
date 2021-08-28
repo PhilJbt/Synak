@@ -18,7 +18,7 @@ Create your password to access to the Web Panel
 
 &#160;
 
-## VI. IP PERMISSION
+## IV. IP PERMISSION
 Go to the line 14 of the [/var/www/synak/.htaccess](root/var/www/synak/.htaccess#L14) file and add your IP.\
 To add a new IP, add a new ```Allow from``` line (IPv4 and IPv6 are supported).
     

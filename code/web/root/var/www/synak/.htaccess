@@ -1,4 +1,14 @@
+######################
+#      PASSWORD      #
+######################
 AuthName "Synak - Web Panel"
 AuthType Basic
 AuthUserFile "/var/www/synak/.htpasswd"
 Require valid-user
+
+######################
+#    ALLOW ONE IP    #
+######################
+Order Deny,Allow
+Deny from all
+Allow from <IP>

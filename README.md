@@ -64,12 +64,12 @@ Feature | Status | Notes
 # DEPENDENCIES
 
 - **Network Layer**
-  - [JsonCpp](https://github.com/open-source-parsers/jsoncpp)
+  - [nlohmann-json-3.10.2](https://github.com/nlohmann/json)
 
 &#160;
 
 - **Master Server**
-  - [JsonCpp](https://github.com/open-source-parsers/jsoncpp)
+  - [nlohmann-json-3.10.2](https://github.com/nlohmann/json)
 
 &#160;
 

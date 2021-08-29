@@ -1,32 +1,36 @@
-# I. FOLDER PERMISSIONS
+# Web Panel README
 
-## 1. PYTHON FOLDER PERMISSIONS
+&#160;
+
+## I. FOLDER PERMISSIONS
+
+### 1. PYTHON FOLDER PERMISSIONS
 Change execution rights for the python files folder
 1. In the terminal, type ```chmod -R 0775 /var/www/synak/res/python```
 
-## 2. USER WWW-DATA PERMISSIONS
+### 2. USER WWW-DATA PERMISSIONS
 The ```WWW-DATA``` user needs permissions to execute python scripts
 1. In the terminal, type ```visudo```
 2. Add the line ```www-data ALL=(ALL) NOPASSWD: /var/www/synak/res/python/*.py```
 
 &#160;
 
-# II. HTACCESS
+## II. HTACCESS
 
-## 1. PASSWORD CREATION
+### 1. PASSWORD CREATION
 Generate your password to access to the Web Panel
 1. In the terminal, type ```openssl passwd -6 -salt <YOUR_SALT>```
 2. Obviously, you have to personalize ```<YOUR_SALT>```
 3. In [/var/www/synak/.htpasswd](root/var/www/synak/.htpasswd#L1), replace ```<SHA512>``` by your new generated key
 3. In [/var/www/synak/.htpasswd](root/var/www/synak/.htpasswd#L1), replace ```<USER>``` by your login name
 
-## 2. IP PERMISSION
+### 2. IP PERMISSION
 Go to the line 14 of the [/var/www/synak/.htaccess](root/var/www/synak/.htaccess#L14) file and add your IP by replacing ```<IP>```.\
 To add a new IP, add a new ```Allow from``` line (IPv4 and IPv6 are supported).
     
 &#160;
 
-# III. ZONE DNS
+## III. ZONE DNS
 In case you are lost with you dns zone, here three useful lines (the ending dot is **NOT** a mistake)
 
     synak        3600 IN A     <IPV4>

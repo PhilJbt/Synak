@@ -30,6 +30,12 @@ void SynakManager::Launch() {
 	if (::bind(sockfd, (sockaddr*)&addrAccept, INET6_ADDRSTRLEN) == SOCKET_ERROR)
 		::printf("bind : %s\n", ::strerror(errno));
 
+	{
+		/*char buff[INET6_ADDRSTRLEN] = { 0 };
+		::inet_ntop(AF_INET6, &addrAccept.sin6_addr, buff, INET6_ADDRSTRLEN);
+		std::cerr << "IP(" << buff << ") PORT(" << ntohs(addrAccept.sin6_port) << ")" << std::endl;*/
+	}
+
 	int res = ::listen(sockfd, SOMAXCONN);
 	if (res == 0) {
 		in6_addr addrRecv = { 0 };

@@ -1,12 +1,53 @@
+/* SYNAK NETWORK LIBRARY - Philippe Jaubert
+* https://github.com/PhilJbt/Synak/
+* Network Layer
+* synak_manager.h
+*/
+
 #pragma once
 
+#include <network layer/synak.h>
+
+/* struct SsocketOperations
+** Struct for sockets operations (options, bind, etc)
+*/
+struct SsocketOperations {
+    /* SsocketOperations::Sopt
+    ** Struct used to store socket options
+    */
+    struct Sopt {
+        Sopt(int _iLevel, int _iOptName, socketoptval_t _aOptVal)
+            : m_iLevel(_iLevel), m_iOptName(_iOptName), m_aOptVal(_aOptVal) {}
+
+        int m_iLevel  { 0 },
+            m_iOptName{ 0 };
+        socketoptval_t m_aOptVal;
+    };
+
+    SsocketOperations(SOCKET &_ptrSockfd);
+    bool optionsAdd(std::vector<Sopt> _vecOpts);
+    bool socketCreate();
+    bool socketBind(uint16_t _ui8Port, in6_addr _addr6in = IN6ADDR_ANY_INIT);
+
+private:
+    SOCKET *m_ptrSockfd{ nullptr };
+};
+
+/* class SynakManager
+** 
+*/
 class SynakManager
 {
 public:
-    void Launch();
-    // ::socket_create(options)
-    // ::socket_bind(args)
-    // ::socket_startlisten // thread on / off
-private:
+    ~SynakManager() {
+        unitialization();
+    }
 
+    void unitialization();
+    void initialization();
+    static void signalBlockAll();
+
+    void _TEST();
+
+private:
 };

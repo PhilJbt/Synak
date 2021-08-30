@@ -1,13 +1,31 @@
-﻿#include "synak.h"
+﻿/* SYNAK NETWORK LIBRARY - Philippe Jaubert
+* https://github.com/PhilJbt/Synak/
+* Master Server
+* main.cpp
+*/
+
+#include <network layer/synak.h>
 
 
 int main() {
-    std::cerr << "[START] " << SK_BUILDTIMESTAMP << std::endl;
+    SK_SHOWINFO("[START] " + SK_BUILDTIMESTAMP);
 
-    SynakManager mngr; 
-    mngr.Launch();
+    // Network Layer initialization
+    SynakManager mngr_nl;
+    mngr_nl.initialization();
 
-    std::cerr << "[STOP] " << std::endl;
+    // Master Server initialization
+    MasterServer mngr_ms;
+    mngr_ms.initialization();
+    mngr_ms.watcherTerminal();      // Optional
+    mngr_ms.watcherWebpanel(45318); // Optional
+
+    while (mngr_ms.m_bRun);
+
+    mngr_ms.unitialization();
+    mngr_nl.unitialization();
+
+    SK_SHOWINFO("[STOP]");
 
     return 0;
 }

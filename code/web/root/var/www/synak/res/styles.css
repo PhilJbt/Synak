@@ -1,3 +1,9 @@
+@font-face {
+ font-family: "Unbuntu Mono";
+ src: url("fnt/ubuntu-mono-v10-latin-regular.woff") format("woff"),
+      url("fnt/ubuntu-mono-v10-latin-regular.woff2") format("woff2");
+}
+
 #loader{
   position: fixed;
 }
@@ -19,4 +25,10 @@
   height:100%;
   border:none !important;
   box-shadow:none !important;
+}
+p{
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+}
+#mdl_output{
+  font-family:"Unbuntu Mono";
 }

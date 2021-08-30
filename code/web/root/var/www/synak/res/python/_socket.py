@@ -13,7 +13,7 @@ def socket_send():
   try:
     sockfd.connect(('localhost', 45318))
   except:
-    result_show(debug_message(debug_messtype.INFO, "Master Server seems offline"))
+    result_show(debug_message(debug_messtype.NFO, "Master Server seems offline"))
   else:
     MESSAGE = "{\
     \"co_tpe\": \"connection\",\
@@ -21,15 +21,18 @@ def socket_send():
     }".encode()
     sockfd.send(MESSAGE)
 
-    BUFFER_SIZE = 2048
-    data = sockfd.recv(BUFFER_SIZE)
-    sockfd.close()
-
-    jRecv = json.loads(data.decode())
-    if {'valid', 'port'} <= set(jRecv):
-      result = "valid: " + str(jRecv["valid"]) + "\nport:" + str(jRecv["port"])
-      result_show(result)
+    try:
+      BUFFER_SIZE = 2048
+      data = sockfd.recv(BUFFER_SIZE)
+      sockfd.close()
+    except:
+      result_show(debug_message(debug_messtype.ATT, "Master Server does not respond"))
     else:
-      result_show(debug_message(debug_messtype.ERROR, "valid or port arg unknown"))
+      jRecv = json.loads(data.decode())
+      if {'valid', 'port'} <= set(jRecv):
+        result = "valid: " + str(jRecv["valid"]) + "\nport:" + str(jRecv["port"])
+        result_show(result)
+      else:
+        result_show(debug_message(debug_messtype.ERROR, "valid or port arg unknown"))
 
 socket_send()

@@ -21,8 +21,10 @@ The ```WWW-DATA``` user needs permissions to execute python scripts
 Generate your password to access to the Web Panel
 1. In the terminal, type ```openssl passwd -6 -salt <YOUR_SALT>```
 2. Obviously, you have to personalize ```<YOUR_SALT>```
-3. In [/var/www/synak/.htpasswd](root/var/www/synak/.htpasswd#L1), replace ```<SHA512>``` by your new generated key
-3. In [/var/www/synak/.htpasswd](root/var/www/synak/.htpasswd#L1), replace ```<USER>``` by your login name
+3. In [/var/www/synak/.htpasswd.SAMPLE](root/var/www/synak/.htpasswd.SAMPLE#L1), replace ```<SHA512>``` by your new generated key
+3. In [/var/www/synak/.htpasswd.SAMPLE](root/var/www/synak/.htpasswd.SAMPLE#L1), replace ```<USER>``` by your login name
+4. Rename [/var/www/synak/.htaccess.SAMPLE](root/var/www/synak/.htaccess.SAMPLE) into ```.htaccess```
+5. Rename [/var/www/synak/.htpasswd.SAMPLE](root/var/www/synak/.htpasswd.SAMPLE) into ```.htpasswd```
 
 ### 2. IP PERMISSION
 Go to the line 14 of the [/var/www/synak/.htaccess](root/var/www/synak/.htaccess#L14) file and add your IP by replacing ```<IP>```.\

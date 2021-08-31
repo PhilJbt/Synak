@@ -8,10 +8,16 @@ function enableMessageClose() {
   });
 }
 
-function showFetchError(_error) {
+function errorMessage(_error) {
   $('#mdl_output').removeClass("loading");    
-  $('#mdl_output').html('<div class="ui icon message red"> <i class="close icon"></i><i class="exclamation icon"></i><div class="content">\
-    <div class="header">WEB PANEL ERROR</div><p>The Web Panel encountered an error: ' + _error + '</p></div></div>');
+  $('#mdl_output').html(
+    '<div class="ui icon message '
+    + _error["colr"] + '"><i class="close icon"></i><i class="'
+    + _error["icon"] + ' icon"></i><div class="content"><div class="header">'
+    + _error["titl"] + '</div><p>'
+    + _error["mess"] + '</p></div></div>'
+  );
+
   enableMessageClose();
 }
 
@@ -56,19 +62,36 @@ async function sendReq(_scriptname, _action) {
     if (response.ok) {
       if (response.status == 200) {
         var res = await response.json();
+        console.log(res["type"]);
         if (res["type"] == "prep") {
           //console.log(res["data"]);
           prepareReq_uninit(res["data"]);
-        } else if (res["type"] == "proc") {
+        }
+        else if (res["type"] == "proc")
           procReq_uninit(res["data"]);
+        else if (res["type"] == "erro"){
+          console.log(res["data"]);
+          errorMessage(JSON.parse(res["data"]));
         }
       }
       bFetching = false;
     } else {
-      showFetchError("unknown error");
+      data = {
+        "colr": "red",
+        "icon": "exclamation",
+        "titl": "WEB PANEL ERROR",
+        "mess": "unknown error"
+      }
+      errorMessage(data);
     }
   } catch (_error) {
-    showFetchError(_error.name);
+    data = {
+      "colr": "red",
+      "icon": "exclamation",
+      "titl": "WEB PANEL ERROR",
+      "mess": _error.name
+    }
+    errorMessage(data);
   }
 }
 

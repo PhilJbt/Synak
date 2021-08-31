@@ -2,13 +2,13 @@
 
 import subprocess
 
-def command_send(_cmd):
+def send(_cmd):
   output = subprocess.Popen(_cmd.split(), universal_newlines=True, stdout=subprocess.PIPE)
   out, err = output.communicate()
   return out.splitlines()[0], bool(err), err
 
-def command_check(_output, _unvalid, _err):
-  if unvalid:
+def check(_output, _unvalid, _err):
+  if _unvalid:
     print("err")
     return True
   else:

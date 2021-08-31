@@ -13,7 +13,7 @@
     Cancel
     <i class="close icon"></i>
   </div>
-  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="prepareReq('log_get', 'proc')">
+  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="prepareReq('sk_log_get', 'proc')">
     Reset Logs
     <i class="checkmark icon"></i>
   </div>

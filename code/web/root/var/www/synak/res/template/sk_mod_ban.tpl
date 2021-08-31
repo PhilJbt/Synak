@@ -13,7 +13,7 @@
     Cancel
     <i class="close icon"></i>
   </div>
-  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="getPython('_socket')">
+  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="prepareReq('sk_mod_ban', 'proc')">
     Proceed
     <i class="checkmark icon"></i>
   </div>

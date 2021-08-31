@@ -13,7 +13,7 @@
     Cancel
     <i class="close icon"></i>
   </div>
-  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="getPython('mng_start')">
+  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="prepareReq('sk_mng_srt', 'proc')">
     Proceed
     <i class="checkmark icon"></i>
   </div>

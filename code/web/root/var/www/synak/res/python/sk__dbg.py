@@ -1,8 +1,11 @@
 #!/usr/bin/python3
 
+import json
 from enum import Enum
 
-class debug_messtype(Enum):
+import sk__res
+
+class messtype(Enum):
     ERR = 0, "ERROR",       "red",    "exclamation"
     ATT = 1, "ATTENTION",   "yellow", "exclamation triangle"
     NFO = 2, "INFORMATION", "blue",   "info circle"
@@ -18,8 +21,11 @@ class debug_messtype(Enum):
     def __int__(_self):
         return _self._value
 
-def debug_message(_debugtype, _message):
-  string = '<div class="ui icon message ' + _debugtype._color_ + '"> <i class="close icon"></i><i class="' + _debugtype._icon_ + ' icon"></i><div class="content"><div class="header">'
-  string += _debugtype._title_ + '</div><p>'
-  string += _message + '</p></div></div>'
-  return string
+def message(_debugtype, _message):
+  data = {
+    "colr": _debugtype._color_,
+    "icon": _debugtype._icon_,
+    "titl": _debugtype._title_,
+    "mess": _message
+  }
+  sk__res.show("erro", json.dumps(data))

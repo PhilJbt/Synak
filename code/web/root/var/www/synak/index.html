@@ -22,25 +22,25 @@
       <i class="cog icon"></i>
       Managing
       <div class="menu">
-        <a class="item" onclick="showModal('mng_start')"><i class="icon play"></i> Start</a>
-        <a class="item" onclick="showModal('mng_stop')"><i class="icon stop"></i> Stop</a>
-        <a class="item" onclick="showModal('mng_kill')"><i class="icon close"></i> Kill</a>
+        <a class="item" onclick="prepareReq('mng_start', 'prep')"><i class="icon play"></i> Start</a>
+        <a class="item" onclick="prepareReq('mng_stop', 'prep')"><i class="icon stop"></i> Stop</a>
+        <a class="item" onclick="prepareReq('mng_kill', 'prep')"><i class="icon close"></i> Kill</a>
       </div>
     </div>
     <div class="ui dropdown item">
       <i class="user icon"></i>
       Moderation
       <div class="menu">
-        <a class="item" onclick="showModal('mod_ban')"><i class="icon ban"></i> Ban IP</a>
-        <a class="item" onclick="showModal('mod_uban')"><i class="icon check"></i> Unban IP</a>
+        <a class="item" onclick="prepareReq('mod_ban', 'prep')"><i class="icon ban"></i> Ban IP</a>
+        <a class="item" onclick="prepareReq('mod_uban', 'prep')"><i class="icon check"></i> Unban IP</a>
       </div>
     </div>
     <div class="ui dropdown item">
       <i class="archive icon"></i>
       Log
       <div class="menu">
-        <a class="item" onclick="showModal('log_get')"><i class="icon level down alternate"></i> Get</a>
-        <a class="item" onclick="showModal('log_erase')"><i class="icon eraser"></i> Erase</a>
+        <a class="item" onclick="prepareReq('log_get', 'prep')"><i class="icon level down alternate"></i> Get</a>
+        <a class="item" onclick="prepareReq('log_erase', 'prep')"><i class="icon eraser"></i> Erase</a>
       </div>
     </div>
   </div>

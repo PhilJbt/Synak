@@ -8,10 +8,14 @@
 Change execution rights for the python files folder
 1. In the terminal, type ```chmod -R 0775 /var/www/synak/res/python```
 
-### 2. USER WWW-DATA PERMISSIONS
+### 2. MASTER SERVER BINARY PERMISSIONS
+Change execution rights for the **Master Server binary**
+1. In the terminal, type ```chmod 0775 /synak_ms/synak_ms.bin```
+
+### 3. USER WWW-DATA PERMISSIONS
 The ```WWW-DATA``` user needs permissions to execute python scripts
 1. In the terminal, type ```visudo```
-2. Add the line ```www-data ALL=(ALL) NOPASSWD: /var/www/synak/res/python/*.py```
+2. Add the line ```www-data ALL=(ALL) NOPASSWD: /bin/ps, /bin/kill, /synak_ms/synak_ms.bin, /var/www/synak/res/python/*.py```
 
 &#160;
 

@@ -12,17 +12,16 @@ def prepare():
   else:
     file = open("../template/sk_mng_stp.tpl", "r")
     template_raw = file.read()
-    template_mod = template_raw.replace("%VAR_1%", "test")
-    sk__res.show("prep", template_mod)
+    sk__res.show("prep", template_raw)
 
 def process():
   pid = getPid(False)
   if pid == 0:
     sk__dbg.message(sk__dbg.messtype.ATT, "It seems that no Master Server was running")
   else:
-    sk__cmd.send(f"sudo kill -10  {pid}")
+    sk__cmd.send(f"sudo kill -10 {pid}")
     pid = getPid(True)
     if pid == 0:
-      sk__dbg.message(sk__dbg.messtype.SUC, "Master Server has been stopped successfully")
+      sk__dbg.message(sk__dbg.messtype.SUC, "Master Server has been KILLED successfully")
     else:
       sk__dbg.message(sk__dbg.messtype.ERR, "Master Server is still running")

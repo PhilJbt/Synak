@@ -45,7 +45,7 @@ public:
 
     void unitialization();
     void initialization();
-    static void signalBlockAll();
+    static void signalBlockAllExcept(int _iFlags = 0);
 
     static void epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign = false, int _iFlags = 0);
 

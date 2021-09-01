@@ -17,16 +17,20 @@ void SynakManager::initialization() {
     if (::WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
         return;
 #else
-    SynakManager::signalBlockAll();
+    SynakManager::signalBlockAllExcept();
 #endif
 }
 
-void SynakManager::signalBlockAll() {
+/* SynakManager::signalBlockAllExcept
+** Block unix signals
+** If no flag provided to int _iFlags, all flags are blocked
+*/
+void SynakManager::signalBlockAllExcept(int _iFlags) {
     sigset_t ssIgnoreAll;
     ::sigemptyset(&ssIgnoreAll);
     ::sigfillset(&ssIgnoreAll);
-    ::sigdelset(&ssIgnoreAll, SIGUSR1);
-    ::sigprocmask(SIG_SETMASK, &ssIgnoreAll, NULL);
+    if (_iFlags > 0)
+        ::sigdelset(&ssIgnoreAll, _iFlags);
     ::pthread_sigmask(SIG_SETMASK, &ssIgnoreAll, NULL);
 }
 

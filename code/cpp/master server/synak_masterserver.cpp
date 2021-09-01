@@ -73,7 +73,7 @@ void MasterServer::watcherTerminal() {
 ** Monitors for an keyboard input in the terminal
 */
 void MasterServer::_watcherterminal() {
-    SynakManager::signalBlockAll();
+    SynakManager::signalBlockAllExcept(SIGUSR1);
 
     // Initialize input command string
     std::string strCmd;
@@ -143,7 +143,7 @@ void MasterServer::watcherWebpanel(uint16_t _ui8Port) {
 ** Monitors for a command input though the web panel
 */
 void MasterServer::_watcherwebpanel() {
-    SynakManager::signalBlockAll();
+    SynakManager::signalBlockAllExcept(SIGUSR1);
 
     // Accept web panel incoming connections
     if (::listen(m_sckfdWP, SOMAXCONN) != 0)

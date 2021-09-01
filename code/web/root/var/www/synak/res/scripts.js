@@ -32,11 +32,11 @@ function errorMessage(_error) {
   enableMessageClose();
 }
 
-function prepareReq_init() {
+function prepReq_init() {
   $('#mdl_output').addClass("loading");
 }
 
-function prepareReq_uninit(_text) {
+function prepReq_uninit(_text) {
   $('.ui.modal').html(_text);
   $('.ui.modal').modal('show');
   $('#mdl_output').removeClass("loading");
@@ -45,14 +45,24 @@ function prepareReq_uninit(_text) {
 
 function procReq_init() {
   $('#btn_proceed').addClass("loading");
+  $('#btn_proceed').addClass("disabled");
   $('#mdl_output').addClass("loading");
 }
 
 function procReq_uninit(_text) {
   $('#mdl_output').html(_text);
   $('#btn_proceed').removeClass("loading");
+  $('#btn_proceed').removeClass("disabled");
   $('#mdl_output').removeClass("loading");
+  $('.ui.modal').modal('hide');
   enableMessageClose();
+}
+
+function req_uninit() {
+  $('#btn_proceed').removeClass("loading");
+  $('#btn_proceed').removeClass("disabled");
+  $('#mdl_output').removeClass("loading");
+  $('.ui.modal').modal('hide');
 }
 
 async function sendReq(_scriptname, _action, _file) {
@@ -72,22 +82,19 @@ async function sendReq(_scriptname, _action, _file) {
       })
     }
     const response = await fetch('res/python/' + _scriptname + '.py', config);
-    if (response.ok) {
-      if (response.status == 200) {
-        var res = await response.json();
-        console.log(res["type"]);
-        if (res["type"] == "prep") {
-          //console.log(res["data"]);
-          prepareReq_uninit(res["data"]);
-        }
-        else if (res["type"] == "proc")
-          procReq_uninit(res["data"]);
-        else if (res["type"] == "erro"){
-          console.log(res["data"]);
-          errorMessage(JSON.parse(res["data"]));
-        }
+    if (response.ok
+      && response.status == 200) {
+      var res = await response.json();
+      console.log(res["type"]);
+      console.log(res["data"]);
+      if (res["type"] == "prep")
+        prepReq_uninit(res["data"]);
+      else if (res["type"] == "proc")
+        procReq_uninit(res["data"]);
+      else if (res["type"] == "erro") {
+        errorMessage(JSON.parse(res["data"]));
+        req_uninit();
       }
-      bFetching = false;
     } else {
       data = {
         "colr": "red",
@@ -97,6 +104,7 @@ async function sendReq(_scriptname, _action, _file) {
       }
       errorMessage(data);
     }
+    bFetching = false;
   } catch (_error) {
     data = {
       "colr": "red",
@@ -105,14 +113,18 @@ async function sendReq(_scriptname, _action, _file) {
       "mess": _error.name
     }
     errorMessage(data);
+    bFetching = false;
   }
 }
 
 async function prepareReq(_scriptname, _action, _file){
+  if (bFetching)
+    return;
+
   bFetching = true;
 
   if (_action == "prep")
-    prepareReq_init();
+    prepReq_init();
   else if (_action == "proc")
     procReq_init();
 

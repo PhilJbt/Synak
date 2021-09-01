@@ -76,6 +76,7 @@ Feature | Status | Notes
 &#160;
 
 - **Web Panel**
+  - Tmux ≥1.8
   - Apache 2.x
     - mod_rewrite
   - Python 3.x

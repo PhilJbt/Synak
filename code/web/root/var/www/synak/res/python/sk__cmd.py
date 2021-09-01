@@ -2,14 +2,12 @@
 
 import subprocess
 
-def send(_cmd):
-  output = subprocess.Popen(_cmd.split(), universal_newlines=True, stdout=subprocess.PIPE)
-  out, err = output.communicate()
-  return out.splitlines()[0], bool(err), err
+import sk__dbg
 
-def check(_output, _unvalid, _err):
-  if _unvalid:
-    print("err")
-    return True
+def send(_cmd):
+  output = subprocess.Popen(_cmd, shell=True, universal_newlines=True, stdout=subprocess.PIPE)
+  out, err = output.communicate()
+  if err:
+    sk__dbg.message(sk__dbg.messtype.NFO, "The command '" + _cmd + "' triggered an error: " + err)
   else:
-    return False
+    return out

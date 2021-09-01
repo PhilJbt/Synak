@@ -13,7 +13,7 @@
     Cancel
     <i class="close icon"></i>
   </div>
-  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="prepareReq('sk_mng_srt', 'proc')">
+  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="prepareReq('sk__req', 'proc', 'sk_mng_srt')">
     Proceed
     <i class="checkmark icon"></i>
   </div>

@@ -22,27 +22,43 @@
       <i class="cog icon"></i>
       Managing
       <div class="menu">
-        <a class="item" onclick="prepareReq('sk_mng_srt', 'prep')"><i class="icon play"></i> Start</a>
-        <a class="item" onclick="prepareReq('sk_mng_stp', 'prep')"><i class="icon stop"></i> Stop</a>
-        <a class="item" onclick="prepareReq('sk_mng_kll', 'prep')"><i class="icon close"></i> Kill</a>
+        <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_mng_srt')"><i class="icon play"></i> Start</a>
+        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_stp')"><i class="icon stop"></i> Stop</a>
+        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_kll')"><i class="icon close"></i> Kill</a>
       </div>
     </div>
     <div class="ui dropdown item">
       <i class="user icon"></i>
       Moderation
       <div class="menu">
-        <a class="item" onclick="prepareReq('sk_mod_ban', 'prep')"><i class="icon ban"></i> Ban IP</a>
-        <a class="item" onclick="prepareReq('sk_mod_unb', 'prep')"><i class="icon check"></i> Unban IP</a>
+        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_ban')"><i class="icon ban"></i> Ban IP</a>
+        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unb')"><i class="icon check"></i> Unban IP</a>
       </div>
     </div>
     <div class="ui dropdown item">
       <i class="archive icon"></i>
       Log
       <div class="menu">
-        <a class="item" onclick="prepareReq('sk_log_get', 'prep')"><i class="icon level down alternate"></i> Get</a>
-        <a class="item" onclick="prepareReq('sk_log_era', 'prep')"><i class="icon eraser"></i> Erase</a>
+        <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_log_get')"><i class="icon level down alternate"></i> Get</a>
+        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_era')"><i class="icon eraser"></i> Erase</a>
       </div>
+    </div>    
+    <!--<div id="popup_signin" class="ui dropdown item float right">
+      <i class="sign-in icon"></i>
+      Authentication
     </div>
+    <div class="ui flowing popup top left transition hidden">
+      <div class="ui basic right floated segment">
+        <div class="ui equal width form">
+          <div class="inline required field">
+            <label>Master Server Key</label>
+            <input type="password">
+          </div>
+          <i id="popup_info" class="info circle icon link" data-content="(Disabled by default) This key is used as authentication to be able to communicate with the Synak Master Server"></i>
+          <div class="ui button right floated">Store</div>
+        </div>
+      </div>
+    </div>-->
   </div>
   <div class="cmdoutputcont">
     <div class="ui segment blue basic very padded cmdoutputseg">

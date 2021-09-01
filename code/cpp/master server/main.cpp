@@ -8,7 +8,7 @@
 
 
 int main() {
-    SK_SHOWINFO("[START] " + SK_BUILDTIMESTAMP);
+    SK_SHOWINFO("[START] " + std::to_string(::getpid()) + " " + SK_BUILDTIMESTAMP);
 
     // Network Layer initialization
     SynakManager mngr_nl;

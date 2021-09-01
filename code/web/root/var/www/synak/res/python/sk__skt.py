@@ -36,5 +36,5 @@ def send():
         result = "valid: " + str(jRecv["valid"]) + "\nport:" + str(jRecv["port"])
         return result, False
       else:
-        sk__dbg.message(sk__dbg.messtype.ERROR, "valid or port arg unknown")
+        sk__dbg.message(sk__dbg.messtype.ERR, "valid or port arg unknown")
         return "null", True

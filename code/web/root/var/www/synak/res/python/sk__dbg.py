@@ -9,6 +9,7 @@ class messtype(Enum):
     ERR = 0, "ERROR",       "red",    "exclamation"
     ATT = 1, "ATTENTION",   "yellow", "exclamation triangle"
     NFO = 2, "INFORMATION", "blue",   "info circle"
+    SUC = 3, "SUCCESS", "green",  "check"
 
     def __new__(_cls, _value, _title, _color, _icon):
         member = object.__new__(_cls)

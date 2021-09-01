@@ -7,11 +7,22 @@
 #include <network layer/synak.h>
 
 
+int MasterServer::m_fdPipeKill[2] { -1, -1 };
+volatile std::atomic_bool MasterServer::m_bRun { false };
+
+
 /* MasterServer::Initialization
 ** Initialization the Master Server class
 */
 void MasterServer::initialization() {
     m_bRun = true;
+
+    struct sigaction sigbreak;
+    ::sigemptyset(&sigbreak.sa_mask);
+    sigbreak.sa_handler = &MasterServer::signalHandler;
+    sigbreak.sa_flags = 0;
+    if (::sigaction(SIGUSR1, &sigbreak, NULL) != 0)
+        SK_SHOWERROR(STRERROR);
 }
 
 /* MasterServer::Unitialization
@@ -34,13 +45,20 @@ void MasterServer::unitialization() {
         m_thdWatcherWebpanel = nullptr;
     }
     SK_CLOSESOCKET(m_sckfdWP);
+
+    // Close shutdown pipe notification
+    ::close(m_fdPipeKill[0]);
+    ::close(m_fdPipeKill[1]);
 }
 
-/* MasterServer::Stop
-** Close all Master Server modules
+/* MasterServer::signalHandler
+** Handle unix signals sent from Web Panel
 */
-void MasterServer::stop() {
+void MasterServer::signalHandler(int _signum) {
+    std::cerr << "SIGUSR1" << std::endl;
     m_bRun = false;
+    ::write(m_fdPipeKill[1], "1", strlen("1"));
+    //::exit(_signum);
 }
 
 /* MasterServer::WatcherTerminal
@@ -61,33 +79,72 @@ void MasterServer::_watcherterminal() {
     std::string strCmd;
     
     // Check commands written in the terminal
+    int epfd = ::epoll_create(3);
+    if(epfd == -1)
+        SK_SHOWERROR(STRERROR);
+
+    epoll_event ev[3];
+
+    auto fEvent = [](epoll_event *_ev, const int &_epfd, int _fd, int _iAction, int _iFlags = 0, bool _bAssign = false) {
+        if(_bAssign) {
+            _ev->events = _iFlags;
+            _ev->data.fd = _fd;
+        }
+        if(::epoll_ctl(_epfd, _iAction, _fd, _ev) != 0)
+            SK_SHOWERROR(STRERROR);
+    };
+
+    int iFlagsCreate { EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR };    
+    fEvent(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_ADD, iFlagsCreate, true);
+    fEvent(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, iFlagsCreate, true);
+    fEvent(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, iFlagsCreate, true);
+
+    while(m_bRun) {
+        int nfds = ::epoll_wait(epfd, ev, 1, 5000);
+        if(nfds < 0)
+            SK_SHOWERROR(STRERROR);
+        else {
+            for(int i = 0; i < nfds; ++i) {
+                if(ev[i].data.fd == ::fileno(stdin)
+                    && ev[i].events & EPOLLIN) {
+                    std::getline(std::cin, strCmd);
+                    if(strCmd == "stop") {
+                        m_bRun = false;
+                        ::write(m_fdPipeKill[1], "1", strlen("1"));
+                    }
+                }
+            }
+        }
+    }
+
+    fEvent(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_DEL);
+    fEvent(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
+    fEvent(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
+
+    /*
     fd_set   fdsr;
     timespec ts;
     ts.tv_sec = 5;
     ts.tv_nsec = 0;
-
+    
+    int iMax { std::max(::fileno(stdin), m_fdPipeKill[0]) };
+    
     while (m_bRun) {
         FD_ZERO(&fdsr);
-        FD_SET(STDIN_FILENO, &fdsr);
+        FD_SET(::fileno(stdin), &fdsr);
         FD_SET(m_fdPipeKill[0], &fdsr);
 
-        if (::pselect(STDIN_FILENO + 1, &fdsr, NULL, NULL, &ts, NULL) > 0) {
-            if (FD_ISSET(STDIN_FILENO, &fdsr)) {
+        if (::pselect(iMax + 1, &fdsr, NULL, NULL, &ts, NULL) > 0) {
+            if (FD_ISSET(::fileno(stdin), &fdsr)) {
                 std::getline(std::cin, strCmd);
                 if (strCmd == "stop") {
-                    m_bRun = false;
-                }
-                else if (strCmd == "wp") {
-                    std::cerr << "!wp!" << std::endl;
                     m_bRun = false;
                     ::write(m_fdPipeKill[1], "1", strlen("1"));
                 }
             }
         }
     }
-
-    ::close(m_fdPipeKill[0]);
-    ::close(m_fdPipeKill[1]);
+    */
 }
 
 /* MasterServer::WatcherTerminal
@@ -180,6 +237,5 @@ void MasterServer::_watcherwebpanel() {
         }
     }
 
-    ::close(m_fdPipeKill[0]);
-    ::close(m_fdPipeKill[1]);
+    ::close(m_sckfdWP);
 }

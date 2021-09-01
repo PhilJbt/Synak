@@ -1,4 +1,15 @@
 $('.ui.dropdown').dropdown();
+$('#popup_signin').popup({
+inline   : false,
+hoverable: true,
+position : 'bottom left',
+on : 'click',
+delay: {
+  show: 0,
+  hide: 500
+ }
+});
+$('#popup_info').popup();
 
 var bFetching = false;
 
@@ -9,7 +20,6 @@ function enableMessageClose() {
 }
 
 function errorMessage(_error) {
-  $('#mdl_output').removeClass("loading");    
   $('#mdl_output').html(
     '<div class="ui icon message '
     + _error["colr"] + '"><i class="close icon"></i><i class="'
@@ -17,6 +27,7 @@ function errorMessage(_error) {
     + _error["titl"] + '</div><p>'
     + _error["mess"] + '</p></div></div>'
   );
+  $('#mdl_output').removeClass("loading");
 
   enableMessageClose();
 }
@@ -33,7 +44,6 @@ function prepareReq_uninit(_text) {
 }
 
 function procReq_init() {
-  $('.ui.modal').modal('show');
   $('#btn_proceed').addClass("loading");
   $('#mdl_output').addClass("loading");
 }
@@ -45,7 +55,9 @@ function procReq_uninit(_text) {
   enableMessageClose();
 }
 
-async function sendReq(_scriptname, _action) {
+async function sendReq(_scriptname, _action, _file) {
+  $('#mdl_output').html("");
+
   try {
     const config = {
       method: 'POST',
@@ -55,7 +67,8 @@ async function sendReq(_scriptname, _action) {
       },
       body: JSON.stringify({
       'type': _action,
-      'data': 'mydata'
+      'data': 'mydata',
+      'file' : _file
       })
     }
     const response = await fetch('res/python/' + _scriptname + '.py', config);
@@ -95,13 +108,13 @@ async function sendReq(_scriptname, _action) {
   }
 }
 
-async function prepareReq(_scriptname, _action){
+async function prepareReq(_scriptname, _action, _file){
   bFetching = true;
 
-  if (_action == "get")
+  if (_action == "prep")
     prepareReq_init();
-  else if (_action == "set")
+  else if (_action == "proc")
     procReq_init();
 
-  sendReq(_scriptname, _action);
+  sendReq(_scriptname, _action, _file);
 }

@@ -25,6 +25,7 @@ void SynakManager::signalBlockAll() {
     sigset_t ssIgnoreAll;
     ::sigemptyset(&ssIgnoreAll);
     ::sigfillset(&ssIgnoreAll);
+    ::sigdelset(&ssIgnoreAll, SIGUSR1);
     ::sigprocmask(SIG_SETMASK, &ssIgnoreAll, NULL);
     ::pthread_sigmask(SIG_SETMASK, &ssIgnoreAll, NULL);
 }

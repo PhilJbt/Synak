@@ -85,22 +85,13 @@ void MasterServer::_watcherterminal() {
 
     epoll_event ev[3];
 
-    auto fEvent = [](epoll_event *_ev, const int &_epfd, int _fd, int _iAction, int _iFlags = 0, bool _bAssign = false) {
-        if(_bAssign) {
-            _ev->events = _iFlags;
-            _ev->data.fd = _fd;
-        }
-        if(::epoll_ctl(_epfd, _iAction, _fd, _ev) != 0)
-            SK_SHOWERROR(STRERROR);
-    };
-
     int iFlagsCreate { EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR };    
-    fEvent(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_ADD, iFlagsCreate, true);
-    fEvent(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, iFlagsCreate, true);
-    fEvent(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, iFlagsCreate, true);
+    SynakManager::epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_ADD, true, iFlagsCreate);
+    SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
+    SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
 
     while(m_bRun) {
-        int nfds = ::epoll_wait(epfd, ev, 1, 5000);
+        int nfds = ::epoll_wait(epfd, ev, 3, 5000);
         if(nfds < 0)
             SK_SHOWERROR(STRERROR);
         else {
@@ -117,34 +108,9 @@ void MasterServer::_watcherterminal() {
         }
     }
 
-    fEvent(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_DEL);
-    fEvent(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
-    fEvent(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
-
-    /*
-    fd_set   fdsr;
-    timespec ts;
-    ts.tv_sec = 5;
-    ts.tv_nsec = 0;
-    
-    int iMax { std::max(::fileno(stdin), m_fdPipeKill[0]) };
-    
-    while (m_bRun) {
-        FD_ZERO(&fdsr);
-        FD_SET(::fileno(stdin), &fdsr);
-        FD_SET(m_fdPipeKill[0], &fdsr);
-
-        if (::pselect(iMax + 1, &fdsr, NULL, NULL, &ts, NULL) > 0) {
-            if (FD_ISSET(::fileno(stdin), &fdsr)) {
-                std::getline(std::cin, strCmd);
-                if (strCmd == "stop") {
-                    m_bRun = false;
-                    ::write(m_fdPipeKill[1], "1", strlen("1"));
-                }
-            }
-        }
-    }
-    */
+    SynakManager::epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_DEL);
+    SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
+    SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
 }
 
 /* MasterServer::WatcherTerminal
@@ -184,6 +150,68 @@ void MasterServer::_watcherwebpanel() {
         SK_SHOWERROR(STRERROR);
 
     // Check incoming web panel instructions
+    int epfd = ::epoll_create(3);
+    if(epfd == -1)
+        SK_SHOWERROR(STRERROR);
+
+    epoll_event ev[3];
+
+    int iFlagsCreate { EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR };
+    SynakManager::epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_ADD, true, iFlagsCreate);
+    SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
+    SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
+
+    while(m_bRun) {
+        int nfds = ::epoll_wait(epfd, ev, 3, 5000);
+        if(nfds < 0)
+            SK_SHOWERROR(STRERROR);
+        else {
+            for(int i = 0; i < nfds; ++i) {
+                if(ev[i].data.fd == m_sckfdWP
+                    && ev[i].events & EPOLLIN) {
+                    in6_addr  addrRecv { 0 };
+                    socklen_t len { sizeof(addrRecv) };
+                    SOCKET m_sckfdNew = ::accept(m_sckfdWP, (sockaddr *)&addrRecv, &len);
+                    if(m_sckfdNew == SOCKET_ERROR)
+                        SK_SHOWERROR(STRERROR);
+                    else {
+                        char arrRecv[2048] { 0 };
+                        if(::recv(m_sckfdNew, arrRecv, SK_ARRSIZE(arrRecv), MSG_NOSIGNAL) <= 0)
+                            SK_SHOWERROR(STRERROR);
+                        else {
+                            json jRecv = json::parse(arrRecv);
+                            std::cerr << arrRecv << std::endl;
+                            if(!jRecv.is_null()) {
+                                if(jRecv.contains("co_tpe")
+                                    && !jRecv["co_tpe"].empty()
+                                    && jRecv["co_tpe"].is_string())
+                                    std::cerr << "type: " << jRecv.at("co_tpe").get<std::string>() << std::endl;
+                                if(jRecv.contains("co_act")
+                                    && !jRecv["co_act"].empty()
+                                    && jRecv["co_act"].is_number())
+                                    std::cerr << "action:" << jRecv.at("co_act").get<int>() << std::endl;
+                            }
+
+                            json jSend;
+                            jSend["valid"] = true;
+                            jSend["port"] = 12345;
+                            std::string strJson { jSend.dump() };
+
+                            if(::send(m_sckfdNew, strJson.c_str(), strJson.length(), MSG_NOSIGNAL) == -1)
+                                SK_SHOWERROR(STRERROR);
+                        }
+                    }
+
+                    SK_CLOSESOCKET(m_sckfdNew);
+                }
+            }
+        }
+    }
+
+    SynakManager::epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_DEL);
+    SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
+    SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
+    /*
     fd_set   fdsr;
     timespec ts;
     ts.tv_sec = 5;
@@ -236,6 +264,7 @@ void MasterServer::_watcherwebpanel() {
             }
         }
     }
+    */
 
     ::close(m_sckfdWP);
 }

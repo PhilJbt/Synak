@@ -59,6 +59,17 @@ void SynakManager::_TEST() {
 #endif
 }
 
+/* SynakManager::epollAdd
+** Add file descriptor to epoll event watcher
+*/
+void SynakManager::epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign, int _iFlags) {
+    if(_bAssign) {
+        _ev->events = _iFlags;
+        _ev->data.fd = _fd;
+    }
+    if(::epoll_ctl(_epfd, _iAction, _fd, _ev) != 0)
+        SK_SHOWERROR(STRERROR);
+}
 
 
 /* SsocketOperations::SsocketOperations

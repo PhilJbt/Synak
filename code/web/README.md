@@ -15,7 +15,7 @@ Change execution rights for the **Master Server binary**
 ### 3. USER WWW-DATA PERMISSIONS
 The ```WWW-DATA``` user needs permissions to execute python scripts
 1. In the terminal, type ```visudo```
-2. Add the line ```www-data ALL=(ALL) NOPASSWD: /bin/ps, /bin/kill, /synak_ms/synak_ms.bin, /var/www/synak/res/python/*.py```
+2. Add the line ```www-data ALL=(ALL) NOPASSWD: /sbin/iptables, /sbin/ip6tables, /bin/ps, /bin/kill, /synak_ms/synak_ms.bin, /var/www/synak/res/python/*.py```
 
 &#160;
 

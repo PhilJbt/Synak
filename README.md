@@ -80,5 +80,13 @@ Feature | Status | Notes
   - Apache 2.x
     - mod_rewrite
   - Python 3.x
+    - enum
+    - subprocess
+    - json
+    - ipaddress
+    - sys
+    - select
+    - socket
+    - time
   - Fail2ban
   - [Semantic UI](https://semantic-ui.com/)

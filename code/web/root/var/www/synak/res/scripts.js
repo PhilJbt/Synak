@@ -58,6 +58,7 @@ function procReq_uninit(_text) {
   $('#mdl_output').removeClass("loading");
   $('.ui.modal').modal('hide');
   enableMessageClose();
+  template_try();
 }
 
 function req_uninit() {

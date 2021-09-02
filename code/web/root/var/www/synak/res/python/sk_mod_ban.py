@@ -15,6 +15,12 @@ def prepare(_data):
 
 def process(_data):
   data = json.loads(_data)
+
+  strIpVld = '<div class="header">Successfully banned IP</div><div class="ui bulleted list">'
+  strIpErr = '<div class="header">Not valid IP</div><div class="ui bulleted list">'
+  ipVldNbr = 0
+  ipErrNbr = 0
+
   for elem in data:
     try:
       ip = ipaddress.ip_address(elem)
@@ -22,7 +28,26 @@ def process(_data):
         sk__cmd.send(f'sudo iptables -A INPUT -s {elem} -j DROP')
       elif ip.version == 6:
         sk__cmd.send(f'sudo ip6tables -A INPUT -s {elem} -j DROP')
+      strIpVld += f'<div class="item">{elem}</div>'
+      ipVldNbr += 1
     except:
-      sk__dbg.message(sk__dbg.messtype.ERR, f'An error occured when processing the "{elem}" IP.')
-    else:
-      sk__dbg.message(sk__dbg.messtype.SUC, f'Banned IP: "{data}"')
+      strIpErr += f'<div class="item">{elem}</div>'
+      ipErrNbr += 1
+  strIpVld += '</div>'
+  strIpErr += '</div>'
+
+  messType = None
+  if (ipVldNbr > 0) and (ipErrNbr == 0):
+    messType = sk__dbg.messtype.SUC
+  elif (ipVldNbr == 0) and (ipErrNbr > 0):
+    messType = sk__dbg.messtype.ERR
+  else:
+    messType = sk__dbg.messtype.ATT
+
+  sendline = ""
+  if ipVldNbr > 0:
+    sendline += strIpVld
+  if ipErrNbr > 0:
+    sendline += strIpErr
+  
+  sk__dbg.message(messType, sendline)

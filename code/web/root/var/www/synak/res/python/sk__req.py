@@ -12,6 +12,9 @@ import sk_mod_ban
 import sk_mod_unb
 import sk_log_get
 import sk_log_era
+#import sk_cfg_rel
+#import sk_stt_sms
+import sk_stt_ded
 
 try:
   dataJson = json.load(sys.stdin)
@@ -26,6 +29,9 @@ else:
     'sk_mod_unb' : sk_mod_unb,    
     'sk_log_get' : sk_log_get,
     'sk_log_era' : sk_log_era,
+    #'sk_cfg_rel' : sk_cfg_rel,
+    #'sk_stt_sms' : sk_stt_sms,
+    'sk_stt_ded' : sk_stt_ded,
   }
   file_name = dataJson["file"]
   if file_name not in file_dict:

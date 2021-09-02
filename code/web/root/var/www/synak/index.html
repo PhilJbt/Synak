@@ -19,7 +19,7 @@
       <img src="res/img/logo.png">
     </div>
     <div class="ui dropdown item">
-      <i class="cog icon"></i>
+      <i class="wrench icon"></i>
       Managing
       <div class="menu">
         <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_mng_srt')"><i class="icon play"></i> Start</a>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="ui dropdown item">
-      <i class="user icon"></i>
+      <i class="balance scale icon"></i>
       Moderation
       <div class="menu">
         <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_ban')"><i class="icon ban"></i> Ban IP</a>
@@ -42,7 +42,22 @@
         <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_log_get')"><i class="icon level down alternate"></i> Get</a>
         <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_era')"><i class="icon eraser"></i> Erase</a>
       </div>
-    </div>    
+    </div>
+    <div class="ui dropdown item">
+      <i class="clipboard list icon"></i>
+      Configuration
+      <div class="menu">
+        <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_cfg_rel')"><i class="icon sync alternate"></i> Reload</a>
+      </div>
+    </div>
+    <div class="ui dropdown item">
+      <i class="chart pie icon"></i>
+      Statistics
+      <div class="menu">
+        <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_stt_sms')"><i class="icon window maximize outline"></i> Master Server</a>
+        <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_stt_ded')"><i class="icon server"></i> Dedicated Server</a>
+      </div>
+    </div>
     <div id="popup_signin" class="ui dropdown item float right">
       <i class="sign-in icon"></i>
       Authentication

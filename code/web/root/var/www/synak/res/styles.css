@@ -3,6 +3,11 @@
  src: url("fnt/ubuntu-mono-v10-latin-regular.woff") format("woff"),
       url("fnt/ubuntu-mono-v10-latin-regular.woff2") format("woff2");
 }
+@font-face {
+ font-family: "FiraCode Regular";
+ src: url("fnt/FiraCode-Regular.woff") format("woff"),
+      url("fnt/FiraCode-Regular.woff2") format("woff2");
+}
 
 #loader{
   position: fixed;
@@ -30,7 +35,7 @@ p{
   font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
 }
 #mdl_output{
-  font-family:"Unbuntu Mono";
+  font-family:"FiraCode Regular";
 }
 .ui.animated.button {
     position: relative;

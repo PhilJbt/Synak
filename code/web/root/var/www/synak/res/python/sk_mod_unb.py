@@ -35,18 +35,18 @@ def prepare(_data):
   if len(listIPv4_mod) > 0:
     template_mod = template_raw.replace("%IPV4%", listIPv4_mod)
   else:
-    template_mod = template_raw.replace("%IPV4%", 'There is no IPv4 banned IPs.')
+    template_mod = template_raw.replace("%IPV4%", 'There are no banned IPv4 IPs.')
   if len(listIPv6_mod) > 0:
     template_mod = template_mod.replace("%IPV6%", listIPv6_mod)
   else:
-    template_mod = template_mod.replace("%IPV6%", 'There is no IPv6 banned IPs.')
+    template_mod = template_mod.replace("%IPV6%", 'There are no banned IPv6 IPs.')
   sk__res.show("prep", template_mod)
 
 def process(_data):
   #res, err = sk__skt.send()
   #if not err:
   #  sk__res.show("proc", res)
-
+  strIpVld = '<div class="header">Successfully unbanned IP</div><div class="ui bulleted list">'
   data = json.loads(_data)
   for elem in data:
     try:
@@ -55,7 +55,8 @@ def process(_data):
         sk__cmd.send(f'sudo iptables -D INPUT -s {elem} -j DROP')
       elif ip.version == 6:
         sk__cmd.send(f'sudo ip6tables -D INPUT -s {elem} -j DROP')
+      strIpVld += f'<div class="item">{elem}</div>'
     except:
-      sk__dbg.message(sk__dbg.messtype.ERR, f'An error occured when processing the "{elem}" IP.')
-    else:
-      sk__dbg.message(sk__dbg.messtype.SUC, f'Unbanned IP: "{data}"')
+      pass
+  strIpVld += '</div>'
+  sk__dbg.message(sk__dbg.messtype.SUC, strIpVld)

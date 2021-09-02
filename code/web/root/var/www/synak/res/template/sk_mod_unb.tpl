@@ -25,7 +25,7 @@
   </div>
   <div id="btn_proceed" class="ui animated green button" onclick="sk_mod_unb_pack()">
     <div class="visible content">
-      <i class="icon stop"></i>
+      <i class="icon check"></i>
     </div>
     <div class="hidden content">
       UNBAN

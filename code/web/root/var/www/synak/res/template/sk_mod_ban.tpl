@@ -15,7 +15,7 @@
     </div>
     <div class="ui header">IP to ban:</div>
     <div id="list_ipv4v6">
-      <div class="modban ui icon input">
+      <div class="modban ui icon input fluid">
         <input type="text" placeholder="IP to ban">
         <i class="pencil alternate icon"></i>
       </div>
@@ -53,12 +53,13 @@ function template_init() {
 }
 function sk_mod_ban_listip(_action) {
   if (_action == 'add')
-    $('#list_ipv4v6').append('<div class="modban ui icon input"><input type="text" placeholder="IP to ban"><i class="pencil alternate icon"></i></div>')
+    $('#list_ipv4v6').append('<div class="modban ui icon input fluid"><input type="text" placeholder="IP to ban"><i class="pencil alternate icon"></i></div>')
   else if (_action == 'clr') {
     var objListIp = $('#list_ipv4v6').find('input');
     var iNbrChild = objListIp.length;
-    for (var i = 0; i < iNbrChild; ++i)
-      if (!objListIp[i].value.trim().length)
+    for (var i = iNbrChild - 1; i >= 0; --i)
+      if (!objListIp[i].value.trim().length
+      && ($('#list_ipv4v6').find('input').length > 1 || i > 0))
         objListIp[i].parentNode.remove();
   }
 }

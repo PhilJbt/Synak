@@ -43,22 +43,24 @@
         <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_era')"><i class="icon eraser"></i> Erase</a>
       </div>
     </div>    
-    <!--<div id="popup_signin" class="ui dropdown item float right">
+    <div id="popup_signin" class="ui dropdown item float right">
       <i class="sign-in icon"></i>
       Authentication
     </div>
     <div class="ui flowing popup top left transition hidden">
+      <i id="popnfo_authkey" class="info help icon link" data-content="(Disabled by default) This local browser stored key can be used as authentication to be able to access some features of the Synak Master Server from the Web Panel."></i>
       <div class="ui basic right floated segment">
         <div class="ui equal width form">
-          <div class="inline required field">
-            <label>Master Server Key</label>
-            <input type="password">
+          <div class="inline field">
+            <div class="ui large left icon input">
+              <input type="password" placeholder="Master Server auth key" id="in_authkey">
+              <i class="key icon"></i>
+            </div>
           </div>
-          <i id="popup_info" class="info circle icon link" data-content="(Disabled by default) This key is used as authentication to be able to communicate with the Synak Master Server"></i>
-          <div class="ui button right floated">Store</div>
+          <div id="btn_save" class="ui button fluid right floated" onclick="authKeySet()">Store</div>
         </div>
       </div>
-    </div>-->
+    </div>
   </div>
   <div class="cmdoutputcont">
     <div class="ui segment blue basic very padded cmdoutputseg">

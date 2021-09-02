@@ -1,22 +1,12 @@
 <div class="header">
   Master Server &#8212; Stop
 </div>
-<div class="image content">
+<div class="content">
   <div class="description">
     <div class="ui header">Are you sure to STOP the Master Server?</div>
   </div>
 </div>
 <div class="actions">
-<!--
-  <div class="ui black deny left labeled icon button">
-    Cancel
-    <i class="arrow left icon"></i>
-  </div>
-  <div class="ui orange right labeled icon button" onclick="prepareReq('sk__req', 'proc', 'sk_mng_stp')">
-    Stop
-    <i class="stop icon"></i>
-  </div>
--->
   <div class="ui animated button black deny">
     <div class="visible content">
       <i class="arrow left icon"></i>

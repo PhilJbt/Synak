@@ -5,7 +5,7 @@ import sk__res
 import sk__dbg
 from sk_mng import *
 
-def process():
+def process(_data):
   pid = getPid(True)
   if pid > 0:
     sk__dbg.message(sk__dbg.messtype.NFO, "Master Server already running")

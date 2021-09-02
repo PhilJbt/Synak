@@ -1,20 +1,77 @@
 <div class="header">
   Master Server &#8212; Ban IP
 </div>
-<div class="image content">
+<div class="content">
   <div class="description">
-    <div class="ui header">We've auto-chosen a profile image for you.</div>
-    <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
-    <p>Is it okay to use this photo?</p>
+    <div class="ui buttons">
+      <button class="ui button" onclick="sk_mod_ban_listip('add')">
+        <i class="plus icon"></i>
+        ADD
+      </button>
+      <button class="ui button" onclick="sk_mod_ban_listip('clr')">
+        <i class="recycle icon"></i>
+        CLEAR
+      </button>
+    </div>
+    <div class="ui header">IP to ban:</div>
+    <div id="list_ipv4v6">
+      <div class="modban ui icon input">
+        <input type="text" placeholder="IP to ban">
+        <i class="pencil alternate icon"></i>
+      </div>
+    </div>
   </div>
 </div>
 <div class="actions">
-  <div class="ui black deny right labeled icon button">
-    Cancel
-    <i class="close icon"></i>
-  </div>
-  <div id="btn_proceed" class="ui positive right labeled icon button" onclick="prepareReq('sk__req', 'proc', 'sk_mod_ban')">
-    Proceed
-    <i class="checkmark icon"></i>
+  <div class="ui right aligned grid">
+    <div class="left floated left aligned two wide column middle aligned content">
+      <i id="popnfo_modban" class="info help icon link" data-content="IPs can be IPv4, IPv6 or IPv4-mapped IPv6."></i>
+    </div>
+    <div class="right floated right aligned eleven wide column">
+      <div class="ui animated button black deny">
+        <div class="visible content">
+          <i class="arrow left icon"></i>
+        </div>
+        <div class="hidden content">
+          CANCEL
+        </div>
+      </div>
+      <div id="btn_proceed" class="ui animated red button" onclick="sk_mod_ban_send()">
+        <div class="visible content">
+          <i class="icon ban"></i>
+        </div>
+        <div class="hidden content">
+          BAN
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<script>
+function template_init() {
+  $('#popnfo_modban').popup();
+}
+function sk_mod_ban_listip(_action) {
+  if (_action == 'add')
+    $('#list_ipv4v6').append('<div class="modban ui icon input"><input type="text" placeholder="IP to ban"><i class="pencil alternate icon"></i></div>')
+  else if (_action == 'clr') {
+    var objListIp = $('#list_ipv4v6').find('input');
+    var iNbrChild = objListIp.length;
+    for (var i = 0; i < iNbrChild; ++i)
+      if (!objListIp[i].value.trim().length)
+        objListIp[i].parentNode.remove();
+  }
+}
+function sk_mod_ban_send() {
+  listIPv4v6 = [];
+
+  var objListIp = $('#list_ipv4v6').find('input');
+  var iNbrChild = objListIp.length;
+  for (var i = 0; i < iNbrChild; ++i)
+    if (!!objListIp[i].value.trim().length)
+      listIPv4v6.push(objListIp[i].value.trim());
+
+  if (listIPv4v6.length > 0)
+    prepareReq('sk__req', 'proc', 'sk_mod_ban', JSON.stringify(listIPv4v6));
+}
+</script>

@@ -5,7 +5,7 @@ import sk__res
 import sk__dbg
 from sk_mng import *
 
-def prepare():
+def prepare(_data):
   pid = getPid(False)
   if pid == 0:
     sk__dbg.message(sk__dbg.messtype.NFO, "Master Server is not running")
@@ -17,7 +17,7 @@ def prepare():
     template_mod = template_raw.replace("%VAR_1%", proctree)
     sk__res.show("prep", template_mod)
 
-def process():
+def process(_data):
   pid = getPid(False)
   if pid == 0:
     sk__dbg.message(sk__dbg.messtype.ATT, "It seems that no Master Server was running")

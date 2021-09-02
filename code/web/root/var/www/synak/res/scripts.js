@@ -9,7 +9,8 @@ delay: {
   hide: 500
  }
 });
-$('#popup_info').popup();
+$('#popnfo_authkey').popup();
+authKeyGet();
 
 var bFetching = false;
 
@@ -41,6 +42,7 @@ function prepReq_uninit(_text) {
   $('.ui.modal').modal('show');
   $('#mdl_output').removeClass("loading");
   enableMessageClose();
+  template_try();
 }
 
 function procReq_init() {
@@ -65,8 +67,13 @@ function req_uninit() {
   $('.ui.modal').modal('hide');
 }
 
-async function sendReq(_scriptname, _action, _file) {
+async function sendReq(_scriptname, _action, _file, _data = null) {
   $('#mdl_output').html("");
+
+  var msauthkey = "";
+  if (typeof(Storage) !== "undefined"
+  && localStorage.getItem("msauthkey") !== null)
+    msauthkey = localStorage.getItem("msauthkey");
 
   try {
     const config = {
@@ -77,16 +84,17 @@ async function sendReq(_scriptname, _action, _file) {
       },
       body: JSON.stringify({
       'type': _action,
-      'data': 'mydata',
-      'file' : _file
+      'data': (_data !== null ? _data : ''),
+      'file': _file,
+      'auth': msauthkey
       })
     }
     const response = await fetch('res/python/' + _scriptname + '.py', config);
     if (response.ok
       && response.status == 200) {
       var res = await response.json();
-      console.log(res["type"]);
-      console.log(res["data"]);
+      //console.log(res["type"]);
+      //console.log(res["data"]);
       if (res["type"] == "prep")
         prepReq_uninit(res["data"]);
       else if (res["type"] == "proc")
@@ -117,7 +125,7 @@ async function sendReq(_scriptname, _action, _file) {
   }
 }
 
-async function prepareReq(_scriptname, _action, _file){
+async function prepareReq(_scriptname, _action, _file, _data = null){
   if (bFetching)
     return;
 
@@ -128,5 +136,38 @@ async function prepareReq(_scriptname, _action, _file){
   else if (_action == "proc")
     procReq_init();
 
-  sendReq(_scriptname, _action, _file);
+  sendReq(_scriptname, _action, _file, _data);
+}
+
+function authKeyErr() {
+  data = {
+      "colr": "red",
+      "icon": "exclamation",
+      "titl": "NEW BROWSER REQUIRED",
+      "mess": "This browser is not supporting web local storage."
+    }
+    errorMessage(data);
+}
+
+function authKeySet() {
+  if (typeof(Storage) !== "undefined") {
+    localStorage.setItem("msauthkey", $('#in_authkey').val()); 
+    $('#btn_save').text("Stored");
+    $('#btn_save').addClass("green");
+  }
+  else
+    authKeyErr();
+}
+
+function authKeyGet() {
+  if (typeof(Storage) !== "undefined") {
+    if (localStorage.getItem("msauthkey") !== null)
+      $('#in_authkey').val(localStorage.getItem("msauthkey"));
+  } else
+    authKeyErr();
+}
+
+function template_try() {
+  if(typeof template_init === "function")
+    template_init();
 }

@@ -31,8 +31,8 @@ else:
   if file_name not in file_dict:
     sk__dbg.message(sk__dbg.messtype.ATT, "script filename does not exist")
   elif dataJson["type"] == "prep":
-    file_dict[file_name].prepare()
+    file_dict[file_name].prepare(dataJson['data'])
   elif dataJson["type"] == "proc":
-    file_dict[file_name].process()
+    file_dict[file_name].process(dataJson['data'])
   else:
     sk__dbg.message(sk__dbg.messtype.ATT, "type request undefined")

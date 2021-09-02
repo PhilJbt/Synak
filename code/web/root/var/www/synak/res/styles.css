@@ -32,7 +32,14 @@ p{
 #mdl_output{
   font-family:"Unbuntu Mono";
 }
-.ui.modal .actions > .button {
-    margin-left: .75em;
-    width: 150px;
+.ui.animated.button {
+    position: relative;
+    overflow: hidden;
+    padding-right: 0 !important;
+    vertical-align: middle;
+    z-index: 1;
+    width: 130px;
+}
+.modban {
+  margin: 0px 10px 10px 0px;
 }

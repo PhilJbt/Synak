@@ -37,9 +37,11 @@ def process(_data):
 
   ## STATS#2
   # FILL WITH HDD/SSD USAGE
-  info_cpu = str(format(float(sk__cmd.send("awk '/cpu /{print 100*($2+$4)/($2+$4+$5)}' /proc/stat").strip()), '.1f'))
+  info_cpu = format(float(sk__cmd.send('top -b -d1 -n1|grep -i "Cpu(s)"|head -c21|cut -d \' \' -f3|cut -d \'%\' -f1').strip()), '.1f')
+  if float(info_cpu) < 0.1:
+    info_cpu = '0.1'
   stat_cpu = stat_raw.replace("%NAME%", "CPU USAGE (%)")
-  stat_cpu = stat_cpu.replace("%VALUE%", info_cpu)
+  stat_cpu = stat_cpu.replace("%VALUE%", str(info_cpu))
 
   # FILL WITH RAM USAGE
   info_ram = sk__cmd.send("free -m | grep -iF 'mem' | awk '{print $3}'").strip()
@@ -89,7 +91,7 @@ def process(_data):
     tplRowTemp = tplRow.replace("%NAME%", key)
     tplRowTemp = tplRowTemp.replace("%VALDEF%", arrValues[key])
     tplRowTemp = tplRowTemp.replace("%VALCUR%", currValue)
-    tplRowTemp = tplRowTemp.replace("%STATUS%", ('green checkmark' if bExpected is True else 'blue question'))
+    tplRowTemp = tplRowTemp.replace("%STATUS%", ('green checkmark' if bExpected is True else 'yellow exclamation triangle'))
     tplRowTemp = tplRowTemp.replace("%COLOR%", ('positive' if bExpected is True else ''))
     strStackedRows += tplRowTemp
 

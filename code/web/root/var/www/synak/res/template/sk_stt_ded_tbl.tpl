@@ -1,4 +1,10 @@
-<table class="ui selectable celled table very compact collapsing four column %TABLE_COLOR%">
+<div class="ui center aligned segment basic secondary">
+  %STATS_1%
+</div>
+<div class="ui center aligned segment basic tertiary">
+  %STATS_2%
+</div>
+<table class="ui selectable celled table very compact four column %TABLE_COLOR%">
   <thead>
     <tr><th>VARIABLE</th>
     <th>EXPECTED VALUE</th>
@@ -12,8 +18,8 @@
     <tr>
     <th>
       <i id="popnfo_sttdeb" class="info help icon link"></i>
-      <div class="ui flowing popup top left transition visible animating scale out">
-        <p>Please read the <a target="_blank" href="https://github.com/PhilJbt/Synak/wiki/Web-Panel">Synak Wiki</a> to learn how to change these values temporarily or permanently.</p>
+      <div class="ui flowing popup">
+        <p>These are only optional optimizations, and are not mandatory. In addition, your dedicated server could not correspond to what is usually done, making this configuration obsolete.<br/>Please read the <a target="_blank" href="https://github.com/PhilJbt/Synak/wiki/Web-Panel">Synak Wiki</a> to know how to change these values temporarily or permanently.<br/><b>TL;DR</b>: Don't try if you don't know what you are doing.</p>
       </div>
     </th>
     <th></th>

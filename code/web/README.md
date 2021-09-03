@@ -42,3 +42,5 @@ In case you are lost with you dns zone, here three useful lines (the ending dot 
     synak        3600 IN A     <IPV4>
     synak        3600 IN AAAA  <IPV6>
     www.synak    3600 IN CNAME synak.<DOMAIN>.<EXTENTION>.
+    
+Replace ```<IPV4>```, ```IPV6``` and ```<DOMAIN>.<EXTENTION>``` by yours.

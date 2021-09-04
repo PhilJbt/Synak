@@ -5,7 +5,7 @@
   <div class="description">
     <div class="ui header">Are you sure to KILL the Master Server main process?</div>
     <p>Process tree:</p>
-    <pre>%VAR_1%</pre>
+    <pre>%PROC_TREE%</pre>
   </div>
 </div>
 <div class="actions">

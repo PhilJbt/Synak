@@ -7,47 +7,72 @@ import sk__cmd
 import sk__res
 import sk__dbg
 
-def prepare(_data):  
+# Push modal disclaimer about killing MS process
+def prepare(_data):
+  # Get the ban modal template
   file = open("../template/sk_mod_ban.tpl", "r")
   template_raw = file.read()
-  template_mod = template_raw.replace("%VAR_1%", "test")
+  # Send the modal to the client
   sk__res.show("prep", template_mod)
 
+# Push segment to client
 def process(_data):
+  # Get POST data
   data = json.loads(_data)
 
+  # Declare feedback vars
   strIpVld = '<div class="header">Successfully banned IP</div><div class="ui bulleted list">'
   strIpErr = '<div class="header">Not valid IP</div><div class="ui bulleted list">'
+  # Declare success/error IP ban number vars
   ipVldNbr = 0
   ipErrNbr = 0
 
+  # For every IP in the POST data
   for elem in data:
+    # Try to cast str to ip_addr
     try:
       ip = ipaddress.ip_address(elem)
+      # IPv4 detected, ban it with iptables
       if ip.version == 4:
         sk__cmd.send(f'sudo iptables -A INPUT -s {elem} -j DROP')
+      # IPv6 detected, ban it with ip6tables
       elif ip.version == 6:
         sk__cmd.send(f'sudo ip6tables -A INPUT -s {elem} -j DROP')
+      # Add the banned IP to the corresponding feedback stack
       strIpVld += f'<div class="item">{elem}</div>'
+      # Increment the number of banned IP by one
       ipVldNbr += 1
+    # Can't cast str to ip_addr
     except:
+      # Add the invalid IP to the corresponding feedback stack
       strIpErr += f'<div class="item">{elem}</div>'
+      # Increment the number of invalid IP by one
       ipErrNbr += 1
+
+  # Close the html content division
   strIpVld += '</div>'
   strIpErr += '</div>'
 
+  # Declare the message type to push to the client
   messType = None
+  # There is no invalid IP, choose the success type
   if (ipVldNbr > 0) and (ipErrNbr == 0):
     messType = sk__dbg.messtype.SUC
+  # There is no valid IP, choose the error type
   elif (ipVldNbr == 0) and (ipErrNbr > 0):
     messType = sk__dbg.messtype.ERR
+  # There is both valid and invalid IP, choose the warning type
   else:
     messType = sk__dbg.messtype.ATT
 
+  # Declare the final string containing the list of valid and invalid IP addresses to push to the client
   sendline = ""
+  # There is at least one valid IP, push the corresponding list to the final string
   if ipVldNbr > 0:
     sendline += strIpVld
+  # There is at least one invalid IP, push the corresponding list to the final string
   if ipErrNbr > 0:
     sendline += strIpErr
   
+  # Push the final string to the client
   sk__dbg.message(messType, sendline)

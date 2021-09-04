@@ -24,10 +24,13 @@
 </div>
 <div class="actions">
   <div class="ui right aligned grid">
-    <div class="left floated left aligned two wide column middle aligned content">
-      <i id="popnfo_modban" class="info help icon link" data-content="IPs can be IPv4, IPv6 or IPv4-mapped IPv6."></i>
+    <div class="left floated left aligned ten wide column middle aligned content">
+      <i id="popnfo_modban" class="info help icon link"></i>
+      <div class="ui top left popup flowing">
+        <p>IPs can be <i>IPv4</i>, <i>IPv6</i> or <i>IPv4-mapped IPv6</i>.<br/>This feature uses <i>IPTABLES</i> which means IPs will be banned from all services hosted by this dedicated server (e.g. Synak Master Server, web).</p>
+      </div>
     </div>
-    <div class="right floated right aligned eleven wide column">
+    <div class="right floated right aligned six wide column">
       <div class="ui animated button black deny">
         <div class="visible content">
           <i class="arrow left icon"></i>
@@ -49,7 +52,9 @@
 </div>
 <script>
 function template_init() {
-  $('#popnfo_modban').popup();
+  $('#popnfo_modban').popup({
+    variation : 'very wide'
+  });
 }
 function sk_mod_ban_listip(_action) {
   if (_action == 'add')

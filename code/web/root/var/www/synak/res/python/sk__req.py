@@ -16,6 +16,7 @@ import sk_log_era
 #import sk_stt_sms
 import sk_stt_ded
 
+# Get POST data and parse the Json
 try:
   dataJson = json.load(sys.stdin)
 except:
@@ -33,12 +34,19 @@ else:
     #'sk_stt_sms' : sk_stt_sms,
     'sk_stt_ded' : sk_stt_ded,
   }
+
+  # Get the script filename
   file_name = dataJson["file"]
+
+  # Script doesn't exist
   if file_name not in file_dict:
     sk__dbg.message(sk__dbg.messtype.ATT, "script filename does not exist")
+  # Exec the  function 
   elif dataJson["type"] == "prep":
     file_dict[file_name].prepare(dataJson['data'])
+  # Exec the  function 
   elif dataJson["type"] == "proc":
     file_dict[file_name].process(dataJson['data'])
+  # Filename exists but not the provided type
   else:
     sk__dbg.message(sk__dbg.messtype.ATT, "type request undefined")

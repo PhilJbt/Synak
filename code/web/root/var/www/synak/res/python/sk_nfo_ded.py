@@ -7,13 +7,13 @@ import sk__res
 
 def process(_data):
   # Get the page template template
-  fileTbl = open("../template/sk_stt_ded_tbl.tpl", "r")
+  fileTbl = open("../template/sk_nfo_ded_tbl.tpl", "r")
   template_mod = fileTbl.read()
 
 
   ## Stats#1
   # Get the template
-  fileSta = open("../template/sk_stt_ded_sta.tpl", "r")
+  fileSta = open("../template/sk_nfo_ded_sta.tpl", "r")
   stat_raw = fileSta.read()
 
   # Fill stats#1 with hostname
@@ -75,7 +75,7 @@ def process(_data):
   }
 
   # Get the table template
-  fileRow = open("../template/sk_stt_ded_row.tpl", "r")
+  fileRow = open("../template/sk_nfo_ded_row.tpl", "r")
   tplRow = fileRow.read()
   strStackedRows = ""
   iErrCount = 0

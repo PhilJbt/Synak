@@ -13,8 +13,8 @@ import sk_mod_ban
 import sk_mod_unb
 import sk_log_get
 import sk_log_era
-#import sk_stt_sms
-import sk_stt_ded
+#import sk_nfo_sms
+import sk_nfo_ded
 
 # Get POST data and parse the Json
 try:
@@ -30,8 +30,8 @@ else:
     'sk_mod_unb' : sk_mod_unb,    
     'sk_log_get' : sk_log_get,
     'sk_log_era' : sk_log_era,
-    #'sk_stt_sms' : sk_stt_sms,
-    'sk_stt_ded' : sk_stt_ded,
+    #'sk_nfo_sms' : sk_nfo_sms,
+    'sk_nfo_ded' : sk_nfo_ded,
   }
 
   # Check all args are in the POST data
@@ -61,7 +61,7 @@ else:
 
     # Script doesn't exist
     if file_name not in file_dict:
-      sk__dbg.message(sk__dbg.messtype.ATT, "script filename does not exist")
+      sk__dbg.message(sk__dbg.messtype.ATT, f"script filename does not exist ({file_name})")
     # Exec the Prepare() function 
     elif jsonPost["type"] == "prep":
       file_dict[file_name].prepare(jsonPost['data'])

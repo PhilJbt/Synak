@@ -13,7 +13,7 @@ def prepare(_data):
   file = open("../template/sk_mod_ban.tpl", "r")
   template_raw = file.read()
   # Send the modal to the client
-  sk__res.show("prep", template_mod)
+  sk__res.show("prep", template_raw)
 
 # Push segment to client
 def process(_data):

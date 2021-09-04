@@ -12,6 +12,7 @@ class messtype(Enum):
   ATT = 1, "ATTENTION",   "yellow", "exclamation triangle"
   NFO = 2, "INFORMATION", "blue",   "info circle"
   SUC = 3, "SUCCESS",     "green",  "check"
+  KEY = 4, "PERMISSION",  "orange", "ban"
 
   # Error message data packing
   def __new__(_cls, _value, _title, _color, _icon):

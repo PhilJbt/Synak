@@ -1,11 +1,8 @@
 {
   "MYSUPERLONGAUTHKEYFORROOT": [
-    "sk_mng_kll",
     "sk_mng_srt",
     "sk_mng_stp",
-    "sk_mod_ban",
-    "sk_mod_unb",
-    "sk_stt_ded"
+    "sk_mng_kll"
   ],
   "ANOTHERSUPERLONGKEYFORAPRETTYRESTRICTEDUSER": [
     "sk_mod_ban",

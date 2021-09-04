@@ -15,7 +15,7 @@ Change execution rights for the **Master Server binary**
 ### 3. USER WWW-DATA PERMISSIONS
 The ```WWW-DATA``` user needs permissions to execute python scripts
 1. In the terminal, type ```visudo```
-2. Add the line ```www-data ALL=(ALL) NOPASSWD: /sbin/iptables, /sbin/ip6tables, /bin/ps, /bin/kill, /synak_ms/synak_ms.bin, /var/www/synak/res/python/*.py```
+2. Add the line ```www-data ALL=(ALL) NOPASSWD: /bin/tmux, /sbin/iptables, /sbin/ip6tables, /bin/ps, /bin/kill, /synak_ms/*, /var/www/synak/res/python/*.py```
 
 &#160;
 
@@ -63,6 +63,5 @@ STRING FOR PERMISSIONS FILE | WHERE TO FIND IN THE WEB PANEL | PURPOSE
 **sk_mod_ban** | _MODERATION_ > _BAN_ | Ban an IPv4, IPv6 or IPv4-mapped IPv6 address
 **sk_mod_unb** | _MODERATION_ > _UNBAN_ | See and unban banned IPs
 **sk_log_get** | _LOG_ > _GET_ | Get logs
-**sk_log_era** | _LOG_ > _ERASE_ | Erase logs
 **sk_nfo_sms** | _INFORMATIONS_ > _MASTER SERVER_ | Get statistics from the Synak Master Server
 **sk_nfo_ded** | _INFORMATIONS_ > _DEDICATED SERVER_ | Get informations from the dedicated server

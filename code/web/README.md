@@ -38,9 +38,29 @@ To add a new IP, add a new ```Allow from``` line (IPv4 and IPv6 are supported).
 
 ## III. ZONE DNS
 In case you are lost with you dns zone, here three useful lines (the ending dot is **NOT** a mistake)
-
-    synak        3600 IN A     <IPV4>
-    synak        3600 IN AAAA  <IPV6>
-    www.synak    3600 IN CNAME synak.<DOMAIN>.<EXTENTION>.
-    
+````
+synak        3600 IN A     <IPV4>
+synak        3600 IN AAAA  <IPV6>
+www.synak    3600 IN CNAME synak.<DOMAIN>.<EXTENTION>.
+````
 Replace ```<IPV4>```, ```IPV6``` and ```<DOMAIN>.<EXTENTION>``` by yours.
+
+&#160;
+
+## IV. USER PERMISSIONS
+In case you want to provide an access to the **Web Panel** to multiple individuals, give them different permissions may be necessary.\
+Disabled by default, just create the permissions file to enable it.
+1. Edit the [/var/www/synak/res/webpanel.permissions.SAMPLE](root/var/www/synak/res/webpanel.permissions.SAMPLE) **Json** file, and add any user you want with rights below
+2. Rename [/var/www/synak/res/webpanel.permissions.SAMPLE](root/var/www/synak/res/webpanel.permissions.SAMPLE) into ```/var/www/synak/res/webpanel.permissions```
+
+STRING FOR PERMISSIONS FILE | WHERE TO FIND IN THE WEB PANEL | PURPOSE
+------------ | ------------- | -------------
+**sk_mng_srt** | _MANAGING_ > _START_ | Starts the Master Server process
+**sk_mng_stp** | _MANAGING_ > _STOP_ | Stops the Master Server process
+**sk_mng_kll** | _MANAGING_ > _KILL_ | Kill the Master Server process
+**sk_mod_ban** | _MODERATION_ > _BAN_ | Ban an IPv4, IPv6 or IPv4-mapped IPv6 address
+**sk_mod_unb** | _MODERATION_ > _UNBAN_ | See and unban banned IPs
+**sk_log_get** | _LOG_ > _GET_ | Get logs
+**sk_log_era** | _LOG_ > _ERASE_ | Erase logs
+**sk_nfo_sms** | _INFORMATIONS_ > _MASTER SERVER_ | Get statistics from the Synak Master Server
+**sk_nfo_ded** | _INFORMATIONS_ > _DEDICATED SERVER_ | Get informations from the dedicated server

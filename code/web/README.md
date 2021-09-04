@@ -51,7 +51,7 @@ Replace ```<IPV4>```, ```IPV6``` and ```<DOMAIN>.<EXTENTION>``` by yours.
 In case you want to provide an access to the **Web Panel** to multiple individuals, give them different permissions may be necessary.\
 Disabled by default, just create the permissions file to enable it.
 1. Copy the [/var/www/synak/res/webpanel.permissions.SAMPLE](root/var/www/synak/res/webpanel.permissions.SAMPLE) file to ```/var/www/synak/res/webpanel.permissions```
-2. Edit the ```/var/www/synak/res/webpanel.permissions``` file and add any user with their rights\
+2. Edit the ```/var/www/synak/res/webpanel.permissions``` file and add any user with their rights
 
 The **Web Panel** permissions file is a Json where each array corresponds to a new user and each element in that array is a granted right.
 

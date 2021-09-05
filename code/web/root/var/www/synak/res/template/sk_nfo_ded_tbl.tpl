@@ -4,13 +4,15 @@
 <div class="ui center aligned segment basic tertiary">
   %STATS_2%
 </div>
-<table class="ui selectable celled table very compact four column %TABLE_COLOR%">
+<table class="ui selectable celled table very compact  %TABLE_COLOR%">
   <thead>
-    <tr><th>VARIABLE</th>
-    <th>EXPECTED VALUE</th>
-    <th>CURRENT VALUE</th>
-    <th>STATUS</th>
-  </tr></thead>
+    <tr>
+      <th>STATUS</th>
+      <th>VARIABLE</th>
+      <th>CURRENT VALUE</th>
+      <th>EXPECTED VALUE</th>
+    </tr>
+  </thead>
   <tbody>
     %VARS_LIST%
   </tbody>
@@ -30,6 +32,7 @@
 </table>
 <script>
 function template_init() {
-  $('#popnfo_sttdeb').popup({hoverable  : true});
+  $('#popnfo_sttdeb').popup({hoverable : true});
+  $('.sk_tbl_pop').popup();
 }
 </script>

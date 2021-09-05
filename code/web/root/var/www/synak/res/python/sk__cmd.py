@@ -14,4 +14,4 @@ def send(_cmd):
     sk__dbg.message(sk__dbg.messtype.NFO, "The command '" + _cmd + "' triggered an error: " + err)
   # Else, return the output
   else:
-    return out
+    return out.strip()

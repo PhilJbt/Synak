@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import re
+import string
 
 import sk__cmd
 import sk__res
@@ -63,16 +64,31 @@ def process(_data):
 
 
   ## Optimizations
-  # Array with optimizations
+  # Array with optimizations and explainations
   arrValues = {
-  'net.core.rmem_max' : '67108864',
-  'net.core.wmem_max' : '67108864',
-  'net.core.optmem_max' : '67108864',
-  'net.ipv4.tcp_rmem' : '4096 87380 33554432',
-  'net.ipv4.tcp_wmem' : '4096 87380 33554432',
-  'net.ipv4.tcp_mem' : '1638400 1638400 1638400', #max(tcp_wmem) * 2 * 200 / 4096
-  'net.ipv4.tcp_congestion_control' : 'bbr',      #https://www.techrepublic.com/article/how-to-enable-tcp-bbr-to-improve-network-speed-on-linux/
-  'net.ipv4.tcp_syncookies' : '1'
+    'fs.file-max' : [ '>=', '2097152', '' ],
+    'net.core.somaxconn' : [ '>=', '4096', 'Number of incoming connections.' ],
+    'net.core.rmem_max' : [ '>=', '16777216', 'Maximum socket receive buffer.' ],
+    'net.core.wmem_max' : [ '>=', '16777216', 'Maximum socket send buffer.' ],
+    'net.core.rmem_default' : [ '>=', '16777216', 'Default socket receive buffer.' ], # Does not override the global net.core.rmem_max
+    'net.core.wmem_default' : [ '>=', '16777216', 'Default socket send buffer.' ],    # Does not override the global net.core.rmem_max
+    #'net.core.optmem_max' : [ '>=', '16777216', '' ],
+    'net.ipv4.tcp_rfc1337' : [ '==', '0', '' ], #https://vincent.bernat.ch/fr/blog/2014-tcp-time-wait-state-linux
+    'net.ipv4.tcp_rmem' : [ '>=', '4096 87380 16777216', 'Maximum total buffer-space allocatable.<br/>This is measured in units of pages (4096 bytes).\
+    <br/>Note that TCP actually allocates twice the size of the buffer requested.\
+    <br/>Also, IPv4 values apply for both IPv4 and IPv6.' ],
+    'net.ipv4.tcp_wmem' : [ '>=', '4096 87380 16777216', 'Maximum total buffer-space allocatable.<br/>This is measured in units of pages (4096 bytes).\
+    <br/>Note that TCP actually allocates twice the size of the buffer requested.\
+    <br/>Also, IPv4 values apply for both IPv4 and IPv6.' ],
+    'net.ipv4.tcp_mem' : [ '>=', '1638400 1638400 1638400', 'Max(tcp_wmem) * 2 * (simultaneous clients average) / 4096\
+    <br/>Note that TCP actually allocates twice the size of the buffer requested.\
+    <br/>Also, IPv4 values apply for both IPv4 and IPv6.' ],
+    'net.ipv4.tcp_synack_retries' : [ '==', '2', 'Number of times SYNACKs for passive TCP connection.' ],
+    'net.ipv4.tcp_keepalive_time' : [ '==', '60', 'Interval between the last data packet sent (simple ACKs are not considered data) and the first keepalive probe.' ],
+    'net.ipv4.tcp_keepalive_probes' : [ '==', '3', 'Number of unacknowledged probes to send before considering the connection dead and notifying the application layer.' ],
+    'net.ipv4.tcp_keepalive_intvl' : [ '==', '60', 'Interval between subsequential keepalive probes, regardless of what the connection has exchanged in the meantime.' ],    
+    'net.ipv4.tcp_congestion_control' : [ '==', 'bbr', '' ], #https://www.techrepublic.com/article/how-to-enable-tcp-bbr-to-improve-network-speed-on-linux/
+    'net.ipv4.tcp_syncookies' : [ '==', '1', '' ]
   }
 
   # Get the table template
@@ -80,19 +96,30 @@ def process(_data):
   tplRow = fileRow.read()
   strStackedRows = ""
   iErrCount = 0
-
   # Fill the table template with optimizations
   for key in arrValues:
     currValue = sk__cmd.send(f'sysctl -n {key}')
-    currValue = currValue.strip()
-    arrValues[key] = arrValues[key].strip()
-    bExpected = bool(arrValues[key] == currValue)
+    bExpected = False
+    expectedVal = ""
+    retrievdVal = ""
+    if not currValue.isdigit():
+      expectedVal = arrValues[key][1].split()[-1]
+      retrievdVal = currValue.split()[-1]
+    else:
+      expectedVal = arrValues[key][1]
+      retrievdVal = currValue
+    if re.search('[a-zA-Z]', currValue):
+      bExpected = (retrievdVal == expectedVal)
+    else:
+      strCondition = retrievdVal + arrValues[key][0] + expectedVal
+      bExpected = eval(strCondition)
     if bExpected is False:
       iErrCount += 1
     tplRowTemp = tplRow.replace("%NAME%", key)
-    tplRowTemp = tplRowTemp.replace("%VALDEF%", arrValues[key])
+    tplRowTemp = tplRowTemp.replace("%VALDEF%", arrValues[key][1])
     tplRowTemp = tplRowTemp.replace("%VALCUR%", currValue)
-    tplRowTemp = tplRowTemp.replace("%STATUS%", ('green checkmark' if bExpected is True else 'yellow exclamation triangle'))
+    tplRowTemp = tplRowTemp.replace("%ICON%", ('green checkmark' if bExpected else 'yellow exclamation'))
+    tplRowTemp = tplRowTemp.replace("%STATUS%", arrValues[key][2])
     tplRowTemp = tplRowTemp.replace("%COLOR%", ('positive' if bExpected is True else ''))
     strStackedRows += tplRowTemp
 

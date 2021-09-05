@@ -1,6 +1,6 @@
 <tr class="%COLOR%">
+  <td class="collapsing"><i class="sk_tbl_pop circular inverted %ICON% icon link"></i><div class="ui flowing popup"><p>%STATUS%</p></div></td>
   <td>%NAME%</td>
-  <td>%VALDEF%</td>
   <td>%VALCUR%</td>
-  <td><i class="large %STATUS% icon"></i></td>
+  <td>%VALDEF%</td>
 </tr>

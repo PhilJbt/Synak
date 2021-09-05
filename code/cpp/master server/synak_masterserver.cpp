@@ -5,6 +5,8 @@
 */
 
 #include <network layer/synak.h>
+#include <master server/synak_masterserver.h>
+#include <master server/synak_masterserver_define.h>
 
 
 int MasterServer::m_fdPipeKill[2] { -1, -1 };
@@ -22,7 +24,7 @@ void MasterServer::initialization() {
     sigbreak.sa_handler = &MasterServer::signalHandler;
     sigbreak.sa_flags = 0;
     if (::sigaction(SIGUSR1, &sigbreak, NULL) != 0)
-        SK_SHOWERROR(STRERROR);
+        SK_WRITELOG(SK_FILENLINE,STRERROR);
 }
 
 /* MasterServer::Unitialization
@@ -81,7 +83,7 @@ void MasterServer::_watcherterminal() {
     // Check commands written in the terminal
     int epfd = ::epoll_create(3);
     if(epfd == -1)
-        SK_SHOWERROR(STRERROR);
+        SK_WRITELOG(SK_FILENLINE, STRERROR);
 
     epoll_event ev[3];
 
@@ -93,7 +95,7 @@ void MasterServer::_watcherterminal() {
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 5000);
         if(nfds < 0)
-            SK_SHOWERROR(STRERROR);
+            SK_WRITELOG(SK_FILENLINE, STRERROR);
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == ::fileno(stdin)
@@ -132,7 +134,7 @@ void MasterServer::watcherWebpanel(uint16_t _ui8Port) {
 
     // Create pipe for emergency stop
     if (::pipe2(m_fdPipeKill, O_NONBLOCK) == -1)
-        SK_SHOWERROR(STRERROR);
+        SK_WRITELOG(SK_FILENLINE, STRERROR);
 
     // Launch thread
     if (!m_thdWatcherWebpanel)
@@ -147,12 +149,12 @@ void MasterServer::_watcherwebpanel() {
 
     // Accept web panel incoming connections
     if (::listen(m_sckfdWP, SOMAXCONN) != 0)
-        SK_SHOWERROR(STRERROR);
+        SK_WRITELOG(SK_FILENLINE, STRERROR);
 
     // Check incoming web panel instructions
     int epfd = ::epoll_create(3);
     if(epfd == -1)
-        SK_SHOWERROR(STRERROR);
+        SK_WRITELOG(SK_FILENLINE, STRERROR);
 
     epoll_event ev[3];
 
@@ -164,7 +166,7 @@ void MasterServer::_watcherwebpanel() {
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 5000);
         if(nfds < 0)
-            SK_SHOWERROR(STRERROR);
+            SK_WRITELOG(SK_FILENLINE, STRERROR);
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == m_sckfdWP
@@ -173,11 +175,11 @@ void MasterServer::_watcherwebpanel() {
                     socklen_t len { sizeof(addrRecv) };
                     SOCKET m_sckfdNew = ::accept(m_sckfdWP, (sockaddr *)&addrRecv, &len);
                     if(m_sckfdNew == SOCKET_ERROR)
-                        SK_SHOWERROR(STRERROR);
+                        SK_WRITELOG(SK_FILENLINE, STRERROR);
                     else {
                         char arrRecv[2048] { 0 };
                         if(::recv(m_sckfdNew, arrRecv, SK_ARRSIZE(arrRecv), MSG_NOSIGNAL) <= 0)
-                            SK_SHOWERROR(STRERROR);
+                            SK_WRITELOG(SK_FILENLINE, STRERROR);
                         else {
                             json jRecv = json::parse(arrRecv);
                             std::cerr << arrRecv << std::endl;
@@ -198,7 +200,7 @@ void MasterServer::_watcherwebpanel() {
                             std::string strJson { jSend.dump() };
 
                             if(::send(m_sckfdNew, strJson.c_str(), strJson.length(), MSG_NOSIGNAL) == -1)
-                                SK_SHOWERROR(STRERROR);
+                                SK_WRITELOG(SK_FILENLINE, STRERROR);
                         }
                     }
 
@@ -231,11 +233,11 @@ void MasterServer::_watcherwebpanel() {
                 socklen_t len { sizeof(addrRecv) };
                 SOCKET m_sckfdNew = ::accept(m_sckfdWP, (sockaddr *)&addrRecv, &len);
                 if (m_sckfdNew == SOCKET_ERROR)
-                    SK_SHOWERROR(STRERROR);
+                    SK_WRITELOG(SK_FILENLINE, STRERROR);
                 else {
                     char arrRecv[2048] { 0 };
                     if (::recv(m_sckfdNew, arrRecv, SK_ARRSIZE(arrRecv), MSG_NOSIGNAL) <= 0)
-                        SK_SHOWERROR(STRERROR);
+                        SK_WRITELOG(SK_FILENLINE, STRERROR);
                     else {
                         json jRecv = json::parse(arrRecv);
                         std::cerr << arrRecv << std::endl;
@@ -256,7 +258,7 @@ void MasterServer::_watcherwebpanel() {
                         std::string strJson { jSend.dump() };
 
                         if (::send(m_sckfdNew, strJson.c_str(), strJson.length(), MSG_NOSIGNAL) == -1)
-                            SK_SHOWERROR(STRERROR);
+                            SK_WRITELOG(SK_FILENLINE, STRERROR);
                     }
                 }
 
@@ -266,5 +268,27 @@ void MasterServer::_watcherwebpanel() {
     }
     */
 
-    ::close(m_sckfdWP);
+    SK_CLOSESOCKET(m_sckfdWP);
+}
+
+/* MasterServer::writeLog
+** Write messages in log file
+*/
+void MasterServer::writeLog(std::string _strFileLine, std::string _strMessage, std::string _strAddInfos, bool _bTruncate) {
+    std::ios_base::openmode iosOpenmode { std::ios_base::binary | std::ios_base::out | (_bTruncate ? std::ios_base::trunc : std::ios_base::app) };
+    std::string             strPath { "/synak_ms/synak_ms.log" },
+                            strLine { _strMessage + (_strAddInfos.length() > 0 ? " (" + _strAddInfos + ")" : "")};
+    std::ofstream           fLogFile(strPath, iosOpenmode);
+    
+    if(fLogFile) {
+        fLogFile << "[" << _strFileLine << "] " << strLine << std::endl;
+        if(fLogFile.bad())
+            std::cerr << "Can't write the log file (file permissions?): " << STRERROR << std::endl;
+        else {
+            fLogFile.close();
+            std::cout.flush();
+        }
+    }
+    else
+        std::cerr << "Can't open/create the log file (file permissions?): " << STRERROR << std::endl;
 }

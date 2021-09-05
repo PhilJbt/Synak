@@ -12,8 +12,7 @@ import sk_mng_kll
 import sk_mod_ban
 import sk_mod_unb
 import sk_log_get
-import sk_log_era
-#import sk_nfo_sms
+import sk_nfo_sms
 import sk_nfo_ded
 
 # Get POST data and parse the Json
@@ -29,8 +28,7 @@ else:
     'sk_mod_ban' : sk_mod_ban,
     'sk_mod_unb' : sk_mod_unb,    
     'sk_log_get' : sk_log_get,
-    'sk_log_era' : sk_log_era,
-    #'sk_nfo_sms' : sk_nfo_sms,
+    'sk_nfo_sms' : sk_nfo_sms,
     'sk_nfo_ded' : sk_nfo_ded,
   }
 

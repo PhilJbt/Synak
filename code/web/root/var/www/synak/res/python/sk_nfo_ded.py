@@ -5,6 +5,7 @@ import re
 import sk__cmd
 import sk__res
 
+# Push dedicated informations segment to the client
 def process(_data):
   # Get the page template template
   fileTbl = open("../template/sk_nfo_ded_tbl.tpl", "r")
@@ -37,7 +38,7 @@ def process(_data):
 
   ## Stats#2
   # Fill stats#2 with hdd/ssd usage
-  info_cpu = format(float(sk__cmd.send('top -b -d1 -n1|grep -i "Cpu(s)"|head -c21|cut -d \' \' -f3|cut -d \'%\' -f1').strip()), '.1f')
+  info_cpu = format(float(sk__cmd.send('top -b -d1 -n1|grep -i "Cpu(s)"|head -c21|awk \'{print $2}\'').strip()), '.1f')
   if float(info_cpu) < 0.1:
     info_cpu = '0.1'
   stat_cpu = stat_raw.replace("%NAME%", "CPU USAGE (%)")

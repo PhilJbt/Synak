@@ -10,6 +10,7 @@
 
 // C++
 #include <iostream>
+#include <fstream>
 #include <cstring>
 #include <stdio.h>
 #include <variant>
@@ -46,4 +47,3 @@ using json = nlohmann::json;
 // SYNAK
 #include <network layer/synak_define.h>
 #include <network layer/synak_manager.h>
-#include <master server/synak_masterserver.h>

@@ -1,9 +1,10 @@
 $('.ui.dropdown').dropdown();
 $('#popup_signin').popup({
-inline   : false,
+inline: false,
 hoverable: true,
-position : 'bottom left',
-on : 'click',
+position: 'bottom left',
+on: 'click',
+closable: true,
 delay: {
   show: 0,
   hide: 500
@@ -162,10 +163,18 @@ function authKeySet() {
 
 function authKeyGet() {
   if (typeof(Storage) !== "undefined") {
-    if (localStorage.getItem("msauthkey") !== null)
+    if (localStorage.getItem("msauthkey") !== null) {
       $('#in_authkey').val(localStorage.getItem("msauthkey"));
+      $('#btn_save').text("Stored");
+      $('#btn_save').addClass("green");
+    }
   } else
     authKeyErr();
+}
+
+function authKeyReset() {
+  $('#btn_save').text("Store");
+  $('#btn_save').removeClass("green");
 }
 
 function template_try() {

@@ -3,17 +3,25 @@
 import sys
 import json
 import subprocess
+import os.path
 
-import sk__cmd
+import sk__dbg
 import sk__res
-import sk__skt
 
-def prepare(_data):  
-  file = open("../template/sk_log_get.tpl", "r")
-  template_raw = file.read()
-  template_mod = template_raw.replace("%VAR_1%", "test")
-  sk__res.show("prep", template_mod)
-
+# Push segment to client
 def process(_data):
-  res = subprocess.check_output('pstree -p  | grep "f2b"', shell=True).decode("utf-8") 
-  sk__res.show("proc", res)
+  # If log file exists
+  if os.path.isfile('/synak_ms/synak_ms.log'):
+    # Read the log file
+    res = subprocess.check_output('cat /synak_ms/synak_ms.log', shell=True).decode("utf-8")
+    # Replace OS by web new line char
+    res = res.replace("\n", "<br/>")
+    # If log file is empty, push an information message to the client
+    if len(res) == 0:
+      sk__dbg.message(sk__dbg.messtype.NFO, "/synak_ms/synak_ms.log file is empty.")
+    # If log file exists and is not empty, push the log file to the client
+    else:
+      sk__res.show("proc", res)
+  # If log file doesn't exist, push an information message to the client
+  else:
+    sk__dbg.message(sk__dbg.messtype.NFO, "/synak_ms/synak_ms.log file doesn't exist.")

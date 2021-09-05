@@ -20,7 +20,7 @@ public:
     void watcherTerminal();
     void watcherWebpanel(uint16_t _ui8Port);
     static void signalHandler(int _signum);
-
+    static void writeLog(std::string _strFileLine, std::string _strMessage, std::string _strAddInfos = "", bool _bTruncate = false);
 
 
     SOCKET m_sckfdWP { SOCKET_ERROR };
@@ -50,23 +50,23 @@ SOL_SOCKET, SO_SNDBUF, 212990
 
 int epfd = ::epoll_create(2);
 if(epfd == -1)
-    SK_SHOWERROR(STRERROR);
+    SK_WRITELOG(SK_FILENLINE, STRERROR);
 
 epoll_event ev[2];
 ev[0].events = EPOLLIN | EPOLLRDHUP | EPOLLERR;
 ev[0].data.fd = STDIN_FILENO;
 if(::epoll_ctl(epfd, EPOLL_CTL_ADD, STDIN_FILENO, &ev[0]) != 0)
-    SK_SHOWERROR(STRERROR);
+    SK_WRITELOG(SK_FILENLINE, STRERROR);
 
 ev[1].events = EPOLLIN | EPOLLRDHUP | EPOLLERR;
 ev[1].data.fd = m_fdPipeKill[0];
 if(::epoll_ctl(epfd, EPOLL_CTL_ADD, m_fdPipeKill[0], &ev[0]) != 0)
-    SK_SHOWERROR(STRERROR);
+    SK_WRITELOG(SK_FILENLINE, STRERROR);
 
 while(m_bRun) {
     int nfds = ::epoll_wait(epfd, ev, 10, 5000);
     if (nfds < 0)
-        SK_SHOWERROR(STRERROR);
+        SK_WRITELOG(SK_FILENLINE, STRERROR);
     else {
         for(int i = 0; i < nfds; ++i) {
             if(ev[i].data.fd == STDIN_FILENO
@@ -82,9 +82,9 @@ while(m_bRun) {
 }
 
 if(::epoll_ctl(epfd, EPOLL_CTL_DEL, STDIN_FILENO, &ev[0]) == -1)
-    SK_SHOWERROR(STRERROR);
+    SK_WRITELOG(SK_FILENLINE, STRERROR);
 
 if(::epoll_ctl(epfd, EPOLL_CTL_DEL, m_fdPipeKill[0], &ev[1]) == -1)
-    SK_SHOWERROR(STRERROR);
+    SK_WRITELOG(SK_FILENLINE, STRERROR);
 
 */

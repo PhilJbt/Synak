@@ -1,91 +1,87 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="robots" content="noindex, nofollow" />
-<link rel="icon" type="image/png" href="res/img/favicon.png" />
-<title>Synak &#8212; Web Panel</title>
-<link rel="stylesheet" type="text/css" href="../dep/semantic-ui-css/semantic.min.css">
-<link rel="stylesheet" type="text/css" href="res/styles.css">
-<script src="../dep/jquery/jquery-3.1.1.min.js"></script>
-<script src="../dep/semantic-ui-css/semantic.min.js"></script>
-<script src="res/scripts.js" defer></script>
-</head>
-<body>
-
-<div>
-  <div id="menu" class="ui menu massive">
-    <div class="item ui image">
-      <img src="res/img/logo.png">
-    </div>
-    <div class="ui dropdown item">
-      <i class="power off icon"></i>
-      Managing
-      <div class="menu">
-        <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_mng_srt')"><i class="icon play"></i> Start</a>
-        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_stp')"><i class="icon stop"></i> Stop</a>
-        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_kll')"><i class="icon close"></i> Kill</a>
-      </div>
-    </div>
-    <div class="ui dropdown item">
-      <i class="gavel icon"></i>
-      Moderation
-      <div class="menu">
-        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_ban')"><i class="icon plus"></i> Ban IP</a>
-        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unb')"><i class="icon minus"></i> Unban IP</a>
-      </div>
-    </div>
-    <div class="ui dropdown item">
-      <i class="folder icon"></i>
-      Logs
-      <div class="menu">
-        <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_log_get')"><i class="icon download"></i> Get</a>
-        <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_era')"><i class="icon eraser"></i> Erase</a>
-      </div>
-    </div>
-    <div class="ui dropdown item">
-      <i class="clipboard list icon"></i>
-      Informations
-      <div class="menu">
-        <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_nfo_sms')"><i class="icon chart pie"></i> Master Server</a>
-        <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_nfo_ded')"><i class="icon tasks"></i> Dedicated Server</a>
-      </div>
-    </div>
-    <div id="popup_signin" class="ui dropdown item float right">
-      <i class="sign-in icon"></i>
-      Authentication
-    </div>
-    <div class="ui flowing popup top left transition hidden">
-      <i id="popnfo_authkey" class="info help icon link" data-content="(Disabled by default) This local browser stored key can be used as authentication to be able to access some features of the Synak Master Server from the Web Panel."></i>
-      <div class="ui basic right floated segment">
-        <div class="ui equal width form">
-          <div class="inline field">
-            <div class="ui large left icon input">
-              <input type="password" placeholder="Master Server auth key" id="in_authkey">
-              <i class="key icon"></i>
-            </div>
-          </div>
-          <div id="btn_save" class="ui button fluid right floated" onclick="authKeySet()">Store</div>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="res/img/favicon.png" />
+    <title>Synak &#8212; Web Panel</title>
+    <link rel="stylesheet" type="text/css" href="../dep/semantic-ui-css/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="res/styles.css">
+    <script src="../dep/jquery/jquery-3.1.1.min.js"></script>
+    <script src="../dep/semantic-ui-css/semantic.min.js"></script>
+    <script src="res/scripts.js" defer></script>
+  </head>
+  <body>
+    <div>
+      <div id="menu" class="ui menu massive">
+        <div class="item ui image">
+          <img src="res/img/logo.png">
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="cmdoutputcont">
-    <div class="ui segment blue basic very padded cmdoutputseg">
-      <div class="ui two column centered grid">
-        <div class="five ten centered row">
-          <div class="column">
-            <div class="ui basic segment" id="mdl_output">
+        <div class="ui dropdown item">
+          <i class="power off icon"></i>
+          Managing
+          <div class="menu">
+            <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_mng_srt')"><i class="icon play"></i> Start</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_stp')"><i class="icon stop"></i> Stop</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_kll')"><i class="icon close"></i> Kill</a>
+          </div>
+        </div>
+        <div class="ui dropdown item">
+          <i class="gavel icon"></i>
+          Moderation
+          <div class="menu">
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_ban')"><i class="icon plus"></i> Ban IP</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unb')"><i class="icon minus"></i> Unban IP</a>
+          </div>
+        </div>
+        <div class="ui dropdown item">
+          <i class="folder icon"></i>
+          Logs
+          <div class="menu">
+            <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_log_get')"><i class="icon download"></i> Get</a>
+          </div>
+        </div>
+        <div class="ui dropdown item">
+          <i class="clipboard list icon"></i>
+          Informations
+          <div class="menu">
+            <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_nfo_sms')"><i class="icon chart pie"></i> Master Server</a>
+            <a class="item" onclick="prepareReq('sk__req', 'proc', 'sk_nfo_ded')"><i class="icon tasks"></i> Dedicated Server</a>
+          </div>
+        </div>
+        <div id="popup_signin" class="ui dropdown item float right">
+          <i class="sign-in icon"></i>
+          Authentication
+        </div>
+        <div class="ui flowing popup top left transition hidden">
+          <i id="popnfo_authkey" class="info help icon link" data-content="(Disabled by default) This local browser stored key can be used as authentication to be able to access some features of the Synak Master Server from the Web Panel."></i>
+          <div class="ui basic right floated segment">
+            <div class="ui equal width form">
+              <div class="inline field">
+                <div class="ui large left icon input">
+                  <input type="password" placeholder="Master Server auth key" id="in_authkey" onkeypress="authKeyReset()">
+                  <i class="key icon"></i>
+                </div>
+              </div>
+              <div id="btn_save" class="ui button fluid right floated" onclick="authKeySet()">Store</div>
             </div>
           </div>
         </div>
       </div>
+      <div class="cmdoutputcont">
+        <div class="ui segment blue basic very padded cmdoutputseg">
+          <div class="ui two column centered grid">
+            <div class="five ten centered row">
+              <div class="column">
+                <div class="ui basic segment" id="mdl_output">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-<div class="ui modal">
-</div>
-
-</body>
+    <div class="ui modal">
+    </div>
+  </body>
 </html>

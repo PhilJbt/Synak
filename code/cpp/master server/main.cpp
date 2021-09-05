@@ -5,10 +5,12 @@
 */
 
 #include <network layer/synak.h>
+#include <master server/synak_masterserver.h>
+#include <master server/synak_masterserver_define.h>
 
 
 int main() {
-    SK_SHOWINFO("[START] " + std::to_string(::getpid()) + " " + SK_BUILDTIMESTAMP);
+    SK_WRITELOG(SK_FILENLINE, "[START] " + std::to_string(::getpid()) + " " + SK_BUILDTIMESTAMP, "", true);
 
     // Network Layer initialization
     SynakManager mngr_nl;
@@ -25,7 +27,7 @@ int main() {
     mngr_ms.unitialization();
     mngr_nl.unitialization();
 
-    SK_SHOWINFO("[STOP]");
+    SK_WRITELOG(SK_FILENLINE, "[STOP]");
 
     return 0;
 }

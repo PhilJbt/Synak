@@ -77,7 +77,3 @@ def process(_data):
 
   # Push the segment template to the client
   sk__dbg.message(sk__dbg.messtype.SUC, strIpVld)
-
-  #res, err = sk__skt.send()
-  #if not err:
-  #  sk__res.show("proc", res)

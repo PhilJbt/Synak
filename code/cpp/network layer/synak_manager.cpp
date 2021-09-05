@@ -72,7 +72,7 @@ void SynakManager::epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iA
         _ev->data.fd = _fd;
     }
     if(::epoll_ctl(_epfd, _iAction, _fd, _ev) != 0)
-        SK_SHOWERROR(STRERROR);
+        SK_SHOWERROR(SK_FILENLINE, STRERROR);
 }
 
 
@@ -91,7 +91,7 @@ bool SsocketOperations::optionsAdd(std::vector<Sopt> _vecOpts) {
     for (auto elem : std::as_const(_vecOpts)) {
         // Apply the option
         if (::setsockopt(*m_ptrSockfd, elem.m_iLevel, elem.m_iOptName, (void*)&elem.m_aOptVal, sizeof(elem.m_aOptVal)) != 0) {
-            SK_SHOWERROR(STRERROR);
+            SK_SHOWERROR(SK_FILENLINE, STRERROR);
             return false;
         }
         // The option has been successfully applied
@@ -103,12 +103,12 @@ bool SsocketOperations::optionsAdd(std::vector<Sopt> _vecOpts) {
 
             // Get the current option state of the socket
             if (::getsockopt(*m_ptrSockfd, elem.m_iLevel, elem.m_iOptName, (void*)cArrOptVal, &iOptLen) != 0) {
-                SK_SHOWERROR(STRERROR);
+                SK_SHOWERROR(SK_FILENLINE, STRERROR);
                 return false;
             }
             // Check if the current option's state is equal
             else if (::memcmp(cArrOptVal, &elem.m_aOptVal, iOptLen) != 0) {
-                SK_SHOWERROR(STRERROR);
+                SK_SHOWERROR(SK_FILENLINE, STRERROR);
                 return false;
             }
         }
@@ -124,7 +124,7 @@ bool SsocketOperations::optionsAdd(std::vector<Sopt> _vecOpts) {
 bool SsocketOperations::socketCreate() {
     // Create a new socket
     if ((*m_ptrSockfd = ::socket(AF_INET6, SOCK_STREAM, 0)) == SOCKET_ERROR) {
-        SK_SHOWERROR(STRERROR);
+        SK_SHOWERROR(SK_FILENLINE, STRERROR);
         return false;
     }
     return true;
@@ -144,7 +144,7 @@ bool SsocketOperations::socketBind(uint16_t _ui8Port, in6_addr _addr6in) {
 
     // Bind the socket to that address
     if (::bind(*m_ptrSockfd, (sockaddr*)&addrAccept, INET6_ADDRSTRLEN) == SOCKET_ERROR) {
-        SK_SHOWERROR(STRERROR);
+        SK_SHOWERROR(SK_FILENLINE, STRERROR);
         return false;
     }
 

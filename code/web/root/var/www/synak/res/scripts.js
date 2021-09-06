@@ -95,8 +95,6 @@ async function sendReq(_scriptname, _action, _file, _data = null) {
     if (response.ok
       && response.status == 200) {
       var res = await response.json();
-      //console.log(res["type"]);
-      //console.log(res["data"]);
       if (res["type"] == "prep")
         prepReq_uninit(res["data"]);
       else if (res["type"] == "proc")

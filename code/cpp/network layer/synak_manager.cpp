@@ -76,6 +76,7 @@ void SynakManager::epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iA
 }
 
 
+
 /* SsocketOperations::SsocketOperations
 ** Initialization, store socket pointer
 */

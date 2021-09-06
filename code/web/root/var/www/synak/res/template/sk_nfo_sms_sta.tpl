@@ -1,0 +1,1 @@
+<div class="ui small statistic"><div class="value">%VALUE%</div><div class="label">%NAME%</div></div>

@@ -181,24 +181,37 @@ void MasterServer::_watcherwebpanel() {
                         if(::recv(m_sckfdNew, arrRecv, SK_ARRSIZE(arrRecv), MSG_NOSIGNAL) <= 0)
                             SK_WRITELOG(SK_FILENLINE, STRERROR);
                         else {
-                            json jRecv = json::parse(arrRecv);
-                            std::cerr << arrRecv << std::endl;
-                            if(!jRecv.is_null()) {
-                                if(jRecv.contains("co_tpe")
-                                    && !jRecv["co_tpe"].empty()
-                                    && jRecv["co_tpe"].is_string())
-                                    std::cerr << "type: " << jRecv.at("co_tpe").get<std::string>() << std::endl;
-                                if(jRecv.contains("co_act")
-                                    && !jRecv["co_act"].empty()
-                                    && jRecv["co_act"].is_number())
-                                    std::cerr << "action:" << jRecv.at("co_act").get<int>() << std::endl;
+                            json        jRecv { json::parse(arrRecv) },
+                                        jSend;
+                            std::string strErrMess;
+                            bool        bError { false };
+                            jRecv = jRecv[0]; // https://github.com/nlohmann/json/issues/1359
+                            
+                            if (!jRecv.is_null()
+                                && jRecv.contains("type")) {
+                                // Master Server statistics
+                                if(jRecv.at("type").get<std::string>() == "stats") {
+                                    jSend["type"] = "stats";
+                                    jSend["data"]["conn"] = "-1";
+                                    jSend["data"]["prty"] = "-2";
+                                }
+                                // ...
                             }
-
-                            json jSend;
-                            jSend["valid"] = true;
-                            jSend["port"] = 12345;
+                            else {
+                                strErrMess = "Type is missing.";
+                                bError = true;
+                            }
+                            
+                            if(bError) {
+                                jSend["type"] = "erro";
+                                jSend["data"]["colr"] = "red";
+                                jSend["data"]["icon"] = "exclamation";
+                                jSend["data"]["titl"] = "MASTER SERVER ANSWER";
+                                jSend["data"]["mess"] = strErrMess;
+                                jSend["data"] = jSend["data"].dump();
+                            }
+                            
                             std::string strJson { jSend.dump() };
-
                             if(::send(m_sckfdNew, strJson.c_str(), strJson.length(), MSG_NOSIGNAL) == -1)
                                 SK_WRITELOG(SK_FILENLINE, STRERROR);
                         }

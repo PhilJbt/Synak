@@ -4,7 +4,7 @@
 <div class="ui center aligned segment basic tertiary">
   %STATS_2%
 </div>
-<table class="ui selectable celled table very compact  %TABLE_COLOR%">
+<table class="ui selectable celled table very compact %TABLE_COLOR%">
   <thead>
     <tr>
       <th>STATUS</th>

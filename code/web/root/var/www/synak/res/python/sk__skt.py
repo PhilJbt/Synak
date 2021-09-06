@@ -7,7 +7,7 @@ import sk__dbg
 import sk__res
 
 # Send request to the Synak Master Server
-def send():
+def send(_dictData, _arrKeysExpected):
   # Create IPv6 socket
   sockfd = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
   # Enable IPv4-mapped IPv6 IPs
@@ -24,24 +24,26 @@ def send():
     return "null", True
   # Socket successfully connected to MS
   else:
-    MESSAGE = "{\
-    \"co_tpe\": \"connection\",\
-    \"co_act\": 1\
-    }".encode()
+    # Encode array to json
+    MESSAGE = json.dumps(_dictData).encode()
+    # Send
     sockfd.send(MESSAGE)
     BUFFER_SIZE = 2048
-
+    # Receive answer
     try:
       data = sockfd.recv(BUFFER_SIZE)
       sockfd.close()
+    # MS does not answer
     except:
       sk__dbg.message(sk__dbg.messtype.ATT, "Master Server does not respond")
       return "null", True
+    # MS does answer
     else:
       jRecv = json.loads(data.decode())
-      if {'valid', 'port'} <= set(jRecv):
-        result = "valid: " + str(jRecv["valid"]) + "\nport:" + str(jRecv["port"])
-        return result, False
+      # All expected keys are in the json received
+      if all(elem in jRecv["data"] for elem in _arrKeysExpected):
+        return jRecv, False
+      # At least one expected argument is missing
       else:
-        sk__dbg.message(sk__dbg.messtype.ERR, "valid or port arg unknown")
+        sk__dbg.message(sk__dbg.messtype.ERR, "At least one expected argument is missing from Master Server answer.")
         return "null", True

@@ -29,25 +29,27 @@ def process(_data):
 
   # For every IP in the POST data
   for elem in data:
-    # Try to cast str to ip_addr
-    try:
-      ip = ipaddress.ip_address(elem)
-      # IPv4 detected, ban it with iptables
-      if ip.version == 4:
-        sk__cmd.send(f'sudo iptables -A INPUT -s {elem} -j DROP')
-      # IPv6 detected, ban it with ip6tables
-      elif ip.version == 6:
-        sk__cmd.send(f'sudo ip6tables -A INPUT -s {elem} -j DROP')
-      # Add the banned IP to the corresponding feedback stack
-      strIpVld += f'<div class="item">{elem}</div>'
-      # Increment the number of banned IP by one
-      ipVldNbr += 1
-    # Can't cast str to ip_addr
-    except:
-      # Add the invalid IP to the corresponding feedback stack
-      strIpErr += f'<div class="item">{elem}</div>'
-      # Increment the number of invalid IP by one
-      ipErrNbr += 1
+    elem = elem.replace(' ', '')
+    if len(elem) > 0:
+      # Try to cast str to ip_addr
+      try:
+        ip = ipaddress.ip_address(elem)
+        # IPv4 detected, ban it with iptables
+        if ip.version == 4:
+          sk__cmd.send(f'sudo iptables -A INPUT -s {elem} -j DROP')
+        # IPv6 detected, ban it with ip6tables
+        elif ip.version == 6:
+          sk__cmd.send(f'sudo ip6tables -A INPUT -s {elem} -j DROP')
+        # Add the banned IP to the corresponding feedback stack
+        strIpVld += f'<div class="item">{elem}</div>'
+        # Increment the number of banned IP by one
+        ipVldNbr += 1
+      # Can't cast str to ip_addr
+      except:
+        # Add the invalid IP to the corresponding feedback stack
+        strIpErr += f'<div class="item">{elem}</div>'
+        # Increment the number of invalid IP by one
+        ipErrNbr += 1
 
   # Close the html content division
   strIpVld += '</div>'

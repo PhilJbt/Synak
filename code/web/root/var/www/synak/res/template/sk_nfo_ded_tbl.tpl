@@ -18,21 +18,24 @@
   </tbody>
   <tfoot>
     <tr>
+    <th></th>
+    <th></th>
+    <th></th>
     <th>
-      <i id="popnfo_sttdeb" class="info help icon link"></i>
-      <div class="ui flowing popup">
-        <p>These are only optional optimizations, and are not mandatory. In addition, your dedicated server could not correspond to what is usually done, making this configuration obsolete.<br/>Please read the <a target="_blank" href="https://github.com/PhilJbt/Synak/wiki/Web-Panel">Synak Wiki</a> to know how to change these values temporarily or permanently.<br/><b>TL;DR</b>: Don't try if you don't know what you are doing.</p>
+      <div class="ui labeled button" tabindex="0">
+        <div class="ui yellow button">
+          <i class="lightbulb icon"></i> %ERR_COUNT%
+        </div>
+        <a class="ui basic yellow left pointing label" href="https://github.com/PhilJbt/Synak/wiki/wp_opti" target="_blank">
+          Read more about optimizations
+        </a>
       </div>
     </th>
-    <th></th>
-    <th></th>
-    <th>%ERR_COUNT%</th>
     </tr>
   </tfoot>
 </table>
 <script>
 function template_init() {
-  $('#popnfo_sttdeb').popup({hoverable : true});
   $('.sk_tbl_pop').popup();
 }
 </script>

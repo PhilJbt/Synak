@@ -12,10 +12,10 @@ The **index.html** is an empty shell using JavaScript to retrieving data from se
 
 ## What it looks like
 
-![Synak Web Panel Menu](https://i.imgur.com/2A1nx9e.gif)
+![Synak Web Panel Menu](img/wp_menu.gif)
 
-![Synak Web Panel Optimizations](https://i.imgur.com/SvsJrDN.gif)
+![Synak Web Panel Optimizations](img/wp_dedstats.gif)
 
-![Synak Web Panel Ban/Unban IP](https://i.imgur.com/9bHJF6Z.gif)
+![Synak Web Panel Ban/Unban IP](img/wp_banunban.gif)
 
 &#160;

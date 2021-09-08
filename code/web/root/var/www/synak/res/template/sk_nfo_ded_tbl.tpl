@@ -22,14 +22,14 @@
     <th></th>
     <th></th>
     <th>
-      <div class="ui labeled button" tabindex="0">
+      <a class="ui labeled button" tabindex="0" href="https://github.com/PhilJbt/Synak/wiki/wp_opti" target="_blank">
         <div class="ui yellow button">
           <i class="lightbulb icon"></i> %ERR_COUNT%
         </div>
-        <a class="ui basic yellow left pointing label" href="https://github.com/PhilJbt/Synak/wiki/wp_opti" target="_blank">
+        <div class="ui basic yellow left pointing label">
           Read more about optimizations
-        </a>
-      </div>
+        </div>
+      </a>
     </th>
     </tr>
   </tfoot>

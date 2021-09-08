@@ -2,6 +2,7 @@
 
 import socket
 import json
+import struct
 
 import sk__dbg
 import sk__res
@@ -25,24 +26,38 @@ def send(_dictData, _arrKeysExpected):
   # Socket successfully connected to MS
   else:
     # Encode array to json
-    MESSAGE = json.dumps(_dictData).encode()
-    # Send
-    sockfd.send(MESSAGE)
-    BUFFER_SIZE = 2048
+    MESSJSN = json.dumps(_dictData).encode()
+    # Send size in network-endianness
+    MESSLEN = len(MESSJSN)
+    MESSLEN = struct.pack("!I", MESSLEN)
+    sockfd.send(MESSLEN)
+    # Send message
+    sockfd.send(MESSJSN)
+    BUFFER_SIZE = 0
     # Receive answer
     try:
+      # Receive receive buffer size
+      BUFFER_SIZE = sockfd.recv(4)
+      # Cast to host-endianness
+      BUFFER_SIZE = struct.unpack("=I", BUFFER_SIZE)[0]
+      # Receive data
       data = sockfd.recv(BUFFER_SIZE)
       sockfd.close()
     # MS does not answer
-    except:
-      sk__dbg.message(sk__dbg.messtype.ATT, "Master Server does not respond")
+    except Exception as e:
+      sk__dbg.message(sk__dbg.messtype.ATT, f"Master Server does not respond ({str(e)}).")
       return "null", True
     # MS does answer
     else:
-      jRecv = json.loads(data.decode())
+      try:
+        # Checking Json validity
+        data = data.decode()
+        data = json.loads(data)
+      except Exception as e:
+        sk__dbg.message(sk__dbg.messtype.ERR, f"Json is not valid ({str(e)}) ({data}).")
       # All expected keys are in the json received
-      if all(elem in jRecv["data"] for elem in _arrKeysExpected):
-        return jRecv, False
+      if all(elem in data["data"] for elem in _arrKeysExpected):
+        return data, False
       # At least one expected argument is missing
       else:
         sk__dbg.message(sk__dbg.messtype.ERR, "At least one expected argument is missing from Master Server answer.")

@@ -177,43 +177,59 @@ void MasterServer::_watcherwebpanel() {
                     if(m_sckfdNew == SOCKET_ERROR)
                         SK_WRITELOG(SK_FILENLINE, STRERROR);
                     else {
-                        char arrRecv[2048] { 0 };
-                        if(::recv(m_sckfdNew, arrRecv, SK_ARRSIZE(arrRecv), MSG_NOSIGNAL) <= 0)
+                        uint32_t ui32BuffSize { 0 };
+                        if(::recv(m_sckfdNew, &ui32BuffSize, sizeof(ui32BuffSize), MSG_NOSIGNAL) <= 0
+                            || ui32BuffSize == 0)
                             SK_WRITELOG(SK_FILENLINE, STRERROR);
                         else {
-                            json        jRecv { json::parse(arrRecv) },
-                                        jSend;
-                            std::string strErrMess;
-                            bool        bError { false };
-                            jRecv = jRecv[0]; // https://github.com/nlohmann/json/issues/1359
-                            
-                            if (!jRecv.is_null()
-                                && jRecv.contains("type")) {
-                                // Master Server statistics
-                                if(jRecv.at("type").get<std::string>() == "stats") {
-                                    jSend["type"] = "stats";
-                                    jSend["data"]["conn"] = "-1";
-                                    jSend["data"]["prty"] = "-2";
-                                }
-                                // ...
-                            }
-                            else {
-                                strErrMess = "Type is missing.";
-                                bError = true;
-                            }
-                            
-                            if(bError) {
-                                jSend["type"] = "erro";
-                                jSend["data"]["colr"] = "red";
-                                jSend["data"]["icon"] = "exclamation";
-                                jSend["data"]["titl"] = "MASTER SERVER ANSWER";
-                                jSend["data"]["mess"] = strErrMess;
-                                jSend["data"] = jSend["data"].dump();
-                            }
-                            
-                            std::string strJson { jSend.dump() };
-                            if(::send(m_sckfdNew, strJson.c_str(), strJson.length(), MSG_NOSIGNAL) == -1)
+                            // Cast buffer size to host-endianness
+                            ui32BuffSize = ::ntohl(ui32BuffSize);
+                            // Declare buffer size
+                            char *ptrRecv { new char[ui32BuffSize] };
+                            if (::recv(m_sckfdNew, ptrRecv, ui32BuffSize, MSG_NOSIGNAL) <= 0)
                                 SK_WRITELOG(SK_FILENLINE, STRERROR);
+                            else {
+                                json        jRecv { json::parse(ptrRecv) },
+                                            jSend;
+                                std::string strErrMess;
+                                bool        bError { false };
+                                jRecv = jRecv[0]; // https://github.com/nlohmann/json/issues/1359
+                            
+                                if (!jRecv.is_null()
+                                    && jRecv.contains("type")) {
+                                    // Master Server statistics
+                                    if(jRecv.at("type").get<std::string>() == "stats") {
+                                        jSend["type"] = "stats";
+                                        jSend["data"]["conn"] = "-1";
+                                        jSend["data"]["prty"] = "-2";
+                                    }
+                                    // ...
+                                }
+                                else {
+                                    strErrMess = "Type is missing.";
+                                    bError = true;
+                                }
+                            
+                                if(bError) {
+                                    jSend["type"] = "erro";
+                                    jSend["data"]["colr"] = "red";
+                                    jSend["data"]["icon"] = "exclamation";
+                                    jSend["data"]["titl"] = "MASTER SERVER ANSWER";
+                                    jSend["data"]["mess"] = strErrMess;
+                                    jSend["data"] = jSend["data"].dump();
+                                }
+                            
+                                // Send message size in network-endianness
+                                std::string strJson  { jSend.dump() };
+                                uint32_t    iMesslen { ::htonl(static_cast<uint32_t>(strJson.length())) };
+                                if(::send(m_sckfdNew, &iMesslen, sizeof(iMesslen), MSG_NOSIGNAL) == -1)
+                                    SK_WRITELOG(SK_FILENLINE, STRERROR);
+
+                                // Send message
+                                if (::send(m_sckfdNew, strJson.c_str(), strJson.length(), MSG_NOSIGNAL) == -1)
+                                    SK_WRITELOG(SK_FILENLINE, STRERROR);
+                            }
+                            delete[] ptrRecv;
                         }
                     }
 

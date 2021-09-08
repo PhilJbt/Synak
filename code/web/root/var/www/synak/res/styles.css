@@ -1,9 +1,4 @@
 @font-face {
- font-family: "Unbuntu Mono";
- src: url("fnt/ubuntu-mono-v10-latin-regular.woff") format("woff"),
-      url("fnt/ubuntu-mono-v10-latin-regular.woff2") format("woff2");
-}
-@font-face {
  font-family: "FiraCode Regular";
  src: url("fnt/FiraCode-Regular.woff") format("woff"),
       url("fnt/FiraCode-Regular.woff2") format("woff2");

@@ -78,8 +78,8 @@ Feature | Status | Notes
 
 - **Web Panel**
   - Tmux ≥1.8
-  - Apache 2.x
+  - Apache ≥2.0
     - mod_rewrite
-  - Python 3.x
+  - Python ≥3.0
   - Fail2ban
   - [Semantic UI](https://semantic-ui.com/)

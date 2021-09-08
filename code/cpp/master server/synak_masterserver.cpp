@@ -177,59 +177,82 @@ void MasterServer::_watcherwebpanel() {
                     if(m_sckfdNew == SOCKET_ERROR)
                         SK_WRITELOG(SK_FILENLINE, STRERROR);
                     else {
-                        uint32_t ui32BuffSize { 0 };
-                        if(::recv(m_sckfdNew, &ui32BuffSize, sizeof(ui32BuffSize), MSG_NOSIGNAL) <= 0
-                            || ui32BuffSize == 0)
+                        // Receive message size
+                        std::uint32_t ui32BuffSize { 0 };
+                        if (::recv(m_sckfdNew, &ui32BuffSize, sizeof(ui32BuffSize), MSG_NOSIGNAL) <= 0)
                             SK_WRITELOG(SK_FILENLINE, STRERROR);
                         else {
-                            // Cast buffer size to host-endianness
-                            ui32BuffSize = ::ntohl(ui32BuffSize);
-                            // Declare buffer size
-                            char *ptrRecv { new char[ui32BuffSize] };
-                            if (::recv(m_sckfdNew, ptrRecv, ui32BuffSize, MSG_NOSIGNAL) <= 0)
+                            // Receive checksum
+                            std::uint32_t ui32CrcRecv { 0 };
+                            if (::recv(m_sckfdNew, &ui32CrcRecv, sizeof(ui32CrcRecv), MSG_NOSIGNAL) <= 0)
                                 SK_WRITELOG(SK_FILENLINE, STRERROR);
                             else {
-                                json        jRecv { json::parse(ptrRecv) },
-                                            jSend;
-                                std::string strErrMess;
-                                bool        bError { false };
-                                jRecv = jRecv[0]; // https://github.com/nlohmann/json/issues/1359
-                            
-                                if (!jRecv.is_null()
-                                    && jRecv.contains("type")) {
-                                    // Master Server statistics
-                                    if(jRecv.at("type").get<std::string>() == "stats") {
-                                        jSend["type"] = "stats";
-                                        jSend["data"]["conn"] = "-1";
-                                        jSend["data"]["prty"] = "-2";
-                                    }
-                                    // ...
-                                }
-                                else {
-                                    strErrMess = "Type is missing.";
-                                    bError = true;
-                                }
-                            
-                                if(bError) {
-                                    jSend["type"] = "erro";
-                                    jSend["data"]["colr"] = "red";
-                                    jSend["data"]["icon"] = "exclamation";
-                                    jSend["data"]["titl"] = "MASTER SERVER ANSWER";
-                                    jSend["data"]["mess"] = strErrMess;
-                                    jSend["data"] = jSend["data"].dump();
-                                }
-                            
-                                // Send message size in network-endianness
-                                std::string strJson  { jSend.dump() };
-                                uint32_t    iMesslen { ::htonl(static_cast<uint32_t>(strJson.length())) };
-                                if(::send(m_sckfdNew, &iMesslen, sizeof(iMesslen), MSG_NOSIGNAL) == -1)
-                                    SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                // Cast buffer size to host-endianness
+                                ui32BuffSize = ::ntohl(ui32BuffSize);
 
-                                // Send message
-                                if (::send(m_sckfdNew, strJson.c_str(), strJson.length(), MSG_NOSIGNAL) == -1)
+                                // Cast cheskum to host-endianness
+                                ui32CrcRecv = ::ntohl(ui32CrcRecv);
+
+                                // Declare buffer size
+                                char *ptrRecv { new char[ui32BuffSize] };
+                                if (::recv(m_sckfdNew, ptrRecv, ui32BuffSize, MSG_NOSIGNAL) <= 0)
                                     SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                else {
+                                    // Verify checksum
+                                    std::uint32_t ui32CrcRecvVerif;
+                                    ui32CrcRecvVerif = CRC::Calculate(ptrRecv, ui32BuffSize, SynakManager::m_crcTable);
+                                    if (ui32CrcRecv != ui32CrcRecvVerif)
+                                        SK_WRITELOG(SK_FILENLINE, "Checksum is not valid.");
+                                    else {
+                                        json        jRecv { json::parse(ptrRecv) },
+                                                    jSend;
+                                        std::string strErrMess;
+                                        bool        bError { false };
+                                        jRecv = jRecv[0]; // https://github.com/nlohmann/json/issues/1359
+
+                                        if (!jRecv.is_null()
+                                            && jRecv.contains("type")) {
+                                            // Master Server statistics
+                                            if (jRecv.at("type").get<std::string>() == "stats") {
+                                                jSend["type"] = "stats";
+                                                jSend["data"]["conn"] = "-1";
+                                                jSend["data"]["prty"] = "-2";
+                                            }
+                                            // ...
+                                        }
+                                        else {
+                                            strErrMess = "Type is missing.";
+                                            bError = true;
+                                        }
+
+                                        if (bError) {
+                                            jSend["type"] = "erro";
+                                            jSend["data"]["colr"] = "red";
+                                            jSend["data"]["icon"] = "exclamation";
+                                            jSend["data"]["titl"] = "MASTER SERVER ANSWER";
+                                            jSend["data"]["mess"] = strErrMess;
+                                            jSend["data"] = jSend["data"].dump();
+                                        }
+
+                                        // Send message size in network-endianness
+                                        std::string   strJson   { jSend.dump() };
+                                        std::uint32_t uiMesslen { ::htonl(strJson.length()) };
+                                        if (::send(m_sckfdNew, &uiMesslen, sizeof(uiMesslen), MSG_NOSIGNAL) == -1)
+                                            SK_WRITELOG(SK_FILENLINE, STRERROR);
+
+                                        // Send checksum in network-endianness
+                                        std::uint32_t ui32CrcSend;
+                                        ui32CrcSend = ::htonl(CRC::Calculate(strJson.data(), strJson.length(), SynakManager::m_crcTable));
+                                        if (::send(m_sckfdNew, &ui32CrcSend, sizeof(ui32CrcSend), MSG_NOSIGNAL) == -1)
+                                            SK_WRITELOG(SK_FILENLINE, STRERROR);
+
+                                        // Send message
+                                        if (::send(m_sckfdNew, strJson.data(), strJson.length(), MSG_NOSIGNAL) == -1)
+                                            SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                    }
+                                }
+                                delete[] ptrRecv;
                             }
-                            delete[] ptrRecv;
                         }
                     }
 
@@ -242,60 +265,6 @@ void MasterServer::_watcherwebpanel() {
     SynakManager::epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_DEL);
     SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
     SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
-    /*
-    fd_set   fdsr;
-    timespec ts;
-    ts.tv_sec = 5;
-    ts.tv_nsec = 0;
-    int iMax { std::max(m_sckfdWP, m_fdPipeKill[0]) };
-
-    while (m_bRun
-        && m_sckfdWP != SOCKET_ERROR) {
-        FD_ZERO(&fdsr);
-        FD_SET(m_sckfdWP, &fdsr);
-        FD_SET(m_fdPipeKill[0], &fdsr);
-
-        if (::pselect(iMax + 1, &fdsr, NULL, NULL, &ts, NULL) > 0) {
-            if (FD_ISSET(m_sckfdWP, &fdsr)
-                && m_sckfdWP != SOCKET_ERROR) {
-                in6_addr  addrRecv { 0 };
-                socklen_t len { sizeof(addrRecv) };
-                SOCKET m_sckfdNew = ::accept(m_sckfdWP, (sockaddr *)&addrRecv, &len);
-                if (m_sckfdNew == SOCKET_ERROR)
-                    SK_WRITELOG(SK_FILENLINE, STRERROR);
-                else {
-                    char arrRecv[2048] { 0 };
-                    if (::recv(m_sckfdNew, arrRecv, SK_ARRSIZE(arrRecv), MSG_NOSIGNAL) <= 0)
-                        SK_WRITELOG(SK_FILENLINE, STRERROR);
-                    else {
-                        json jRecv = json::parse(arrRecv);
-                        std::cerr << arrRecv << std::endl;
-                        if (!jRecv.is_null()) {
-                            if (jRecv.contains("co_tpe")
-                                && !jRecv["co_tpe"].empty()
-                                && jRecv["co_tpe"].is_string())
-                                std::cerr << "type: " << jRecv.at("co_tpe").get<std::string>() << std::endl;
-                            if (jRecv.contains("co_act")
-                                && !jRecv["co_act"].empty()
-                                && jRecv["co_act"].is_number())
-                                std::cerr << "action:" << jRecv.at("co_act").get<int>() << std::endl;
-                        }
-
-                        json jSend;
-                        jSend["valid"] = true;
-                        jSend["port"] = 12345;
-                        std::string strJson { jSend.dump() };
-
-                        if (::send(m_sckfdNew, strJson.c_str(), strJson.length(), MSG_NOSIGNAL) == -1)
-                            SK_WRITELOG(SK_FILENLINE, STRERROR);
-                    }
-                }
-
-                SK_CLOSESOCKET(m_sckfdNew);
-            }
-        }
-    }
-    */
 
     SK_CLOSESOCKET(m_sckfdWP);
 }

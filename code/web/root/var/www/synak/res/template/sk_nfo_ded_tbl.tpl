@@ -22,7 +22,7 @@
     <th></th>
     <th></th>
     <th>
-      <a class="ui labeled button" tabindex="0" href="https://github.com/PhilJbt/Synak/wiki/wp_opti" target="_blank">
+      <a class="ui labeled button" tabindex="0" href="https://github.com/PhilJbt/Synak/blob/main/wiki/wp/wp_optimization.md" target="_blank">
         <div class="ui yellow button">
           <i class="lightbulb icon"></i> %ERR_COUNT%
         </div>

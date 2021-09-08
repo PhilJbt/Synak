@@ -49,6 +49,8 @@ public:
 
     static void epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign = false, int _iFlags = 0);
 
+    static CRC::Table<std::uint32_t, 32> m_crcTable;
+
     void _TEST();
 
 private:

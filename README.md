@@ -78,3 +78,4 @@ Feature | Status | Notes
     - mod_rewrite
   - Python ≥3.0
   - [Semantic UI](https://semantic-ui.com/) (included)
+  - [crc32.py](https://gist.github.com/cholcombe973/a0af818d212e58ae151c) (included)

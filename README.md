@@ -66,13 +66,9 @@ Feature | Status | Notes
 
 # DEPENDENCIES
 
-- **Network Layer**
-  - [nlohmann-json-3.10.2](https://github.com/nlohmann/json)
-
-&#160;
-
-- **Master Server**
-  - [nlohmann-json-3.10.2](https://github.com/nlohmann/json)
+- **Network Layer** / **Master Server**
+  - [nlohmann-json-3.10.2](https://github.com/nlohmann/json) (included)
+  - [CRCpp](https://github.com/d-bahr/CRCpp) (included)
 
 &#160;
 
@@ -82,3 +78,4 @@ Feature | Status | Notes
     - mod_rewrite
   - Python ≥3.0
   - [Semantic UI](https://semantic-ui.com/) (included)
+  - [crc32.py](https://gist.github.com/cholcombe973/a0af818d212e58ae151c) (included)

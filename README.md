@@ -52,8 +52,11 @@ Feature | Status | Notes
 &#160; &#9492; Send POST requests | :construction: | POST Arguments supported
   |   |  
 &#9472; **WEB PORTAL** |   |  
-&#160; &#9492; Logs | :construction: |  
-&#160; &#9492; Start & Stop | :construction: |  
+&#160; &#9492; Logs | :heavy_check_mark: |  
+&#160; &#9492; Start, Stop/Kill | :heavy_check_mark: |  
+&#160; &#9492; Ban / Unban IPv4/v6 | :heavy_check_mark: |  
+&#160; &#9492; Master Server statistics | :heavy_check_mark: |  
+&#160; &#9492; Dedicated Server optimizations | :heavy_check_mark: |  
   |   |  
 &#9472; **ALGORITHMS** |   |  
 &#160; &#9492; Interpolation | :construction: | Distant position

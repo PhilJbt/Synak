@@ -66,13 +66,9 @@ Feature | Status | Notes
 
 # DEPENDENCIES
 
-- **Network Layer**
+- **Network Layer** / **Master Server**
   - [nlohmann-json-3.10.2](https://github.com/nlohmann/json)
-
-&#160;
-
-- **Master Server**
-  - [nlohmann-json-3.10.2](https://github.com/nlohmann/json)
+  - [CRCpp](https://github.com/d-bahr/CRCpp)
 
 &#160;
 

@@ -14,7 +14,7 @@ Welcome to the Synak wiki!
 
 ### &#8212; Web Panel
 * [Read Me](code/web/README.md)
-* [Web Panel Presentation](wiki/wp/wp_presentation.md)
-* [Dedicated Server Optimizations Application](wiki/wp/wp_optimization.md)
+* [Web Panel Presentation](wp/wp_presentation.md)
+* [Dedicated Server Optimizations Application](wp/wp_optimization.md)
 
 &#160;

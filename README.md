@@ -6,11 +6,15 @@ It also provides a **Master Server** (for matchmaking, to coordinate connection 
 
 &#160;
 
-[FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES)
+PRESENTATION
 ------------ |
-[**NETWORK LAYER** _README_](code/cpp/network%20layer/README.md) &#65073; [**NETWORK LAYER** _WIKI_](../../wiki/Network-Layer)
-[**MASTER SERVER** _README_](code/cpp/master%20server/README.md) &#65073; [**MASTER SERVER** _WIKI_](../../wiki/Master-Server)
-[**WEB PANEL** _README_](code/web/README.md) &#65073; [**WEB PANEL** _WIKI_](../../wiki/Web-Panel)
+[FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES)
+
+&#160;
+
+DOCUMENTATION
+------------ |
+[WIKI](https://github.com/PhilJbt/Synak/wiki) &#65073; [NETWORK LAYER](code/cpp/network%20layer/README.md) &#65073; [MASTER SERVER](code/cpp/master%20server/README.md) &#65073; [WEB PANEL](code/web/README.md)
 
 &#160;
 

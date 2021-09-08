@@ -81,5 +81,4 @@ Feature | Status | Notes
   - Apache ≥2.0
     - mod_rewrite
   - Python ≥3.0
-  - Fail2ban
-  - [Semantic UI](https://semantic-ui.com/)
+  - [Semantic UI](https://semantic-ui.com/) (included)

@@ -31,21 +31,18 @@ def send(_dictData, _arrKeysExpected):
     return "null", True
   # Socket successfully connected to MS
   else:
-    # Encode array to json
+    # Serialize array to json
     MESSJSN = json.dumps(_dictData)
-    # Calculate checksum
+    # Calculate checksum (network-endianness)
     CKSMSND = CRC32(type="CRC-32C").calc(MESSJSN)
-    # String to bytes
+    CKSMSND = struct.pack("!I", CKSMSND)
+    # String to bytes array
     MESSJSN = MESSJSN.encode()
-    # Send size in network-endianness
+    # Calculate size (network-endianness)
     MESSLEN = len(MESSJSN)
     MESSLEN = struct.pack("!I", MESSLEN)
-    sockfd.send(MESSLEN)
-    # Send checksum in network-endianness
-    CKSMSND = struct.pack("!I", CKSMSND)
-    sockfd.send(CKSMSND)
     # Send message
-    sockfd.send(MESSJSN)
+    sockfd.send(MESSLEN + CKSMSND + MESSJSN)
     BUFFER_SIZE = 0
     # Receive answer
     try:

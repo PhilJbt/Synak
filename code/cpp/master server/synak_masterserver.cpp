@@ -234,21 +234,32 @@ void MasterServer::_watcherwebpanel() {
                                             jSend["data"] = jSend["data"].dump();
                                         }
 
-                                        // Send message size in network-endianness
-                                        std::string   strJson   { jSend.dump() };
-                                        std::uint32_t uiMesslen { ::htonl(strJson.length()) };
-                                        if (::send(m_sckfdNew, &uiMesslen, sizeof(uiMesslen), MSG_NOSIGNAL) == -1)
-                                            SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                        // Serialize Json
+                                        std::string strJson { jSend.dump() };
 
-                                        // Send checksum in network-endianness
-                                        std::uint32_t ui32CrcSend;
-                                        ui32CrcSend = ::htonl(CRC::Calculate(strJson.data(), strJson.length(), SynakManager::m_crcTable));
-                                        if (::send(m_sckfdNew, &ui32CrcSend, sizeof(ui32CrcSend), MSG_NOSIGNAL) == -1)
-                                            SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                        // Calculate message size (network-endianness)
+                                        std::uint32_t uiMesslen { ::htonl(static_cast<std::uint32_t>(strJson.length())) };
 
-                                        // Send message
-                                        if (::send(m_sckfdNew, strJson.data(), strJson.length(), MSG_NOSIGNAL) == -1)
+                                        // Calculate checksum (network-endianness)
+                                        std::uint32_t ui32CrcSend { ::htonl(CRC::Calculate(strJson.data(), strJson.length(), SynakManager::m_crcTable)) };
+
+                                        // Pack and send message
+                                        std::uint32_t ui32Messlen {
+                                            static_cast<std::uint32_t>(
+                                                sizeof(uiMesslen) + sizeof(ui32CrcSend)
+                                            )
+                                            + static_cast<std::uint32_t>(
+                                                strJson.length()
+                                            )
+                                        };
+                                        char *ptrBuffMessSend { new char[ui32Messlen] };
+                                        ::memset(ptrBuffMessSend,                                           0,              ui32Messlen);
+                                        ::memcpy(ptrBuffMessSend,                                           &uiMesslen,     sizeof(uiMesslen));
+                                        ::memcpy(ptrBuffMessSend + sizeof(uiMesslen),                       &ui32CrcSend,   sizeof(ui32CrcSend));
+                                        ::memcpy(ptrBuffMessSend + sizeof(uiMesslen) + sizeof(ui32CrcSend), strJson.data(), strJson.length());
+                                        if (::send(m_sckfdNew, ptrBuffMessSend, ui32Messlen, MSG_NOSIGNAL) == -1)
                                             SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                        delete[] ptrBuffMessSend;
                                     }
                                 }
                                 delete[] ptrRecv;

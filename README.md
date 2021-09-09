@@ -7,7 +7,7 @@ It also provides a **Master Server** (for matchmaking, to coordinate connection 
 &#160;
 
 
-[FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES) &#65073; [WIKI](wiki/readme.md)
+[FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES) &#65073; [COMPILER](README.md#COMPILER-SUPPORT) &#65073; [WIKI](wiki/readme.md)
 ------------ |
 
 &#160;

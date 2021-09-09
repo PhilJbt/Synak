@@ -1,4 +1,4 @@
-# Web Panel README
+# :bookmark_tabs: Web Panel README
 
 &#160;
 

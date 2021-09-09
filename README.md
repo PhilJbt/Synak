@@ -64,6 +64,17 @@ Feature | Status | Notes
 
 &#160;
 
+# COMPILER SUPPORT
+
+Compiler | Version
+------------ | ------------ 
+Visual Studio | 2019 (v142)
+g++ | 9.3
+
+Standard version: C++17
+
+&#160;
+
 # DEPENDENCIES
 
 - **Network Layer** / **Master Server**

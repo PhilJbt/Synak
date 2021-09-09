@@ -1,4 +1,4 @@
-# Synak Web Panel
+# :pushpin: Synak Web Panel
 
 The **Web Panel** is a web portal through it is possible to manage the **Synak Master Server**, since both should be hosted on the same dedicated server.
 

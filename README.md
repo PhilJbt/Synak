@@ -19,14 +19,14 @@ Feature | Status | Notes
 &#9472; **UDP & TCP** |   |  
 &#160; &#9492; Dual-stack IPv4-IPv6 | :heavy_check_mark: |  
 &#160; &#9492; Thread safe | :heavy_check_mark: |  
-&#160; &#9492; Multiplexer & Demultiplexer | :construction: |  
-&#160; &#9492; Endianness | :construction: |  
-&#160; &#9492; Checksum Control | :construction: |  
-&#160; &#9492; Encryption | :construction: |  
+&#160; &#9492; Checksum Control | :heavy_check_mark: |    
 &#160; &#9492; Serializing | :construction: |  
+&#160; &#9492; Big / Little-Endianness Support | :construction: |  
+&#160; &#9492; Encryption | :construction: |  
+&#160; &#9492; Compression | :construction: |  
+&#160; &#9492; Multiplexer & Demultiplexer | :construction: |
 &#160; &#9492; Ping | :construction: |  
 &#160; &#9492; Synchronize packet sending | :construction: |  
-&#160; &#9492; Compression | :construction: |  
   |   |  
 &#9472; **UDP** |   |  
 &#160; &#9492; Reliable | :construction: |  

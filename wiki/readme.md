@@ -1,4 +1,4 @@
-Welcome to the Synak wiki!
+# Synak Wiki
 
 &#160;
 

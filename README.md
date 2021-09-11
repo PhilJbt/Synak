@@ -7,7 +7,7 @@ It also provides a **Master Server** (for matchmaking, to coordinate connection 
 &#160;
 
 
-[FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES) &#65073; [WIKI](wiki/readme.md)
+[FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES) &#65073; [COMPILER](README.md#COMPILER-SUPPORT) &#65073; [WIKI](wiki/readme.md)
 ------------ |
 
 &#160;
@@ -19,14 +19,14 @@ Feature | Status | Notes
 &#9472; **UDP & TCP** |   |  
 &#160; &#9492; Dual-stack IPv4-IPv6 | :heavy_check_mark: |  
 &#160; &#9492; Thread safe | :heavy_check_mark: |  
-&#160; &#9492; Multiplexer & Demultiplexer | :construction: |  
-&#160; &#9492; Endianness | :construction: |  
-&#160; &#9492; Checksum Control | :construction: |  
-&#160; &#9492; Encryption | :construction: |  
+&#160; &#9492; Checksum Control | :heavy_check_mark: |    
 &#160; &#9492; Serializing | :construction: |  
+&#160; &#9492; Big / Little-Endianness Support | :construction: |  
+&#160; &#9492; Encryption | :construction: |  
+&#160; &#9492; Compression | :construction: |  
+&#160; &#9492; Multiplexer & Demultiplexer | :construction: |
 &#160; &#9492; Ping | :construction: |  
 &#160; &#9492; Synchronize packet sending | :construction: |  
-&#160; &#9492; Compression | :construction: |  
   |   |  
 &#9472; **UDP** |   |  
 &#160; &#9492; Reliable | :construction: |  
@@ -61,6 +61,17 @@ Feature | Status | Notes
 &#160; &#9492; Extrapolation | :construction: | Distant position
 &#160; &#9492; Prediction | :construction: | Local position
 &#160; &#9492; Reconciliation | :construction: | Local position
+
+&#160;
+
+# COMPILER SUPPORT
+
+Compiler | Version
+------------ | ------------ 
+Visual Studio | 2019 (v142)
+g++ | 9.3
+
+Standard version: C++17
 
 &#160;
 

@@ -9,14 +9,14 @@
 #include <master server/synak_masterserver_define.h>
 
 
-int MasterServer::m_fdPipeKill[2] { -1, -1 };
-volatile std::atomic_bool MasterServer::m_bRun { false };
+int SK::MasterServer::m_fdPipeKill[2] { -1, -1 };
+volatile std::atomic_bool SK::MasterServer::m_bRun { false };
 
 
 /* MasterServer::Initialization
 ** Initialization the Master Server class
 */
-void MasterServer::initialization() {
+void SK::MasterServer::initialization() {
     m_bRun = true;
 
     struct sigaction sigbreak;
@@ -30,7 +30,7 @@ void MasterServer::initialization() {
 /* MasterServer::Unitialization
 ** Clean the Master Server class
 */
-void MasterServer::unitialization() {
+void SK::MasterServer::unitialization() {
     m_bRun = false;
 
     // Close the terminal watcher thread
@@ -56,7 +56,7 @@ void MasterServer::unitialization() {
 /* MasterServer::signalHandler
 ** Handle unix signals sent from Web Panel
 */
-void MasterServer::signalHandler(int _signum) {
+void SK::MasterServer::signalHandler(int _signum) {
     std::cerr << "SIGUSR1" << std::endl;
     m_bRun = false;
     ::write(m_fdPipeKill[1], "1", strlen("1"));
@@ -66,7 +66,7 @@ void MasterServer::signalHandler(int _signum) {
 /* MasterServer::WatcherTerminal
 ** Launch the threaded Terminal Watcher
 */
-void MasterServer::watcherTerminal() {
+void SK::MasterServer::watcherTerminal() {
     if (!m_thdWatcherTerminal)
         m_thdWatcherTerminal = new std::thread(&MasterServer::_watcherterminal, this);
 }
@@ -74,8 +74,8 @@ void MasterServer::watcherTerminal() {
 /* MasterServer::_watcherterminal
 ** Monitors for an keyboard input in the terminal
 */
-void MasterServer::_watcherterminal() {
-    SynakManager::signalBlockAllExcept(SIGUSR1);
+void SK::MasterServer::_watcherterminal() {
+    SK::SynakManager::signalBlockAllExcept(SIGUSR1);
 
     // Initialize input command string
     std::string strCmd;
@@ -88,9 +88,9 @@ void MasterServer::_watcherterminal() {
     epoll_event ev[3];
 
     int iFlagsCreate { EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR };    
-    SynakManager::epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_ADD, true, iFlagsCreate);
-    SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
-    SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
+    SK::SynakManager::epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_ADD, true, iFlagsCreate);
+    SK::SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
+    SK::SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
 
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 5000);
@@ -110,17 +110,17 @@ void MasterServer::_watcherterminal() {
         }
     }
 
-    SynakManager::epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_DEL);
-    SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
-    SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
+    SK::SynakManager::epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_DEL);
+    SK::SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
+    SK::SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
 }
 
 /* MasterServer::WatcherTerminal
 ** Launch the threaded Terminal Watcher
 */
-void MasterServer::watcherWebpanel(uint16_t _ui8Port) {
+void SK::MasterServer::watcherWebpanel(uint16_t _ui8Port) {
     linger sl { 1, 0 };
-    SsocketOperations sockOpts(m_sckfdWP);
+    SK::SsocketOperations sockOpts(m_sckfdWP);
     sockOpts.socketCreate();
     sockOpts.optionsAdd({
         { SOL_SOCKET,	SO_REUSEADDR,	1  },
@@ -144,8 +144,8 @@ void MasterServer::watcherWebpanel(uint16_t _ui8Port) {
 /* MasterServer::_watcherwebpanel
 ** Monitors for a command input though the web panel
 */
-void MasterServer::_watcherwebpanel() {
-    SynakManager::signalBlockAllExcept(SIGUSR1);
+void SK::MasterServer::_watcherwebpanel() {
+    SK::SynakManager::signalBlockAllExcept(SIGUSR1);
 
     // Accept web panel incoming connections
     if (::listen(m_sckfdWP, SOMAXCONN) != 0)
@@ -159,9 +159,9 @@ void MasterServer::_watcherwebpanel() {
     epoll_event ev[3];
 
     int iFlagsCreate { EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR };
-    SynakManager::epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_ADD, true, iFlagsCreate);
-    SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
-    SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
+    SK::SynakManager::epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_ADD, true, iFlagsCreate);
+    SK::SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
+    SK::SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
 
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 5000);
@@ -200,7 +200,7 @@ void MasterServer::_watcherwebpanel() {
                                 else {
                                     // Verify checksum
                                     std::uint32_t ui32CrcRecvVerif;
-                                    ui32CrcRecvVerif = CRC::Calculate(ptrRecv, ui32BuffSize, SynakManager::m_crcTable);
+                                    ui32CrcRecvVerif = CRC::Calculate(ptrRecv, ui32BuffSize, SK::SynakManager::m_crcTable);
                                     if (ui32CrcRecv != ui32CrcRecvVerif)
                                         SK_WRITELOG(SK_FILENLINE, "Checksum is not valid.");
                                     else {
@@ -241,7 +241,7 @@ void MasterServer::_watcherwebpanel() {
                                         std::uint32_t uiMesslen { ::htonl(static_cast<std::uint32_t>(strJson.length())) };
 
                                         // Calculate checksum (network-endianness)
-                                        std::uint32_t ui32CrcSend { ::htonl(CRC::Calculate(strJson.data(), strJson.length(), SynakManager::m_crcTable)) };
+                                        std::uint32_t ui32CrcSend { ::htonl(CRC::Calculate(strJson.data(), strJson.length(), SK::SynakManager::m_crcTable)) };
 
                                         // Pack and send message
                                         std::uint32_t ui32Messlen {
@@ -273,9 +273,9 @@ void MasterServer::_watcherwebpanel() {
         }
     }
 
-    SynakManager::epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_DEL);
-    SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
-    SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
+    SK::SynakManager::epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_DEL);
+    SK::SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
+    SK::SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
 
     SK_CLOSESOCKET(m_sckfdWP);
 }
@@ -283,7 +283,7 @@ void MasterServer::_watcherwebpanel() {
 /* MasterServer::writeLog
 ** Write messages in log file
 */
-void MasterServer::writeLog(std::string _strFileLine, std::string _strMessage, std::string _strAddInfos, bool _bTruncate) {
+void SK::MasterServer::writeLog(std::string _strFileLine, std::string _strMessage, std::string _strAddInfos, bool _bTruncate) {
     std::ios_base::openmode iosOpenmode { std::ios_base::binary | std::ios_base::out | (_bTruncate ? std::ios_base::trunc : std::ios_base::app) };
     std::string             strPath { "/synak_ms/synak_ms.log" },
                             strLine { _strMessage + (_strAddInfos.length() > 0 ? " (" + _strAddInfos + ")" : "")};

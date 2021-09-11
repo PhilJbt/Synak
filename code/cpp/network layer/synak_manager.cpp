@@ -7,20 +7,20 @@
 #include <network layer/synak.h>
 
 
-CRC::Table<std::uint32_t, 32> SynakManager::m_crcTable(CRC::CRC_32_C());
+CRC::Table<std::uint32_t, 32> SK::SynakManager::m_crcTable(CRC::CRC_32_C());
 
 
 /* SynakManager::Initialization
 ** Initialization Network Layer class
 */
-void SynakManager::initialization() {
+void SK::SynakManager::initialization() {
 #ifdef _WIN32
     WSADATA wsa;
 
     if (::WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
         return;
 #else
-    SynakManager::signalBlockAllExcept();
+    SK::SynakManager::signalBlockAllExcept();
 #endif
 }
 
@@ -28,7 +28,7 @@ void SynakManager::initialization() {
 ** Block unix signals
 ** If no flag provided to int _iFlags, all flags are blocked
 */
-void SynakManager::signalBlockAllExcept(int _iFlags) {
+void SK::SynakManager::signalBlockAllExcept(int _iFlags) {
     sigset_t ssIgnoreAll;
     ::sigemptyset(&ssIgnoreAll);
     ::sigfillset(&ssIgnoreAll);
@@ -40,7 +40,7 @@ void SynakManager::signalBlockAllExcept(int _iFlags) {
 /* SynakManager::Unitialization
 ** Clean Network Layer class
 */
-void SynakManager::unitialization() {
+void SK::SynakManager::unitialization() {
 #ifdef _WIN32
     WSACleanup();
 #endif
@@ -49,7 +49,7 @@ void SynakManager::unitialization() {
 /* SynakManager::_TEST
 **
 */
-void SynakManager::_TEST() {
+void SK::SynakManager::_TEST() {
 #ifdef _WIN32
 	if ((sockfd = ::socket(AF_INET6, SOCK_STREAM, IPPROTO_IP)) == INVALID_SOCKET)
 		::printf("Could not create socket : %d\n", ::WSAGetLastError());
@@ -69,7 +69,7 @@ void SynakManager::_TEST() {
 /* SynakManager::epollAdd
 ** Add file descriptor to epoll event watcher
 */
-void SynakManager::epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign, int _iFlags) {
+void SK::SynakManager::epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign, int _iFlags) {
     if(_bAssign) {
         _ev->events = _iFlags;
         _ev->data.fd = _fd;
@@ -83,14 +83,14 @@ void SynakManager::epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iA
 /* SsocketOperations::SsocketOperations
 ** Initialization, store socket pointer
 */
-SsocketOperations::SsocketOperations(SOCKET &_ptrSockfd) {
+SK::SsocketOperations::SsocketOperations(SOCKET &_ptrSockfd) {
     m_ptrSockfd = &_ptrSockfd;
 }
 
 /* SsocketOperations::optionsAdd
 ** Add options to the socket
 */
-bool SsocketOperations::optionsAdd(std::vector<Sopt> _vecOpts) {
+bool SK::SsocketOperations::optionsAdd(std::vector<Sopt> _vecOpts) {
     // For all options stored in the vector
     for (auto elem : std::as_const(_vecOpts)) {
         // Apply the option
@@ -125,7 +125,7 @@ bool SsocketOperations::optionsAdd(std::vector<Sopt> _vecOpts) {
 /* SsocketOperations::socketCreate
 ** Create a new socket and store it
 */
-bool SsocketOperations::socketCreate() {
+bool SK::SsocketOperations::socketCreate() {
     // Create a new socket
     if ((*m_ptrSockfd = ::socket(AF_INET6, SOCK_STREAM, 0)) == SOCKET_ERROR) {
         SK_SHOWERROR(SK_FILENLINE, STRERROR);
@@ -138,7 +138,7 @@ bool SsocketOperations::socketCreate() {
 /* SsocketOperations::socketBind
 ** Bind the socket to an IP/PORT
 */
-bool SsocketOperations::socketBind(uint16_t _ui8Port, in6_addr _addr6in) {
+bool SK::SsocketOperations::socketBind(uint16_t _ui8Port, in6_addr _addr6in) {
     // Initializing the local address/port
     sockaddr_in6 addrAccept;
     ::memset(&addrAccept, 0, sizeof(addrAccept));

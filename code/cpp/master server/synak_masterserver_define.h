@@ -11,4 +11,4 @@
 
 
 #define SK_BUILDTIMESTAMP       std::string(__DATE__) + " " + std::string(__TIME__)
-#define SK_WRITELOG             MasterServer::writeLog
+#define SK_WRITELOG             SK::MasterServer::writeLog

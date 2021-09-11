@@ -1,0 +1,17 @@
+/* SYNAK NETWORK LIBRARY - Philippe Jaubert
+* https://github.com/PhilJbt/Synak/
+* Network Layer
+* synak_security.h
+*/
+
+#pragma once
+
+#include <network layer/synak.h>
+
+namespace SK {
+    static std::uint8_t m_ui8ArrKey[...] {
+        ...
+		// You can use this type of online generator to create batch random numbers
+		// https://www.random.org/integers/?num=32&min=0&max=255&col=1&base=10&format=html&rnd=new
+    };
+}

@@ -8,4 +8,6 @@ Since the **Master Server** uses the **Network Layer**, please [read the require
 &#160;
 
 ## II. INCLUDES
-Add ```/Synak/code/cpp/master server``` to your **Includes Folders** in your **IDE**
+Add to your **Includes Folders** in your **IDE**:
+1. ```/Synak/code/cpp/master server```
+2. ```/Synak/code/cpp/network layer```

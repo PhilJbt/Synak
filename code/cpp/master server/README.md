@@ -6,6 +6,3 @@
 Since the **Master Server** uses the **Network Layer**, please [read the requirements](../network%20layer/README.md) of the latter.
 
 &#160;
-
-## II. INCLUDES
-Add the ```/Synak/code/cpp/``` folder to your **Includes Folders** in your **IDE**

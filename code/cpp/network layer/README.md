@@ -12,4 +12,4 @@ With linux, you need to link the **Thread** library
 &#160;
 
 ## II. INCLUDES
-Add ```/Synak/code/cpp/network layer``` to your **Includes Folders**
+Add the ```/Synak/code/cpp/``` folder to your **Includes Folders** in your **IDE**

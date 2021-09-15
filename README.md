@@ -22,7 +22,7 @@ Feature | Status | Notes
 &#160; &#9492; Checksum Control | :heavy_check_mark: |    
 &#160; &#9492; Serializing | :construction: |  
 &#160; &#9492; Big / Little-Endianness Support | :construction: |  
-&#160; &#9492; Encryption | :construction: |  
+&#160; &#9492; Packet Encryption | :construction: |  
 &#160; &#9492; Compression | :construction: |  
 &#160; &#9492; Multiplexer & Demultiplexer | :construction: |
 &#160; &#9492; Ping | :construction: |  

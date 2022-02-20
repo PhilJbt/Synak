@@ -1,19 +1,26 @@
-$('.ui.dropdown').dropdown();
-$('#popup_signin').popup({
-inline: false,
-hoverable: true,
-position: 'bottom left',
-on: 'click',
-closable: true,
-delay: {
-  show: 0,
-  hide: 500
- }
-});
-$('#popnfo_authkey').popup();
-authKeyGet();
-
 var bFetching = false;
+
+window.addEventListener("load", function(){
+  $('.ui.dropdown').dropdown();
+  $('#popup_signin').popup({
+  inline: false,
+  hoverable: true,
+  position: 'bottom left',
+  on: 'click',
+  closable: true,
+  delay: {
+    show: 0,
+    hide: 500
+   }
+  });
+  $('#popnfo_authkey').popup();
+  $(window).on("popstate", function(e) {
+      preLoadFile();
+  });
+
+  authKeyGet();
+  preLoadFile();
+});
 
 function enableMessageClose() {
   $('.message .close').on('click', function() {
@@ -67,6 +74,20 @@ function req_uninit() {
   $('#btn_proceed').removeClass("disabled");
   $('#mdl_output').removeClass("loading");
   $('.ui.modal').modal('hide');
+}
+
+function changeUrl(_url) {
+  if ("undefined" !== typeof history.pushState)
+    history.pushState({}, null, `?page=${_url}`);
+  else
+    window.location.assign(_url);
+}
+
+function preLoadFile() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  if (urlParams.get('page') !== null)
+    sendReq('sk__req', 'prep', urlParams.get('page'));
 }
 
 async function sendReq(_scriptname, _action, _file, _data = null) {
@@ -131,8 +152,10 @@ async function prepareReq(_scriptname, _action, _file, _data = null){
 
   bFetching = true;
 
-  if (_action == "prep")
+  if (_action == "prep") {
     prepReq_init();
+    changeUrl(_file);
+  }
   else if (_action == "proc")
     procReq_init();
 
@@ -143,7 +166,7 @@ function authKeyErr() {
   data = {
       "colr": "red",
       "icon": "exclamation",
-      "titl": "NEW BROWSER REQUIRED",
+      "titl": "NEWER BROWSER REQUIRED",
       "mess": "This browser is not supporting web local storage."
     }
     errorMessage(data);

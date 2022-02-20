@@ -6,7 +6,7 @@ import sk__dbg
 from sk_mng import *
 
 # Push segment to client
-def process(_data):
+def prepare(_data):
   ## Get Master Server informations
   dictDataSend = {
     'type' : 'stats'

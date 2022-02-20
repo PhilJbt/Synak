@@ -9,7 +9,7 @@ import sk__dbg
 import sk__res
 
 # Push segment to client
-def process(_data):
+def prepare(_data):
   # If log file exists
   if os.path.isfile('/synak_ms/synak_ms.log'):
     # Read the log file

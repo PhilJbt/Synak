@@ -12,7 +12,54 @@
 using VariantType_t     =  std::variant<TYPEFORVARIANT>;
 using ItsOk             =  std::variant< TYPEFORVARIANT, std::vector<VariantType_t>, std::map<uint16_t, VariantType_t> >;
 
-//using namespace std::string_literals;
+// SERIALIZE STRUCT
+template<typename T>
+class packet {
+public:
+    void setData(T &_data) {
+        msgpack::sbuffer sbuf;
+        msgpack::pack(sbuf, _data);
+
+        m_iPayloadSize = sbuf.size();
+
+        ::memset(m_cBuff, 0, 1396);
+        ::memcpy(m_cBuff, sbuf.data(), m_iPayloadSize);
+    }
+    int getSize() {
+        return m_iPayloadSize + sizeof(m_iPayloadSize);
+    }
+    void fillFromBuff(T &_data) {
+        msgpack::unpacked result;
+        msgpack::unpack(result, m_cBuff, m_iPayloadSize);
+        msgpack::object obj(result.get());
+        obj.convert(_data);
+    }
+    char *getBuff() {
+        return reinterpret_cast<char *>(this);
+    }
+private:
+    int  m_iPayloadSize { 0 };
+    char m_cBuff[1396] { 0 };
+};
+
+class myclass {
+public:
+    MSGPACK_DEFINE(m_str, m_vec, m_flt);
+    myclass() {}
+    myclass(std::string _str, std::vector<int> _vec, float _flt) : m_str(_str), m_vec(_vec), m_flt(_flt) {}
+    void showData() {
+        std::cout << "str:" << m_str << std::endl;
+        for (unsigned int i = 0; i < m_vec.size(); ++i)
+            std::cout << "int" << std::to_string(i + 1) << "/" << std::to_string(m_vec.size()) << ":" << std::to_string(m_vec[i]) << std::endl;
+        std::cout << "flt:" << std::to_string(m_flt) << std::endl;
+    }
+private:
+    std::string      m_str;
+    std::vector<int> m_vec;
+    float            m_flt;
+};
+
+// MESSAGE
 struct SMessageData {
 public:
     template <typename T>
@@ -20,7 +67,15 @@ public:
         std::visit(endianSupport { _strName , &m_jReturn }, _variant);
     }
 
-    std::string Serialize() {
+    int Length() {
+        return static_cast<int>(m_jReturn.dump().length());
+    }
+
+    char* ToCharArray() {
+        return m_jReturn.dump().data();
+    }
+
+    std::string ToString() {
         return m_jReturn.dump();
     }
 
@@ -102,6 +157,62 @@ private:
 };
 
 int main() {
+    // SERIALIZE STRUCT
+    auto t0 = std::chrono::high_resolution_clock::now();
+    myclass dataS("minus ten, minus two", { -10, -2 }, 1234567.125f);
+    for (unsigned int i = 0; i < 1e+4; ++i) {
+        packet<myclass> packet;
+        packet.setData(dataS);
+    }
+    /*myclass dataR;
+    packet.fillFromBuff(dataR);*/
+    auto t1 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> fs = t1 - t0;
+    std::chrono::milliseconds d = std::chrono::duration_cast<std::chrono::milliseconds>(fs);
+    std::cout << d.count() << "ms";
+    return 0;
+
+    /*
+    // MESSAGE
+    // Declare
+    int         iValA   { 123 },
+                iValB   { -987 };
+    float       fValA   { 1.234f },
+                fValB   { -987.1f };
+    std::string strValA { "Val A" },
+                u32str  { u8"Бори́са"};
+    struct Stest { int   m_i; float m_f; };
+    Stest       sStruct { 5, 1.5f };
+
+    // Populate struct
+    SMessageData mapData;
+    mapData.Add<int>("int1", iValA);
+    mapData.Add<int>("int2", iValB);
+    mapData.Add<float>("float1", fValA);
+    mapData.Add<float>("float2", fValB);
+    mapData.Add<std::string>("std::string1", strValA);
+    mapData.Add<std::string>("std::string2", u32str);
+
+    // Simulate sending buffer
+    std::uint8_t *cBuffSend { new std::uint8_t[mapData.Length()] };
+    ::memset(cBuffSend, 0, mapData.Length());
+    ::memcpy(cBuffSend, mapData.ToCharArray(), mapData.Length());
+    SK::Tools::CryptUncrypt(cBuffSend, mapData.Length());
+
+    // Simulate receiving buffer
+    int iLen { mapData.Length() };
+    std::uint8_t *cBuffRecv { new std::uint8_t[iLen] };
+    ::memcpy(cBuffRecv, cBuffSend, iLen);
+    SK::Tools::CryptUncrypt(cBuffRecv, iLen);
+    std::cerr << std::to_string(sData.m_i) << std::endl;
+
+    // 
+    std::string strGet { mapData.Serialize() };
+
+    return 0;
+    */
+
+    /*
     SMessageData mapData;
 
     uint8_t ui8Val { 125 };
@@ -149,6 +260,7 @@ int main() {
     std::cerr << std::to_string(sData.m_c[3]) << std::endl;
     std::cerr << std::to_string(sData.m_c[4]) << std::endl;
     return 0;
+    */
 
     SK_WRITELOG(SK_FILENLINE, "[START] " + std::to_string(::getpid()) + " " + SK_BUILDTIMESTAMP, "", true);
 

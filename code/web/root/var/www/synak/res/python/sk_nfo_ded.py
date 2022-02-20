@@ -33,7 +33,7 @@ arrValues = {
 
 
 # Push dedicated informations segment to the client
-def process(_data):
+def prepare(_data):
   # Get the page template template
   fileTbl = open("../template/sk_nfo_ded_tbl.tpl", "r")
   template_mod = fileTbl.read()

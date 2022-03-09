@@ -1,7 +1,7 @@
 ![Synak logo](https://repository-images.githubusercontent.com/400254624/3b6e9edf-f5af-4c4f-8012-73436cdfd43d)
 
 **Synak** is a C++ library providing networking support for **video games**.\
-It can handle **Client/Public Server** and **P2P** architectures — even behind a NAT.\
+It handle TCP **Client and Public Server** liaison and UDP **P2P architecture** between clients — even behind a NAT.\
 It also provides a **Master Server** (for matchmaking, to coordinate connection between P2P nodes, etc) and a **Web Admin Panel** (to start/stop, to ban/unban, for logs, etc) for an Unix public dedicated server.
 
 &#160;

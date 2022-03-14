@@ -16,7 +16,7 @@
 
 ### &#8212; Web Panel
 * :pushpin: [Presentation](wp/wp_presentation.md)
-* :bookmark_tabs: [**Installation**](‪wp/README.md)
+* :bookmark_tabs: [**Installation**](wp/README.md)
 * [Dedicated Server Optimizations](wp/wp_optimization.md)
 
 &#160;

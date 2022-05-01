@@ -9,7 +9,7 @@ import sk__dbg
 import sk__res
 
 
-sys.path.insert(0, '/var/www/synak/dep/cholcombe973')
+sys.path.insert(0, '/../../dep/cholcombe973')
 from crc32 import CRC32
 
 
@@ -84,4 +84,4 @@ def send(_dictData, _arrKeysExpected):
         else:
           sk__dbg.message(sk__dbg.messtype.ERR, "At least one expected argument is missing from Master Server answer.")
           return "null", True
-      
+

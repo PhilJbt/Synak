@@ -3,7 +3,7 @@
 import sk__cmd
 import sk__res
 import sk__dbg
-from sk_mng import *
+from sk__mng import *
 
 # Push segment to client
 def prepare(_data):

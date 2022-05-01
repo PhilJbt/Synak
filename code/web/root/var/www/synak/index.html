@@ -21,32 +21,46 @@
           <i class="power off icon"></i>
           Managing
           <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_srt')"><i class="icon play"></i> Start</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_stp')"><i class="icon stop"></i> Stop</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_kll')"><i class="icon close"></i> Kill</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_strt')"><i class="icon play"></i> Start</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_stop')"><i class="icon stop"></i> Stop</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_kill')"><i class="icon close"></i> Kill</a>
           </div>
         </div>
         <div class="ui dropdown item">
           <i class="gavel icon"></i>
           Moderation
           <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_ban')"><i class="icon plus"></i> Ban IP</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unb')"><i class="icon minus"></i> Unban IP</a>
+            <div class="ui dropdown item">
+              <i class="icon sitemap"></i> IP
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_bani')"><i class="icon user plus"></i> Ban IP</a>
+                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unbi')"><i class="icon user times"></i> Unban IP</a>
+              </div>
+            </div>
+            <div class="ui dropdown item">
+              <i class="icon barcode"></i> UID
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_banu')"><i class="icon user plus"></i> Ban UID</a>
+                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unbu')"><i class="icon user times"></i> Unban UID</a>
+              </div>
+            </div>
           </div>
         </div>
         <div class="ui dropdown item">
           <i class="folder icon"></i>
           Logs
           <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_get')"><i class="icon download"></i> Get</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_rtrv')"><i class="icon download"></i> Get</a>
           </div>
         </div>
         <div class="ui dropdown item">
           <i class="clipboard list icon"></i>
           Informations
           <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_sms')"><i class="icon chart pie"></i> Master Server</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_ded')"><i class="icon tasks"></i> Dedicated Server</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_syms')"><i class="icon chart pie"></i> Master Server</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_dedi')"><i class="icon tasks"></i> Dedicated Server</a>
           </div>
         </div>
         <div id="popup_signin" class="ui dropdown item float right">

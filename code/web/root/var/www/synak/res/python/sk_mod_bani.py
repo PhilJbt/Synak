@@ -10,7 +10,7 @@ import sk__dbg
 # Push modal disclaimer about killing MS process
 def prepare(_data):
   # Get the ban modal template
-  file = open("../template/sk_mod_ban.tpl", "r")
+  file = open("../template/sk_mod_bani.tpl", "r")
   template_raw = file.read()
   # Send the modal to the client
   sk__res.show("prep", template_raw)
@@ -75,6 +75,6 @@ def process(_data):
   # There is at least one invalid IP, push the corresponding list to the final string
   if ipErrNbr > 0:
     sendline += strIpErr
-  
+
   # Push the final string to the client
   sk__dbg.message(messType, sendline)

@@ -6,14 +6,16 @@ import json
 import os.path
 
 import sk__dbg
-import sk_mng_srt
-import sk_mng_stp
-import sk_mng_kll
-import sk_mod_ban
-import sk_mod_unb
-import sk_log_get
-import sk_nfo_sms
-import sk_nfo_ded
+import sk_mng_strt
+import sk_mng_stop
+import sk_mng_kill
+import sk_mod_bani
+import sk_mod_unbi
+import sk_mod_banu
+import sk_mod_unbu
+import sk_log_rtrv
+import sk_nfo_syms
+import sk_nfo_dedi
 
 # Get POST data and parse the Json
 try:
@@ -22,14 +24,16 @@ except:
   sk__dbg.message(sk__dbg.messtype.ATT, "Request undefined.")
 else:
   file_dict = {
-    'sk_mng_srt' : sk_mng_srt,
-    'sk_mng_stp' : sk_mng_stp,
-    'sk_mng_kll' : sk_mng_kll,
-    'sk_mod_ban' : sk_mod_ban,
-    'sk_mod_unb' : sk_mod_unb,    
-    'sk_log_get' : sk_log_get,
-    'sk_nfo_sms' : sk_nfo_sms,
-    'sk_nfo_ded' : sk_nfo_ded,
+    'sk_mng_strt' : sk_mng_strt,
+    'sk_mng_stop' : sk_mng_stop,
+    'sk_mng_kill' : sk_mng_kill,
+    'sk_mod_bani' : sk_mod_bani,
+    'sk_mod_unbi' : sk_mod_unbi,
+    'sk_mod_banu' : sk_mod_banu,
+    'sk_mod_unbu' : sk_mod_unbu,
+    'sk_log_rtrv' : sk_log_rtrv,
+    'sk_nfo_syms' : sk_nfo_syms,
+    'sk_nfo_dedi' : sk_nfo_dedi,
   }
 
   # Check all args are in the POST data
@@ -49,7 +53,7 @@ else:
         jsonPerms = json.loads(infoPerms)
       # Json is not valid, stop the script and push an error message to the client
       except Exception as e:
-        sk__dbg.message(sk__dbg.messtype.ERR, f"The permissions file (synak/res/webpanel.permissions) is not valid: {str(e)}")  
+        sk__dbg.message(sk__dbg.messtype.ERR, f"The permissions file (synak/res/webpanel.permissions) is not valid: {str(e)}")
       # Push an error message to the client if the user does not have permissions to execute this script, else continue the script
       else:
         if (jsonPost["auth"] not in jsonPerms
@@ -60,10 +64,10 @@ else:
     # Script doesn't exist
     if file_name not in file_dict:
       sk__dbg.message(sk__dbg.messtype.ATT, f"script filename does not exist ({file_name})")
-    # Exec the Prepare() function 
+    # Exec the Prepare() function
     elif jsonPost["type"] == "prep":
       file_dict[file_name].prepare(jsonPost['data'])
-    # Exec the Process() function 
+    # Exec the Process() function
     elif jsonPost["type"] == "proc":
       file_dict[file_name].process(jsonPost['data'])
     # Filename exists, but not the provided type

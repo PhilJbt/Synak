@@ -14,21 +14,21 @@ def prepare(_data):
   listIPv6_raw = sk__cmd.send("sudo ip6tables -L INPUT -v -n | grep DROP | awk '{print $7}'")
 
   # Get the item list template
-  fileItem = open("../template/sk_mod_unb_itm.tpl", "r")
+  fileItem = open("../template/sk_mod_unbi_itm.tpl", "r")
   htmlItem = fileItem.read()
-  
+
   # Replace the banned IPv4 list to the item list template
   listIPv4_mod = ""
   for itemRaw in listIPv4_raw.splitlines():
     listIPv4_mod += htmlItem.replace("%IP%", itemRaw)
-  
+
   # Replace the banned IPv6 list to the item list template
   listIPv6_mod = ""
   for itemRaw in listIPv6_raw.splitlines():
     listIPv6_mod += htmlItem.replace("%IP%", itemRaw)
 
   # Get the unban modal template
-  file = open("../template/sk_mod_unb.tpl", "r")
+  file = open("../template/sk_mod_unbi.tpl", "r")
   template_raw = file.read()
   # If there is at least 1 banned IPv4
   if len(listIPv4_mod) > 0:

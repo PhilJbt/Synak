@@ -3,7 +3,7 @@
 import sk__res
 import sk__skt
 import sk__dbg
-from sk_mng import *
+from sk__mng import *
 
 # Push segment to client
 def prepare(_data):
@@ -31,9 +31,9 @@ def prepare(_data):
     # No error occured
     else:
       ## Get templates
-      fTemplate = open("../template/sk_nfo_sms.tpl", "r")
+      fTemplate = open("../template/sk_nfo_syms.tpl", "r")
       htmlTemplate = fTemplate.read()
-      fStatistics = open("../template/sk_nfo_sms_sta.tpl", "r")
+      fStatistics = open("../template/sk_nfo_syms_sta.tpl", "r")
       htmlStatistics = fStatistics.read()
       # Declare all stats concat
       htmlStatsCont = ""

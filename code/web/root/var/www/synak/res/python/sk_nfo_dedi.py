@@ -35,12 +35,12 @@ arrValues = {
 # Push dedicated informations segment to the client
 def prepare(_data):
   # Get the page template template
-  fileTbl = open("../template/sk_nfo_ded_tbl.tpl", "r")
+  fileTbl = open("../template/sk_nfo_dedi_tbl.tpl", "r")
   template_mod = fileTbl.read()
 
   ## Stats#1
   # Get the template
-  fileSta = open("../template/sk_nfo_ded_sta.tpl", "r")
+  fileSta = open("../template/sk_nfo_dedi_sta.tpl", "r")
   stat_raw = fileSta.read()
 
   # Fill stats#1 with hostname
@@ -90,7 +90,7 @@ def prepare(_data):
 
   ## Optimizations
   # Get the table template
-  fileRow = open("../template/sk_nfo_ded_row.tpl", "r")
+  fileRow = open("../template/sk_nfo_dedi_row.tpl", "r")
   tplRow = fileRow.read()
   strStackedRows = ""
   iErrCount = 0
@@ -128,7 +128,7 @@ def prepare(_data):
   template_mod = template_mod.replace("%TABLE_COLOR%", ('green' if iErrCount == 0 else 'yellow'))
   template_mod = template_mod.replace("%VARS_LIST%", strStackedRows)
   template_mod = template_mod.replace("%ERR_COUNT%", (f'{iErrCount}' if iErrCount < 2 else f'{iErrCount}'))
-  
+
 
   ## Return html
   sk__res.show("proc", template_mod)

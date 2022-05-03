@@ -1,22 +1,22 @@
 <div class="header">
-  Master Server &#8212; Ban IP
+  Master Server &#8212; Ban UID
 </div>
 <div class="content">
   <div class="description">
     <div class="ui buttons">
-      <button class="ui button" onclick="sk_mod_ban_listip('add')">
+      <button class="ui button" onclick="sk_mod_ban_listuid('add')">
         <i class="plus icon"></i>
         ADD
       </button>
-      <button class="ui button" onclick="sk_mod_ban_listip('clr')">
+      <button class="ui button" onclick="sk_mod_ban_listuid('clr')">
         <i class="recycle icon"></i>
         CLEAR
       </button>
     </div>
-    <div class="ui header">IP to ban:</div>
-    <div id="list_ipv4v6">
+    <div class="ui header">UID to ban:</div>
+    <div id="list_uid">
       <div class="modban ui icon input fluid">
-        <input type="text" placeholder="IP to ban">
+        <input type="text" placeholder="UID to ban">
         <i class="pencil alternate icon"></i>
       </div>
     </div>
@@ -27,7 +27,7 @@
     <div class="left floated left aligned ten wide column middle aligned content">
       <i id="popnfo_modban" class="info help icon link"></i>
       <div class="ui top left popup flowing">
-        <p>IPs can be <i>IPv4</i>, <i>IPv6</i> or <i>IPv4-mapped IPv6</i>.<br/>This feature uses <i>IPTABLES</i> which means IPs will be banned from all services hosted by this dedicated server (e.g. Synak Master Server, web).</p>
+        <p>By default, the Synak UID (<i>Unique Identifier</i>) is the volume GUID, without brackets or dash (i.e. <i>{47ba2efc-3db1-11e0-78f8-806e5f6e6963}</i> becomes <i>47ba2efc3db111e078f8806e5f6e6963</i>).</p>
       </div>
     </div>
     <div class="right floated right aligned six wide column">
@@ -56,28 +56,28 @@ function template_init() {
     variation : 'very wide'
   });
 }
-function sk_mod_ban_listip(_action) {
+function sk_mod_ban_listuid(_action) {
   if (_action == 'add')
-    $('#list_ipv4v6').append('<div class="modban ui icon input fluid"><input type="text" placeholder="IP to ban"><i class="pencil alternate icon"></i></div>')
+    $('#list_uid').append('<div class="modban ui icon input fluid"><input type="text" placeholder="UID to ban"><i class="pencil alternate icon"></i></div>')
   else if (_action == 'clr') {
-    var objListIp = $('#list_ipv4v6').find('input');
-    var iNbrChild = objListIp.length;
+    var objListUid = $('#list_uid').find('input');
+    var iNbrChild = objListUid.length;
     for (var i = iNbrChild - 1; i >= 0; --i)
-      if (!objListIp[i].value.trim().length
-      && ($('#list_ipv4v6').find('input').length > 1 || i > 0))
-        objListIp[i].parentNode.remove();
+      if (!objListUid[i].value.trim().length
+      && ($('#list_uid').find('input').length > 1 || i > 0))
+        objListUid[i].parentNode.remove();
   }
 }
 function sk_mod_ban_send() {
-  listIPv4v6 = [];
+  listUid = [];
 
-  var objListIp = $('#list_ipv4v6').find('input');
-  var iNbrChild = objListIp.length;
+  var objListUid = $('#list_uid').find('input');
+  var iNbrChild = objListUid.length;
   for (var i = 0; i < iNbrChild; ++i)
-    if (!!objListIp[i].value.trim().length)
-      listIPv4v6.push(objListIp[i].value.trim());
+    if (!!objListUid[i].value.trim().length)
+      listUid.push(objListUid[i].value.trim());
 
-  if (listIPv4v6.length > 0)
-    prepareReq('sk__req', 'proc', 'sk_mod_ban', JSON.stringify(listIPv4v6));
+  if (listUid.length > 0)
+    prepareReq('sk__req', 'proc', 'sk_mod_banu', JSON.stringify(listUid));
 }
 </script>

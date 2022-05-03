@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import sys
-sys.path.insert(0, '/../../dep/cholcombe973')
+sys.path.insert(0, '../../dep/cholcombe973')
 from crc32 import CRC32
 
 TESTRING = "qzodkqpmzdkopqmkzd"

@@ -39,7 +39,7 @@ function template_init() {
 function sk_mod_unb_pack() {
   listIPv4v6 = [];
 
-  var divListIPv4 = $('#listipv4');  
+  var divListIPv4 = $('#listipv4');
   var iNbrIPv4 = divListIPv4.find('input').length;
   for (var i = 0; i < iNbrIPv4; ++i)
     if ($('#listipv4').find('input')[i].checked)
@@ -52,6 +52,6 @@ function sk_mod_unb_pack() {
       listIPv4v6.push(divListIPv6.find('input')[i].getAttribute('data-ip'));
 
   if (listIPv4v6.length > 0)
-    prepareReq('sk__req', 'proc', 'sk_mod_unb', JSON.stringify(listIPv4v6));
+    prepareReq('sk__req', 'proc', 'sk_mod_unbi', JSON.stringify(listIPv4v6));
 }
 </script>

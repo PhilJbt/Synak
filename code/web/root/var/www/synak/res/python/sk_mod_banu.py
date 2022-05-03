@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import sqlite3
 import json
 import ipaddress
 
@@ -17,64 +18,49 @@ def prepare(_data):
 
 # Push segment to client
 def process(_data):
+  # Open or create database
+  dbPath = r'../db/blacklist_uid.db'
+  con = None
+  try:
+    con = sqlite3.connect(dbPath)
+  except sqlite3.OperationalError:
+    sk__dbg.message(sk__dbg.messtype.ERR, "Can't connect to /var/www/synak/res/db/blacklist_uid.db.")
+    return
+
+  # If table does not exist, create table
+  cur = con.cursor()
+  cur.execute("""SELECT count(name) FROM sqlite_master WHERE type='table' AND name='t_ban'""")
+  if cur.fetchone()[0] == 0 :
+    try:
+      cur.execute("""CREATE TABLE if not exists t_ban(c_uid CHAR(32) NOT NULL PRIMARY KEY)""")
+      con.commit()
+    except sqlite3.Error as er:
+      sk__dbg.message(sk__dbg.messtype.ERR, 'Error when creating table t_ban: %s' % (' '.join(er.args)))
+      return
+
   # Get POST data
   data = json.loads(_data)
 
-  # Declare feedback vars
-  strIpVld = '<div class="header">Successfully banned IP</div><div class="ui bulleted list">'
-  strIpErr = '<div class="header">Not valid IP</div><div class="ui bulleted list">'
-  # Declare success/error IP ban number vars
-  ipVldNbr = 0
-  ipErrNbr = 0
+  # Insert every UID in the SQL database
+  for elem in data:
+    try:
+      cur.execute(f'INSERT OR REPLACE INTO "t_ban" ("c_uid") values("{elem}");')
+      con.commit()
+    except sqlite3.Error as er:
+      sk__dbg.message(sk__dbg.messtype.ERR, 'Error when inserting UID: %s' % (' '.join(er.args)))
+      return
+
+  # Close sqlite connection
+  if con :
+    con.close()
 
   # For every IP in the POST data
+  strResult = '<div class="header">Successfully banned UIDs</div><div class="ui bulleted list">'
   for elem in data:
-    elem = elem.replace(' ', '')
-    if len(elem) > 0:
-      # Try to cast str to ip_addr
-      try:
-        ip = ipaddress.ip_address(elem)
-        # IPv4 detected, ban it with iptables
-        if ip.version == 4:
-          sk__cmd.send(f'sudo iptables -A INPUT -s {elem} -j DROP')
-        # IPv6 detected, ban it with ip6tables
-        elif ip.version == 6:
-          sk__cmd.send(f'sudo ip6tables -A INPUT -s {elem} -j DROP')
-        # Add the banned IP to the corresponding feedback stack
-        strIpVld += f'<div class="item">{elem}</div>'
-        # Increment the number of banned IP by one
-        ipVldNbr += 1
-      # Can't cast str to ip_addr
-      except:
-        # Add the invalid IP to the corresponding feedback stack
-        strIpErr += f'<div class="item">{elem}</div>'
-        # Increment the number of invalid IP by one
-        ipErrNbr += 1
+    strResult += f'<div class="item">{elem}</div>'
 
   # Close the html content division
-  strIpVld += '</div>'
-  strIpErr += '</div>'
-
-  # Declare the message type to push to the client
-  messType = None
-  # There is no invalid IP, choose the success type
-  if (ipVldNbr > 0) and (ipErrNbr == 0):
-    messType = sk__dbg.messtype.SUC
-  # There is no valid IP, choose the error type
-  elif (ipVldNbr == 0) and (ipErrNbr > 0):
-    messType = sk__dbg.messtype.ERR
-  # There is both valid and invalid IP, choose the warning type
-  else:
-    messType = sk__dbg.messtype.ATT
-
-  # Declare the final string containing the list of valid and invalid IP addresses to push to the client
-  sendline = ""
-  # There is at least one valid IP, push the corresponding list to the final string
-  if ipVldNbr > 0:
-    sendline += strIpVld
-  # There is at least one invalid IP, push the corresponding list to the final string
-  if ipErrNbr > 0:
-    sendline += strIpErr
+  strResult += '</div>'
 
   # Push the final string to the client
-  sk__dbg.message(messType, sendline)
+  sk__dbg.message(sk__dbg.messtype.SUC, strResult)

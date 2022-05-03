@@ -37,3 +37,4 @@
 webpanel.permissions
 masterserver.log
 synak_security.h
+code/web/root/var/www/synak/res/python/__pycache__/

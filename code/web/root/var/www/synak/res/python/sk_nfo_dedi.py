@@ -128,6 +128,7 @@ def prepare(_data):
   template_mod = template_mod.replace("%TABLE_COLOR%", ('green' if iErrCount == 0 else 'yellow'))
   template_mod = template_mod.replace("%VARS_LIST%", strStackedRows)
   template_mod = template_mod.replace("%ERR_COUNT%", (f'{iErrCount}' if iErrCount < 2 else f'{iErrCount}'))
+  template_mod = template_mod.replace("%ERR_COLOR%", ('green' if iErrCount == 0 else 'yellow'))
 
 
   ## Return html

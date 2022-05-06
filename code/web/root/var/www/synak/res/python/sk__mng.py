@@ -4,7 +4,7 @@ import time
 
 import sk__cmd
 
-# Send terminal command to OS to retrieve MS PID
+# Send a command to unix terminal to retrieve MS PID
 def cmdPid():
   return sk__cmd.send("sudo ps aux | grep synak_ms.bin | grep -v 'tmux\|grep' | awk '{print $2}'")
 

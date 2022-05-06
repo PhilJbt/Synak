@@ -11,13 +11,15 @@ import sk_mng_stop
 import sk_mng_kill
 import sk_mod_bani
 import sk_mod_unbi
+import sk_mod_lsti
 import sk_mod_banu
 import sk_mod_unbu
+import sk_mod_lstu
 import sk_log_rtrv
 import sk_nfo_syms
 import sk_nfo_dedi
 
-# Get POST data and parse the Json
+# Get POST data and parse the Json request
 try:
   jsonPost = json.load(sys.stdin)
 except:
@@ -29,8 +31,10 @@ else:
     'sk_mng_kill' : sk_mng_kill,
     'sk_mod_bani' : sk_mod_bani,
     'sk_mod_unbi' : sk_mod_unbi,
+    'sk_mod_lsti' : sk_mod_lsti,
     'sk_mod_banu' : sk_mod_banu,
     'sk_mod_unbu' : sk_mod_unbu,
+    'sk_mod_lstu' : sk_mod_lstu,
     'sk_log_rtrv' : sk_log_rtrv,
     'sk_nfo_syms' : sk_nfo_syms,
     'sk_nfo_dedi' : sk_nfo_dedi,

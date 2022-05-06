@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 
-import sqlite3
 import json
 import ipaddress
 
 import sk__cmd
 import sk__res
 import sk__dbg
+import sk__sql
 
-# Push modal disclaimer about killing MS process
+# Push the UID banning modal to the client
 def prepare(_data):
   # Get the ban modal template
   file = open("../template/sk_mod_banu.tpl", "r")
@@ -18,49 +18,44 @@ def prepare(_data):
 
 # Push segment to client
 def process(_data):
-  # Open or create database
-  dbPath = r'../db/blacklist_uid.db'
-  con = None
-  try:
-    con = sqlite3.connect(dbPath)
-  except sqlite3.OperationalError:
-    sk__dbg.message(sk__dbg.messtype.ERR, "Can't connect to /var/www/synak/res/db/blacklist_uid.db.")
+  # Get sqlite connection
+  con, conChk = sk__sql.sql_con()
+  if not conChk:
     return
-
-  # If table does not exist, create table
-  cur = con.cursor()
-  cur.execute("""SELECT count(name) FROM sqlite_master WHERE type='table' AND name='t_ban'""")
-  if cur.fetchone()[0] == 0 :
-    try:
-      cur.execute("""CREATE TABLE if not exists t_ban(c_uid CHAR(32) NOT NULL PRIMARY KEY)""")
-      con.commit()
-    except sqlite3.Error as er:
-      sk__dbg.message(sk__dbg.messtype.ERR, 'Error when creating table t_ban: %s' % (' '.join(er.args)))
-      return
 
   # Get POST data
   data = json.loads(_data)
 
-  # Insert every UID in the SQL database
-  for elem in data:
-    try:
-      cur.execute(f'INSERT OR REPLACE INTO "t_ban" ("c_uid") values("{elem}");')
-      con.commit()
-    except sqlite3.Error as er:
-      sk__dbg.message(sk__dbg.messtype.ERR, 'Error when inserting UID: %s' % (' '.join(er.args)))
-      return
-
-  # Close sqlite connection
-  if con :
-    con.close()
-
   # For every IP in the POST data
   strResult = '<div class="header">Successfully banned UIDs</div><div class="ui bulleted list">'
-  for elem in data:
-    strResult += f'<div class="item">{elem}</div>'
 
-  # Close the html content division
-  strResult += '</div>'
+  # Sqlite command to unban UIDs
+  strSqliteCmd = "INSERT OR REPLACE INTO 't_ban' ('c_uid') VALUES "
+
+  # Get POST data
+  data = json.loads(_data)
+
+  # For all UIDs in the POST data
+  for i, elem in enumerate(data):
+    # Add the banned UID to the sqlite command
+    strSqliteCmd += f"('{elem}')"
+    # Populate the HTML segment with the banned UID
+    strResult += f'<div class="item">{elem}</div>'
+    if i < len(data) - 1:
+      strSqliteCmd += ", "
+    else:
+      # Close the sqlite request
+      strSqliteCmd += ";"
+      # Close the HTML segment
+      strResult += '</div>'
+
+  # Execute sqlite request
+  res, resChk = sk__sql.sql_req(con, strSqliteCmd)
+  if not resChk:
+    return
+
+  # Close sqlite
+  sk__sql.sql_cls(con)
 
   # Push the final string to the client
   sk__dbg.message(sk__dbg.messtype.SUC, strResult)

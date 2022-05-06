@@ -5,7 +5,7 @@ import sk__res
 import sk__dbg
 from sk__mng import *
 
-# Push modal disclaimer about killing MS process
+# Push the modal disclaimer about killing the MS process
 def prepare(_data):
   # Get MS PID
   pid = getPid(False)

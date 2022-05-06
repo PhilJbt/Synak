@@ -5,7 +5,7 @@ import sk__skt
 import sk__dbg
 from sk__mng import *
 
-# Push segment to client
+# Push the filled Synak MS informations segment to the client
 def prepare(_data):
   ## Get Master Server informations
   dictDataSend = {

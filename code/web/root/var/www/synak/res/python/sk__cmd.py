@@ -4,6 +4,7 @@ import subprocess
 
 import sk__dbg
 
+# Function to send a command to a unix terminal
 def send(_cmd):
   # Send the command to a terminal
   output = subprocess.Popen(_cmd, shell=True, text=True, universal_newlines=True, stdout=subprocess.PIPE)

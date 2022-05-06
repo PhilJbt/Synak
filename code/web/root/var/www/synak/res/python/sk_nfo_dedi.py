@@ -32,13 +32,13 @@ arrValues = {
 
 
 
-# Push dedicated informations segment to the client
+# Push the filled dedicated informations segment to the client
 def prepare(_data):
   # Get the page template template
   fileTbl = open("../template/sk_nfo_dedi_tbl.tpl", "r")
   template_mod = fileTbl.read()
 
-  ## Stats#1
+  ## Stats#1 Section
   # Get the template
   fileSta = open("../template/sk_nfo_dedi_sta.tpl", "r")
   stat_raw = fileSta.read()
@@ -62,7 +62,7 @@ def prepare(_data):
   template_mod = template_mod.replace("%STATS_1%", stat_hst+stat_lin+stat_arc)
 
 
-  ## Stats#2
+  ## Stats#2 Section
   # Fill stats#2 with hdd/ssd usage
   info_cpu = format(float(sk__cmd.send('top -b -d1 -n1|grep -i "Cpu(s)"|head -c21|awk \'{print $2}\'')), '.1f')
   if float(info_cpu) < 0.1:
@@ -88,7 +88,7 @@ def prepare(_data):
   template_mod = template_mod.replace("%STATS_2%", stat_cpu+stat_ram+stat_hdd)
 
 
-  ## Optimizations
+  ## Optimizations Section
   # Get the table template
   fileRow = open("../template/sk_nfo_dedi_row.tpl", "r")
   tplRow = fileRow.read()

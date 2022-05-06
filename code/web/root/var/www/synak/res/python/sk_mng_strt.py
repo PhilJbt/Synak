@@ -5,7 +5,7 @@ import sk__res
 import sk__dbg
 from sk__mng import *
 
-# Push segment to client
+# Try to start the MS process and push result to the client
 def prepare(_data):
   # Get MS PID
   pid = getPid(True)

@@ -7,7 +7,7 @@ import sk__cmd
 import sk__res
 import sk__dbg
 
-# Push modal disclaimer about killing MS process
+# Push the UID banning modal to the client
 def prepare(_data):
   # Get the ban modal template
   file = open("../template/sk_mod_bani.tpl", "r")

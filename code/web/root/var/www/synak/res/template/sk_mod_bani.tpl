@@ -27,7 +27,7 @@
     <div class="left floated left aligned ten wide column middle aligned content">
       <i id="popnfo_modban" class="info help icon link"></i>
       <div class="ui top left popup flowing">
-        <p>IPs can be <i>IPv4</i>, <i>IPv6</i> or <i>IPv4-mapped IPv6</i>.<br/>This feature uses <i>IPTABLES</i> which means IPs will be banned from all services hosted by this dedicated server (e.g. Synak Master Server, web).</p>
+        <p>IPs can be <i>IPv4</i>, <i>IPv6</i> or <i>IPv4-mapped IPv6</i>.<br/>This feature uses <i>IPTABLES</i> which means IPs will be banned from all services hosted by this dedicated server (e.g. Synak Master Server, website).</p>
       </div>
     </div>
     <div class="right floated right aligned six wide column">

@@ -2,7 +2,7 @@
 
 import json
 
-# Send content to client
+# Send DATA or HTML to the client
 def show(_type, _data):
   data = {
     "type": _type,

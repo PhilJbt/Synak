@@ -13,7 +13,7 @@ sys.path.insert(0, '../../dep/cholcombe973')
 from crc32 import CRC32
 
 
-# Send request to the Synak Master Server
+# Function to send a request to the Synak Master Server
 def send(_dictData, _arrKeysExpected):
   # Create IPv6 socket
   sockfd = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)

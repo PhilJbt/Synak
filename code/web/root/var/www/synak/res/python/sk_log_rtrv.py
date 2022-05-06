@@ -8,13 +8,13 @@ import os.path
 import sk__dbg
 import sk__res
 
-# Push segment to client
+# Push the filled log html segment to the client
 def prepare(_data):
   # If log file exists
   if os.path.isfile('/synak_ms/synak_ms.log'):
     # Read the log file
     res = subprocess.check_output('cat /synak_ms/synak_ms.log', shell=True).decode("utf-8")
-    # Replace OS by web new line char
+    # Replace the new line OS character by the HTML tag
     res = res.replace("\n", "<br/>")
     # If log file is empty, push an information message to the client
     if len(res) == 0:

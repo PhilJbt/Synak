@@ -7,46 +7,13 @@ import sk__cmd
 import sk__res
 import sk__dbg
 
-# Push modal disclaimer about killing MS process
+# Push the IP unban modal to the client
 def prepare(_data):
-  # Get IPv4 and IPv6 banned IPs
-  listIPv4_raw = sk__cmd.send("sudo iptables -L INPUT -v -n | grep DROP | awk '{print $8}'")
-  listIPv6_raw = sk__cmd.send("sudo ip6tables -L INPUT -v -n | grep DROP | awk '{print $7}'")
-
-  # Get the item list template
-  fileItem = open("../template/sk_mod_unbi_itm.tpl", "r")
-  htmlItem = fileItem.read()
-
-  # Replace the banned IPv4 list to the item list template
-  listIPv4_mod = ""
-  for itemRaw in listIPv4_raw.splitlines():
-    listIPv4_mod += htmlItem.replace("%IP%", itemRaw)
-
-  # Replace the banned IPv6 list to the item list template
-  listIPv6_mod = ""
-  for itemRaw in listIPv6_raw.splitlines():
-    listIPv6_mod += htmlItem.replace("%IP%", itemRaw)
-
-  # Get the unban modal template
+  # Get the ban modal template
   file = open("../template/sk_mod_unbi.tpl", "r")
   template_raw = file.read()
-  # If there is at least 1 banned IPv4
-  if len(listIPv4_mod) > 0:
-    # Push the IPv4 banned list to the unban modal template
-    template_mod = template_raw.replace("%IPV4%", listIPv4_mod)
-  # Push an empty list
-  else:
-    template_mod = template_raw.replace("%IPV4%", 'There are no banned IPv4 IPs.')
-  # If there is at least 1 banned IPv6
-  if len(listIPv6_mod) > 0:
-    # Push the IPv6 banned list to the unban modal template
-    template_mod = template_mod.replace("%IPV6%", listIPv6_mod)
-  # Push an empty list
-  else:
-    template_mod = template_mod.replace("%IPV6%", 'There are no banned IPv6 IPs.')
-
-  # Push the unban modal template to the client
-  sk__res.show("prep", template_mod)
+  # Send the modal to the client
+  sk__res.show("prep", template_raw)
 
 # Push segment to client
 def process(_data):

@@ -16,6 +16,7 @@ import sk_mod_banu
 import sk_mod_unbu
 import sk_mod_lstu
 import sk_log_rtrv
+import sk_log_eras
 import sk_nfo_syms
 import sk_nfo_dedi
 
@@ -36,6 +37,7 @@ else:
     'sk_mod_unbu' : sk_mod_unbu,
     'sk_mod_lstu' : sk_mod_lstu,
     'sk_log_rtrv' : sk_log_rtrv,
+    'sk_log_eras' : sk_log_eras,
     'sk_nfo_syms' : sk_nfo_syms,
     'sk_nfo_dedi' : sk_nfo_dedi,
   }

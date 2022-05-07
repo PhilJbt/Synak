@@ -31,6 +31,9 @@ def prepare(_data):
       sk__dbg.message(sk__dbg.messtype.NFO, "/synak_ms/synak_ms.log file is empty.")
     # If log file exists and is not empty, push the log file to the client
     else:
+      # Get the item template for the log
+      fileItem = open("../template/sk_log_rtv_itm.tpl", "r")
+      htmlItem = fileItem.read()
       # Replace brackets by HTML label tags
       strRes = '<div class="ui feed large">'
       for line in res.splitlines():
@@ -39,21 +42,10 @@ def prepare(_data):
         iEndType = line[iEndCode:].find(']') + 1
         strType  = line[iEndCode + 1:iEndCode + iEndType]
         strDesc  = line[iEndCode + iEndType:]
-        strRes += f'<div class="event">\
-                      <div class="label">\
-                        <i class="icon {_typeGet(strType)}"></i>\
-                      </div>\
-                      <div class="content">\
-                        <div class="summary">\
-                          {strDesc}\
-                        </div>\
-                        <div class="meta">\
-                          <div class="like">\
-                            {strCode}\
-                          </div>\
-                        </div>\
-                      </div>\
-                    </div>'
+        line2 = htmlItem.replace("%CODE%", strCode)
+        line2 = line2.replace("%TYPE%", _typeGet(strType))
+        line2 = line2.replace("%DESC%", strDesc)
+        strRes += line2
       strRes += '</div>'
       sk__res.show("proc", strRes)
   # If log file doesn't exist, push an information message to the client

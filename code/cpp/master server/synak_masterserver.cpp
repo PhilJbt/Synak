@@ -10,8 +10,8 @@
 
 
 int SK::MasterServer::m_fdPipeKill[2] { -1, -1 };
+int SK::MasterServer::m_iLogID { 0 };
 volatile std::atomic_bool SK::MasterServer::m_bRun { false };
-
 
 /* MasterServer::Initialization
 ** Initialization the Master Server class
@@ -24,7 +24,7 @@ void SK::MasterServer::initialization() {
     sigbreak.sa_handler = &MasterServer::signalHandler;
     sigbreak.sa_flags = 0;
     if (::sigaction(SIGUSR1, &sigbreak, NULL) != 0)
-        SK_WRITELOG(SK_FILENLINE,STRERROR);
+        SK_WRITELOG(SK_FILENLINE, { STRERROR });
 }
 
 /* MasterServer::Unitialization
@@ -59,7 +59,7 @@ void SK::MasterServer::unitialization() {
 void SK::MasterServer::signalHandler(int _signum) {
     std::cerr << "SIGUSR1" << std::endl;
     m_bRun = false;
-    ::write(m_fdPipeKill[1], "1", strlen("1"));
+    ::write(m_fdPipeKill[1], "1", ::strlen("1"));
     //::exit(_signum);
 }
 
@@ -83,7 +83,7 @@ void SK::MasterServer::_watcherterminal() {
     // Check commands written in the terminal
     int epfd = ::epoll_create(3);
     if(epfd == -1)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, { STRERROR });
 
     epoll_event ev[3];
 
@@ -95,7 +95,7 @@ void SK::MasterServer::_watcherterminal() {
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 5000);
         if(nfds < 0)
-            SK_WRITELOG(SK_FILENLINE, STRERROR);
+            SK_WRITELOG(SK_FILENLINE, { STRERROR });
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == ::fileno(stdin)
@@ -103,7 +103,7 @@ void SK::MasterServer::_watcherterminal() {
                     std::getline(std::cin, strCmd);
                     if(strCmd == "stop") {
                         m_bRun = false;
-                        ::write(m_fdPipeKill[1], "1", strlen("1"));
+                        ::write(m_fdPipeKill[1], "1", ::strlen("1"));
                     }
                 }
             }
@@ -134,7 +134,7 @@ void SK::MasterServer::watcherWebpanel(uint16_t _ui8Port) {
 
     // Create pipe for emergency stop
     if (::pipe2(m_fdPipeKill, O_NONBLOCK) == -1)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, { STRERROR });
 
     // Launch thread
     if (!m_thdWatcherWebpanel)
@@ -149,12 +149,12 @@ void SK::MasterServer::_watcherwebpanel() {
 
     // Accept web panel incoming connections
     if (::listen(m_sckfdWP, SOMAXCONN) != 0)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, { STRERROR });
 
     // Check incoming web panel instructions
     int epfd = ::epoll_create(3);
     if(epfd == -1)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, { STRERROR });
 
     epoll_event ev[3];
 
@@ -166,7 +166,7 @@ void SK::MasterServer::_watcherwebpanel() {
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 5000);
         if(nfds < 0)
-            SK_WRITELOG(SK_FILENLINE, STRERROR);
+            SK_WRITELOG(SK_FILENLINE, { STRERROR });
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == m_sckfdWP
@@ -175,17 +175,17 @@ void SK::MasterServer::_watcherwebpanel() {
                     socklen_t len { sizeof(addrRecv) };
                     SOCKET m_sckfdNew = ::accept(m_sckfdWP, (sockaddr *)&addrRecv, &len);
                     if(m_sckfdNew == SOCKET_ERROR)
-                        SK_WRITELOG(SK_FILENLINE, STRERROR);
+                        SK_WRITELOG(SK_FILENLINE, { STRERROR });
                     else {
                         // Receive message size
                         std::uint32_t ui32BuffSize { 0 };
                         if (::recv(m_sckfdNew, &ui32BuffSize, sizeof(ui32BuffSize), MSG_NOSIGNAL) <= 0)
-                            SK_WRITELOG(SK_FILENLINE, STRERROR);
+                            SK_WRITELOG(SK_FILENLINE, { STRERROR });
                         else {
                             // Receive checksum
                             std::uint32_t ui32CrcRecv { 0 };
                             if (::recv(m_sckfdNew, &ui32CrcRecv, sizeof(ui32CrcRecv), MSG_NOSIGNAL) <= 0)
-                                SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                SK_WRITELOG(SK_FILENLINE, { STRERROR });
                             else {
                                 // Cast buffer size to host-endianness
                                 ui32BuffSize = ::ntohl(ui32BuffSize);
@@ -196,13 +196,13 @@ void SK::MasterServer::_watcherwebpanel() {
                                 // Declare buffer size
                                 char *ptrRecv { new char[ui32BuffSize] };
                                 if (::recv(m_sckfdNew, ptrRecv, ui32BuffSize, MSG_NOSIGNAL) <= 0)
-                                    SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                    SK_WRITELOG(SK_FILENLINE, { STRERROR });
                                 else {
                                     // Verify checksum
                                     std::uint32_t ui32CrcRecvVerif;
                                     ui32CrcRecvVerif = CRC::Calculate(ptrRecv, ui32BuffSize, SK::SynakManager::m_crcTable);
                                     if (ui32CrcRecv != ui32CrcRecvVerif)
-                                        SK_WRITELOG(SK_FILENLINE, "Checksum is not valid.");
+                                        SK_WRITELOG(SK_FILENLINE, { "Checksum is not valid." });
                                     else {
                                         json        jRecv { json::parse(ptrRecv) },
                                                     jSend;
@@ -258,7 +258,7 @@ void SK::MasterServer::_watcherwebpanel() {
                                         ::memcpy(ptrBuffMessSend + sizeof(uiMesslen),                       &ui32CrcSend,   sizeof(ui32CrcSend));
                                         ::memcpy(ptrBuffMessSend + sizeof(uiMesslen) + sizeof(ui32CrcSend), strJson.data(), strJson.length());
                                         if (::send(m_sckfdNew, ptrBuffMessSend, ui32Messlen, MSG_NOSIGNAL) == -1)
-                                            SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                            SK_WRITELOG(SK_FILENLINE, { STRERROR });
                                         delete[] ptrBuffMessSend;
                                     }
                                 }
@@ -283,14 +283,31 @@ void SK::MasterServer::_watcherwebpanel() {
 /* MasterServer::writeLog
 ** Write messages in log file
 */
-void SK::MasterServer::writeLog(std::string _strFileLine, std::string _strMessage, std::string _strAddInfos, bool _bTruncate) {
+void SK::MasterServer::writeLog(std::string _strFileLine, std::vector<std::string> _vecMess, std::string _strType, bool _bTruncate) {
+    
+    std::string strMess { "[" };
+    size_t iNbrMess { _vecMess.size() };
+    for (unsigned int i = 0; i < iNbrMess; ++i)
+        strMess += "\"" + _vecMess[i] + (i < iNbrMess - 1 ? "\", " : "\"]");
+
+    std::string strTime(100, 0);
+    std::time_t t = std::time(nullptr);
+    strTime.resize(std::strftime(&strTime[0], strTime.size(),
+        "%H:%M:%S %d/%m/%Y", std::localtime(&t)));
+
     std::ios_base::openmode iosOpenmode { std::ios_base::binary | std::ios_base::out | (_bTruncate ? std::ios_base::trunc : std::ios_base::app) };
-    std::string             strPath { "/synak_ms/synak_ms.log" },
-                            strLine { _strMessage + (_strAddInfos.length() > 0 ? " (" + _strAddInfos + ")" : "")};
-    std::ofstream           fLogFile(strPath, iosOpenmode);
+    std::string strPath { "/synak_ms/synak_ms.log" },
+    strLine {
+        "[\"" + std::to_string(++m_iLogID) + "\","
+        "\"" + _strType + "\","
+        "\"" + _strFileLine + "\","
+        "\"" + strTime + "\","
+        + strMess + "]"
+    };
+    std::ofstream fLogFile(strPath, iosOpenmode);
     
     if(fLogFile) {
-        fLogFile << "[" << _strFileLine << "] " << strLine << std::endl;
+        fLogFile << strLine << std::endl;
         if(fLogFile.bad())
             std::cerr << "Can't write the log file (file permissions?): " << STRERROR << std::endl;
         else {

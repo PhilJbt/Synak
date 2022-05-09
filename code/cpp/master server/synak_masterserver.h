@@ -21,12 +21,14 @@ namespace SK {
         void watcherTerminal();
         void watcherWebpanel(uint16_t _ui8Port);
         static void signalHandler(int _signum);
-        static void writeLog(std::string _strFileLine, std::string _strMessage, std::string _strAddInfos = "", bool _bTruncate = false);
+        static void writeLog(std::string _strFileLine, std::vector<std::string> _vecMess, std::string _strType = "ERR", bool _bTruncate = false);
 
 
         SOCKET m_sckfdWP { SOCKET_ERROR };
         static volatile std::atomic_bool m_bRun;
         static int m_fdPipeKill[2];
+
+        static int m_iLogID;
 
     private:
         void _watcherterminal();

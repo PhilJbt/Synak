@@ -17,6 +17,7 @@
 #include <variant>
 #include <thread>
 #include <atomic>
+#include <sstream>
 
 // NETWORK
 #ifdef _WIN32

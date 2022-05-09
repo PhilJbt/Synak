@@ -1,19 +1,26 @@
 <div class="title">
   <i class="dropdown icon"></i>
-  <a class="ui label %ERI1%">
-    <i class="icon %ERI2%"></i> %ERCD%
+  <div class="ui label black inverted circular">%ID%</div>
+  <a class="ui label %CLR1%">
+    <i class="icon %CLR2%"></i> %TYPE%
   </a>
-  <div class="ui label black inverted circular">%TMED%</div>
-  <div class="ui label">%TMEH%</div>
+  <div class="ui label">
+    <i class="icon file"></i>
+    %FIL1%
+    <a class="detail">%FIL2%</a>
+  </div>
+  <div class="ui label">
+    <i class="icon clock"></i>
+    %TIM2%
+    <a class="detail">%TIM1%</a>
+  </div>
 </div>
 <div class="content">
-  <div class="ui icon message %ERI1%">
-    <i class="icon %ERI3%"></i>
+  <div class="ui icon message %CLR1%">
+    <i class="icon %CLR3%"></i>
     <div class="content">
-      <div class="header">
-        %DESC%
-      </div>
-      <p>%FILE%</p>
+      <p>Event <hl>%ID%</hl> has been thrown at <hl>%TIM1%</hl> the <hl>%TIM2%</hl> by <hl>%FIL1%</hl> at line <hl>%FIL2%</hl>.</p>
+      <p class="header">%DESC%</p>
     </div>
   </div>
 </div>

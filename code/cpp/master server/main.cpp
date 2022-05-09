@@ -157,19 +157,9 @@ private:
 };
 
 int main() {
-    // SERIALIZE STRUCT
-    auto t0 = std::chrono::high_resolution_clock::now();
-    myclass dataS("minus ten, minus two", { -10, -2 }, 1234567.125f);
-    for (unsigned int i = 0; i < 1e+4; ++i) {
-        packet<myclass> packet;
-        packet.setData(dataS);
-    }
-    /*myclass dataR;
-    packet.fillFromBuff(dataR);*/
-    auto t1 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> fs = t1 - t0;
-    std::chrono::milliseconds d = std::chrono::duration_cast<std::chrono::milliseconds>(fs);
-    std::cout << d.count() << "ms";
+    SK_WRITELOG(SK_FILENLINE, { "Starting", std::string("PID ") + std::to_string(::getpid()), std::string("BUILD ") + SK_BUILDTIMESTAMP }, "NFO", true);
+    SK_WRITELOG(SK_FILENLINE, { "error at object" });
+    SK_WRITELOG(SK_FILENLINE, { "Stopping" }, "NFO");
     return 0;
 
     /*
@@ -262,7 +252,7 @@ int main() {
     return 0;
     */
 
-    SK_WRITELOG(SK_FILENLINE, "[START] " + std::to_string(::getpid()) + " " + SK_BUILDTIMESTAMP, "", true);
+    //SK_WRITELOG(SK_FILENLINE, "Starting", std::to_string(::getpid()), SK_BUILDTIMESTAMP);
 
     // Network Layer initialization
     SK::SynakManager mngr_nl;
@@ -279,7 +269,7 @@ int main() {
     mngr_ms.unitialization();
     mngr_nl.unitialization();
 
-    SK_WRITELOG(SK_FILENLINE, "[STOP]");
+    //SK_WRITELOG(SK_FILENLINE, { "Stopping" }, "NFO");
 
     return 0;
 }

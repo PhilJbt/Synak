@@ -25,7 +25,7 @@
 
 
 
-#define SK_FILENLINE                    SK_FILENAME + std::string("::") + SK_FILELINE
+#define SK_FILENLINE                    SK_FILENAME + std::string(" ") + SK_FILELINE
 #define SK_ARRSIZE(ARR)                 sizeof(ARR)/sizeof(ARR[0])
 #define SK_CLOSESOCKET(SCKT)            ::shutdown(SCKT, SHUT_RDWR); closesocket(SCKT); SCKT = SOCKET_ERROR
 #if(SK_DEBUG == true)

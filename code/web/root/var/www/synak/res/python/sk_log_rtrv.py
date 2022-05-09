@@ -9,18 +9,12 @@ import sk__dbg
 import sk__res
 
 def _typeGet(_strType):
-  typeIndentifier = _strType[0:1]
-  if typeIndentifier == 'E':
-    return ['red', 'exclamation triangle', 'exclamation triangle']
-  if typeIndentifier == 'N':
-    if _strType == 'NFO_100':
-      return ['blue', 'play circle', 'play circle']
-    elif _strType == 'NFO_101':
-      return ['blue', 'stop circle', 'stop circle']
-    else:
-      return ['blue', 'info circle', 'info circle']
+  if _strType == 'ERR':
+    return ['red', 'exclamation triangle',]
+  elif _strType == 'NFO':
+    return ['blue', 'info circle',]
   else:
-    return ['purple', 'question circle', 'question circle']
+    return ['purple', 'question circle',]
 
 # Push the filled log html segment to the client
 def prepare(_data):
@@ -43,16 +37,23 @@ def prepare(_data):
       lines = []
       for line in res.splitlines():
         lineJson = json.loads(line)
-        timeParse = lineJson[2].split(' ')
-        labelParse = _typeGet(lineJson[0])
-        lineModif = htmlItem.replace("%ERI1%", labelParse[0])
-        lineModif = lineModif.replace("%ERI2%", labelParse[1])
-        lineModif = lineModif.replace("%ERI3%", labelParse[2])
-        lineModif = lineModif.replace("%ERCD%", lineJson[0])
-        lineModif = lineModif.replace("%FILE%", lineJson[1])
-        lineModif = lineModif.replace("%TMEH%", timeParse[0])
-        lineModif = lineModif.replace("%TMED%", timeParse[1])
-        lineModif = lineModif.replace("%DESC%", lineJson[3])
+        labelParse = _typeGet(lineJson[1])
+        lineDesc = '<ul class="ui list">'
+        for elem in lineJson[4]:
+          lineDesc += f'<li>{elem}</li>'
+        lineDesc += '</ul>'
+        lineTime = lineJson[3].split(' ')
+        lineFile = lineJson[2].split(' ')
+        lineModif = htmlItem.replace("%ID%", lineJson[0])
+        lineModif = lineModif.replace("%TYPE%", lineJson[1])
+        lineModif = lineModif.replace("%CLR1%", labelParse[0])
+        lineModif = lineModif.replace("%CLR2%", labelParse[1])
+        lineModif = lineModif.replace("%CLR3%", labelParse[1])
+        lineModif = lineModif.replace("%FIL1%", lineFile[0])
+        lineModif = lineModif.replace("%FIL2%", lineFile[1])
+        lineModif = lineModif.replace("%TIM1%", lineTime[0])
+        lineModif = lineModif.replace("%TIM2%", lineTime[1])
+        lineModif = lineModif.replace("%DESC%", lineDesc)
         lines.append(lineModif)
       strRes = ''.join(lines[::-1])
       htmlLog = htmlLog.replace("%LOG%", strRes)

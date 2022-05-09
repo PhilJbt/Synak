@@ -201,7 +201,8 @@ int main() {
     return 0;
     */
 
-    SK_WRITELOG(SK_FILENLINE, { "Starting Synak MS.", std::string("PID ") + std::to_string(::getpid()), std::string("BUILD ") + SK_BUILDTIMESTAMP }, "NFO", true);
+    SK_WRITELOG(std::string(SK_FILENLINE), "NFO", "Starting Synak MS.", std::string("PID " + std::to_string(::getpid())), std::string("BUILD " + SK_BUILDTIMESTAMP));
+    SK::MasterServer::m_bLogTruncate = false;
 
     // Network Layer initialization
     SK::SynakManager mngr_nl;
@@ -218,7 +219,7 @@ int main() {
     mngr_ms.desinitialization();
     mngr_nl.desinitialization();
 
-    SK_WRITELOG(SK_FILENLINE, { "Stopping Synak MS." }, "NFO");
+    SK_WRITELOG(SK_FILENLINE, "NFO", "Stopping Synak MS.");
 
     return 0;
 }

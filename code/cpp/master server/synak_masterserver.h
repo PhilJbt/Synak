@@ -23,14 +23,28 @@ namespace SK {
         static void epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign = false, int _iFlags = 0);
         static void signalBlockAllExcept(int _iFlags = 0);
         static void signalHandler(int _signum);
-        static void writeLog(std::string _strFileLine, std::vector<std::string> _vecMess, std::string _strType = "ERR", bool _bTruncate = false);
+        template<typename... Args>
+        static void writeLog(std::string _strFileLine, std::string _strType = "ERR", Args&& ... args);
 
+        template<typename T>
+        static std::string _writeLog_toStr(T _rval) {
+            return std::to_string(_rval);
+        }
+
+        static std::string _writeLog_toStr(std::string _str) {
+            return _str;
+        }
+
+        static std::string _writeLog_toStr(const char *_cz) {
+            return std::string(_cz);
+        }
 
         SOCKET m_sckfdWP { SOCKET_ERROR };
         static volatile std::atomic_bool m_bRun;
         static int m_fdPipeKill[2];
 
-        static int m_iLogID;
+        static int  m_iLogID;
+        static bool m_bLogTruncate;
 
     private:
         void _watcherterminal();
@@ -94,3 +108,6 @@ namespace SK {
 
     */
 }
+
+#define NoExtraWarning_SK_MS_TEMPLATE
+#include "synak_masterserver_template.cpp" NoExtraWarning_SK_MS_TEMPLATE

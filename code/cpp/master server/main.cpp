@@ -12,52 +12,6 @@
 using VariantType_t     =  std::variant<TYPEFORVARIANT>;
 using ItsOk             =  std::variant< TYPEFORVARIANT, std::vector<VariantType_t>, std::map<uint16_t, VariantType_t> >;
 
-// SERIALIZE STRUCT
-template<typename T>
-class packet {
-public:
-    void setData(T &_data) {
-        msgpack::sbuffer sbuf;
-        msgpack::pack(sbuf, _data);
-
-        m_iPayloadSize = sbuf.size();
-
-        ::memset(m_cBuff, 0, 1396);
-        ::memcpy(m_cBuff, sbuf.data(), m_iPayloadSize);
-    }
-    int getSize() {
-        return m_iPayloadSize + sizeof(m_iPayloadSize);
-    }
-    void fillFromBuff(T &_data) {
-        msgpack::unpacked result;
-        msgpack::unpack(result, m_cBuff, m_iPayloadSize);
-        msgpack::object obj(result.get());
-        obj.convert(_data);
-    }
-    char *getBuff() {
-        return reinterpret_cast<char *>(this);
-    }
-private:
-    int  m_iPayloadSize { 0 };
-    char m_cBuff[1396] { 0 };
-};
-
-class myclass {
-public:
-    MSGPACK_DEFINE(m_str, m_vec, m_flt);
-    myclass() {}
-    myclass(std::string _str, std::vector<int> _vec, float _flt) : m_str(_str), m_vec(_vec), m_flt(_flt) {}
-    void showData() {
-        std::cout << "str:" << m_str << std::endl;
-        for (unsigned int i = 0; i < m_vec.size(); ++i)
-            std::cout << "int" << std::to_string(i + 1) << "/" << std::to_string(m_vec.size()) << ":" << std::to_string(m_vec[i]) << std::endl;
-        std::cout << "flt:" << std::to_string(m_flt) << std::endl;
-    }
-private:
-    std::string      m_str;
-    std::vector<int> m_vec;
-    float            m_flt;
-};
 
 // MESSAGE
 struct SMessageData {
@@ -157,11 +111,6 @@ private:
 };
 
 int main() {
-    SK_WRITELOG(SK_FILENLINE, { "Starting", std::string("PID ") + std::to_string(::getpid()), std::string("BUILD ") + SK_BUILDTIMESTAMP }, "NFO", true);
-    SK_WRITELOG(SK_FILENLINE, { "error at object" });
-    SK_WRITELOG(SK_FILENLINE, { "Stopping" }, "NFO");
-    return 0;
-
     /*
     // MESSAGE
     // Declare
@@ -252,7 +201,7 @@ int main() {
     return 0;
     */
 
-    //SK_WRITELOG(SK_FILENLINE, "Starting", std::to_string(::getpid()), SK_BUILDTIMESTAMP);
+    SK_WRITELOG(SK_FILENLINE, { "Starting Synak MS.", std::string("PID ") + std::to_string(::getpid()), std::string("BUILD ") + SK_BUILDTIMESTAMP }, "NFO", true);
 
     // Network Layer initialization
     SK::SynakManager mngr_nl;
@@ -266,10 +215,10 @@ int main() {
 
     while (mngr_ms.m_bRun);
 
-    mngr_ms.unitialization();
-    mngr_nl.unitialization();
+    mngr_ms.desinitialization();
+    mngr_nl.desinitialization();
 
-    //SK_WRITELOG(SK_FILENLINE, { "Stopping" }, "NFO");
+    SK_WRITELOG(SK_FILENLINE, { "Stopping Synak MS." }, "NFO");
 
     return 0;
 }

@@ -44,4 +44,4 @@ def prepare(_data):
     template_mod = template_raw.replace("%UIDS%", 'There are no banned UIDs.')
 
   # Push the unban modal template to the client
-  sk__res.show("prep", template_mod)
+  sk__res.show("proc", template_mod)

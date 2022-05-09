@@ -14,13 +14,17 @@
 
 
 
+#define SK_FILENAME     (::strrchr(__FILE__, '/') ? ::strrchr(__FILE__, '/') + 1 : __FILE__)
+#define SK_FILELINE     std::to_string(__LINE__)
+
 #ifndef _WIN32
     #define SOCKET          int
     #define SOCKET_ERROR    -1
-    #define SK_FILENAME     (::strrchr(__FILE__, '/') ? ::strrchr(__FILE__, '/') + 1 : __FILE__)
-    #define SK_FILELINE     std::to_string(__LINE__)
-    #define STRERROR        ::strerror(errno)
+    #define STRERROR        SK::SynakManager::strerror_sk()
     #define closesocket(s)  ::close(s)
+#else
+    #define SOCKET          SOCKET
+    #define STRERROR        SK::SynakManager::strerror_sk()
 #endif
 
 

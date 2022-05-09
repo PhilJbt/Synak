@@ -46,8 +46,6 @@
 #define CRCPP_INCLUDE_ESOTERIC_CRC_DEFINITIONS
 #include <dependencies/CRCpp-master/inc/CRC.h>
 
-#include <dependencies/msgpack/msgpack.hpp>
-
 #include <dependencies/nlohmann-json-3.10.2/nlohmann/json.hpp>
 using json = nlohmann::json;
 

@@ -17,7 +17,7 @@
       CANCEL
     </div>
   </div>
-  <div id="btn_proceed" class="ui animated red button" onclick="prepareReq('sk__req', 'proc', 'sk_mng_kll')">
+  <div id="btn_proceed" class="ui animated red button" onclick="prepareReq('sk__req', 'proc', 'sk_mng_kill')">
     <div class="visible content">
       <i class="icon close"></i>
     </div>

@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import signal
+
 import sk__cmd
 import sk__res
 import sk__dbg
@@ -30,7 +32,7 @@ def process(_data):
   # MS process is running
   else:
     # Send OS SIGUSR1 signal to the MS process, triggering a clean shut down
-    sk__cmd.send(f"sudo kill -10 {pid}")
+    sk__cmd.send(f"sudo kill -{signal.SIGUSR1} {pid}")
     # Get MS PID
     pid = getPid(True)
     # There is no MS process running anymore, push a success message to client

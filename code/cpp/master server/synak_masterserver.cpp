@@ -19,6 +19,8 @@ volatile std::atomic_bool SK::MasterServer::m_bRun { false };
 void SK::MasterServer::initialization() {
     m_bRun = true;
 
+    signalBlockAllExcept();
+
     struct sigaction sigbreak;
     ::sigemptyset(&sigbreak.sa_mask);
     sigbreak.sa_handler = &MasterServer::signalHandler;
@@ -30,7 +32,7 @@ void SK::MasterServer::initialization() {
 /* MasterServer::Unitialization
 ** Clean the Master Server class
 */
-void SK::MasterServer::unitialization() {
+void SK::MasterServer::desinitialization() {
     m_bRun = false;
 
     // Close the terminal watcher thread
@@ -51,6 +53,19 @@ void SK::MasterServer::unitialization() {
     // Close shutdown pipe notification
     ::close(m_fdPipeKill[0]);
     ::close(m_fdPipeKill[1]);
+}
+
+/* SynakManager::signalBlockAllExcept
+** Block unix signals
+** If no flag provided to int _iFlags, all flags are blocked
+*/
+void SK::MasterServer::signalBlockAllExcept(int _iFlags) {
+    sigset_t ssIgnoreAll;
+    ::sigemptyset(&ssIgnoreAll);
+    ::sigfillset(&ssIgnoreAll);
+    if (_iFlags > 0)
+        ::sigdelset(&ssIgnoreAll, _iFlags);
+    ::pthread_sigmask(SIG_SETMASK, &ssIgnoreAll, NULL);
 }
 
 /* MasterServer::signalHandler
@@ -75,7 +90,7 @@ void SK::MasterServer::watcherTerminal() {
 ** Monitors for an keyboard input in the terminal
 */
 void SK::MasterServer::_watcherterminal() {
-    SK::SynakManager::signalBlockAllExcept(SIGUSR1);
+    signalBlockAllExcept(SIGUSR1);
 
     // Initialize input command string
     std::string strCmd;
@@ -88,12 +103,12 @@ void SK::MasterServer::_watcherterminal() {
     epoll_event ev[3];
 
     int iFlagsCreate { EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR };    
-    SK::SynakManager::epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_ADD, true, iFlagsCreate);
-    SK::SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
-    SK::SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
+    epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_ADD, true, iFlagsCreate);
+    epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
+    epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
 
     while(m_bRun) {
-        int nfds = ::epoll_wait(epfd, ev, 3, 5000);
+        int nfds = ::epoll_wait(epfd, ev, 3, 60000);
         if(nfds < 0)
             SK_WRITELOG(SK_FILENLINE, { STRERROR });
         else {
@@ -110,9 +125,21 @@ void SK::MasterServer::_watcherterminal() {
         }
     }
 
-    SK::SynakManager::epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_DEL);
-    SK::SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
-    SK::SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
+    epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_DEL);
+    epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
+    epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
+}
+
+/* SynakManager::epollAdd
+** Add file descriptor to epoll event watcher
+*/
+void SK::MasterServer::epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign, int _iFlags) {
+    if (_bAssign) {
+        _ev->events = _iFlags;
+        _ev->data.fd = _fd;
+    }
+    if (::epoll_ctl(_epfd, _iAction, _fd, _ev) != 0)
+        SK_SHOWERROR(SK_FILENLINE, STRERROR);
 }
 
 /* MasterServer::WatcherTerminal
@@ -129,7 +156,7 @@ void SK::MasterServer::watcherWebpanel(uint16_t _ui8Port) {
         { SOL_SOCKET,	SO_LINGER,		sl },
         { IPPROTO_TCP,	TCP_NODELAY,	1  }, // Disable Nagle's algorithm
         { IPPROTO_TCP,	TCP_CORK,	    0  }  // Disable Cork
-        });
+    });
     sockOpts.socketBind(_ui8Port);
 
     // Create pipe for emergency stop
@@ -145,7 +172,7 @@ void SK::MasterServer::watcherWebpanel(uint16_t _ui8Port) {
 ** Monitors for a command input though the web panel
 */
 void SK::MasterServer::_watcherwebpanel() {
-    SK::SynakManager::signalBlockAllExcept(SIGUSR1);
+    signalBlockAllExcept(SIGUSR1);
 
     // Accept web panel incoming connections
     if (::listen(m_sckfdWP, SOMAXCONN) != 0)
@@ -159,12 +186,12 @@ void SK::MasterServer::_watcherwebpanel() {
     epoll_event ev[3];
 
     int iFlagsCreate { EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR };
-    SK::SynakManager::epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_ADD, true, iFlagsCreate);
-    SK::SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
-    SK::SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
+    epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_ADD, true, iFlagsCreate);
+    epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
+    epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
 
     while(m_bRun) {
-        int nfds = ::epoll_wait(epfd, ev, 3, 5000);
+        int nfds = ::epoll_wait(epfd, ev, 3, 60000);
         if(nfds < 0)
             SK_WRITELOG(SK_FILENLINE, { STRERROR });
         else {
@@ -273,9 +300,9 @@ void SK::MasterServer::_watcherwebpanel() {
         }
     }
 
-    SK::SynakManager::epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_DEL);
-    SK::SynakManager::epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
-    SK::SynakManager::epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
+    epollAdd(&ev[0], epfd, m_sckfdWP,       EPOLL_CTL_DEL);
+    epollAdd(&ev[1], epfd, m_fdPipeKill[0], EPOLL_CTL_DEL);
+    epollAdd(&ev[2], epfd, m_fdPipeKill[1], EPOLL_CTL_DEL);
 
     SK_CLOSESOCKET(m_sckfdWP);
 }
@@ -288,7 +315,7 @@ void SK::MasterServer::writeLog(std::string _strFileLine, std::vector<std::strin
     std::string strMess { "[" };
     size_t iNbrMess { _vecMess.size() };
     for (unsigned int i = 0; i < iNbrMess; ++i)
-        strMess += "\"" + _vecMess[i] + (i < iNbrMess - 1 ? "\", " : "\"]");
+        strMess += "\"" + _vecMess[i] + (i < iNbrMess - 1 ? "\"," : "\"]");
 
     std::string strTime(100, 0);
     std::time_t t = std::time(nullptr);

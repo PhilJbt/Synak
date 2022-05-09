@@ -17,9 +17,11 @@ namespace SK {
 
     public:
         void initialization();
-        void unitialization();
+        void desinitialization();
         void watcherTerminal();
         void watcherWebpanel(uint16_t _ui8Port);
+        static void epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign = false, int _iFlags = 0);
+        static void signalBlockAllExcept(int _iFlags = 0);
         static void signalHandler(int _signum);
         static void writeLog(std::string _strFileLine, std::vector<std::string> _vecMess, std::string _strType = "ERR", bool _bTruncate = false);
 

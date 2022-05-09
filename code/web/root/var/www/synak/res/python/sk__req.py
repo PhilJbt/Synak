@@ -9,6 +9,7 @@ import sk__dbg
 import sk_mng_strt
 import sk_mng_stop
 import sk_mng_kill
+import sk_mng_chck
 import sk_mod_bani
 import sk_mod_unbi
 import sk_mod_lsti
@@ -30,6 +31,7 @@ else:
     'sk_mng_strt' : sk_mng_strt,
     'sk_mng_stop' : sk_mng_stop,
     'sk_mng_kill' : sk_mng_kill,
+    'sk_mng_chck' : sk_mng_chck,
     'sk_mod_bani' : sk_mod_bani,
     'sk_mod_unbi' : sk_mod_unbi,
     'sk_mod_lsti' : sk_mod_lsti,
@@ -64,7 +66,7 @@ else:
       else:
         if (jsonPost["auth"] not in jsonPerms
           or file_name not in jsonPerms[jsonPost["auth"]]):
-          sk__dbg.message(sk__dbg.messtype.KEY, "You do not have the necessary permissions to access this feature.")
+          sk__dbg.message(sk__dbg.messtype.KEY, f"You do not have the necessary permissions to access this feature ({file_name}).")
           exit()
 
     # Script doesn't exist

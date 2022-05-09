@@ -46,4 +46,4 @@ def prepare(_data):
     template_mod = template_mod.replace("%IPV6%", 'There are no banned IPv6 IPs.')
 
   # Push the unban modal template to the client
-  sk__res.show("prep", template_mod)
+  sk__res.show("proc", template_mod)

@@ -1,1 +1,1 @@
-<div class="item">%IP%</label></div>
+<div class="item">%IP%</div>

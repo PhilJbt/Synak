@@ -1,8 +1,9 @@
 {
-  "68E4FQ64H6F8YJ4ULIL": [
+  "MyAdminPrivateKey": [
     "sk_mng_strt",
     "sk_mng_stop",
     "sk_mng_kill",
+    "sk_mng_chck",
     "sk_mod_bani",
     "sk_mod_unbi",
     "sk_mod_lsti",
@@ -10,11 +11,12 @@
     "sk_mod_unbu",
     "sk_mod_lstu",
     "sk_log_rtrv",
+    "sk_log_eras",
     "sk_nfo_syms",
     "sk_nfo_dedi"
   ],
-  "46Q8F648ZQ68QZ4FQ8Z4F": [
+  "PrivateKeyForModerators": [
     "sk_mod_bani",
-    "sk_nfo_dedi"
+    "sk_mod_banu"
   ]
 }

@@ -41,18 +41,24 @@ namespace SK {
     {
     public:
         ~SynakManager() {
-            unitialization();
+            desinitialization();
         }
 
-        void unitialization();
         void initialization();
-        static void signalBlockAllExcept(int _iFlags = 0);
+        void desinitialization();
 
-        static void epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign = false, int _iFlags = 0);
+        static std::string strerror_sk() {
+#ifdef _WIN32
+            char cArrBuff[256] { '\0' };
+            _strerror_s(cArrBuff, sizeof(cArrBuff), NULL);
+            std::string strMess { std::string(cArrBuff) };
+            return strMess;
+#else
+            return ::strerror(errno);
+#endif
+        }
 
         static CRC::Table<std::uint32_t, 32> m_crcTable;
-
-        void _TEST();
 
     private:
     };

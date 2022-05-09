@@ -23,15 +23,15 @@ def prepare(_data):
     # Read the log file
     res = subprocess.check_output('cat /synak_ms/synak_ms.log', shell=True).decode("utf-8")
     # If log file is empty, push an information message to the client
-    if len(res) < 5:
+    if len(res) < 2:
       sk__dbg.message(sk__dbg.messtype.NFO, "/synak_ms/synak_ms.log file is empty.")
     # If log file exists and is not empty, push the log file to the client
     else:
       # Get the log template
-      fileLog = open("../template/sk_log_rtv.tpl", "r")
+      fileLog = open("../template/sk_log_rtrv.tpl", "r")
       htmlLog = fileLog.read()
       # Get the log item template
-      fileItem = open("../template/sk_log_rtv_itm.tpl", "r")
+      fileItem = open("../template/sk_log_rtrv_itm.tpl", "r")
       htmlItem = fileItem.read()
       # Replace brackets by HTML label tags
       lines = []

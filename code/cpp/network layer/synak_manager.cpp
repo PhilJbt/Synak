@@ -20,62 +20,17 @@ void SK::SynakManager::initialization() {
     if (::WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
         return;
 #else
-    SK::SynakManager::signalBlockAllExcept();
+    NULL;
 #endif
-}
-
-/* SynakManager::signalBlockAllExcept
-** Block unix signals
-** If no flag provided to int _iFlags, all flags are blocked
-*/
-void SK::SynakManager::signalBlockAllExcept(int _iFlags) {
-    sigset_t ssIgnoreAll;
-    ::sigemptyset(&ssIgnoreAll);
-    ::sigfillset(&ssIgnoreAll);
-    if (_iFlags > 0)
-        ::sigdelset(&ssIgnoreAll, _iFlags);
-    ::pthread_sigmask(SIG_SETMASK, &ssIgnoreAll, NULL);
 }
 
 /* SynakManager::Unitialization
 ** Clean Network Layer class
 */
-void SK::SynakManager::unitialization() {
+void SK::SynakManager::desinitialization() {
 #ifdef _WIN32
     WSACleanup();
 #endif
-}
-
-/* SynakManager::_TEST
-**
-*/
-void SK::SynakManager::_TEST() {
-#ifdef _WIN32
-	if ((sockfd = ::socket(AF_INET6, SOCK_STREAM, IPPROTO_IP)) == INVALID_SOCKET)
-		::printf("Could not create socket : %d\n", ::WSAGetLastError());
-#else
-	
-	//sockOpts.socketListen();
-
-	{
-		/*char buff[INET6_ADDRSTRLEN] = { 0 };
-		::inet_ntop(AF_INET6, &addrAccept.sin6_addr, buff, INET6_ADDRSTRLEN);
-		std::cerr << "IP(" << buff << ") PORT(" << ntohs(addrAccept.sin6_port) << ")" << std::endl;*/
-	}
-	
-#endif
-}
-
-/* SynakManager::epollAdd
-** Add file descriptor to epoll event watcher
-*/
-void SK::SynakManager::epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign, int _iFlags) {
-    if(_bAssign) {
-        _ev->events = _iFlags;
-        _ev->data.fd = _fd;
-    }
-    if(::epoll_ctl(_epfd, _iAction, _fd, _ev) != 0)
-        SK_SHOWERROR(SK_FILENLINE, STRERROR);
 }
 
 
@@ -94,7 +49,8 @@ bool SK::SsocketOperations::optionsAdd(std::vector<Sopt> _vecOpts) {
     // For all options stored in the vector
     for (auto elem : std::as_const(_vecOpts)) {
         // Apply the option
-        if (::setsockopt(*m_ptrSockfd, elem.m_iLevel, elem.m_iOptName, (void*)&elem.m_aOptVal, sizeof(elem.m_aOptVal)) != 0) {
+        //if (::setsockopt(*m_ptrSockfd, elem.m_iLevel, elem.m_iOptName, (void*)&elem.m_aOptVal, sizeof(elem.m_aOptVal)) != 0) {
+        if (::setsockopt(*m_ptrSockfd, elem.m_iLevel, elem.m_iOptName, (const char*)&elem.m_aOptVal, sizeof(elem.m_aOptVal)) != 0) {
             SK_SHOWERROR(SK_FILENLINE, STRERROR);
             return false;
         }
@@ -106,7 +62,8 @@ bool SK::SsocketOperations::optionsAdd(std::vector<Sopt> _vecOpts) {
             ::memset(cArrOptVal, 0, iOptLen);
 
             // Get the current option state of the socket
-            if (::getsockopt(*m_ptrSockfd, elem.m_iLevel, elem.m_iOptName, (void*)cArrOptVal, &iOptLen) != 0) {
+            //if (::getsockopt(*m_ptrSockfd, elem.m_iLevel, elem.m_iOptName, (void*)cArrOptVal, &iOptLen) != 0) {
+            if (::getsockopt(*m_ptrSockfd, elem.m_iLevel, elem.m_iOptName, (char*)cArrOptVal, &iOptLen) != 0) {
                 SK_SHOWERROR(SK_FILENLINE, STRERROR);
                 return false;
             }

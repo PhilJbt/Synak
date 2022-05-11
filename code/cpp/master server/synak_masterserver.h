@@ -6,7 +6,8 @@
 
 #pragma once
 
-#include <network layer/synak.h>
+#include "master server/synak_masterserver_define.h"
+
 
 namespace SK {
     /* class SynakManager
@@ -16,44 +17,56 @@ namespace SK {
         friend std::thread;
 
     public:
+        /* General
+        **
+        */
         void initialization();
         void desinitialization();
-        void watcherTerminal();
-        void watcherWebpanel(uint16_t _ui8Port);
+
         static void epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign = false, int _iFlags = 0);
-        static void signalBlockAllExcept(int _iFlags = 0);
-        static void signalHandler(int _signum);
-        template<typename... Args>
-        static void writeLog(std::string _strFileLine, std::string _strType = "ERR", Args&& ... args);
 
-        template<typename T>
-        static std::string _writeLog_toStr(T _rval) {
-            return std::to_string(_rval);
-        }
-
-        static std::string _writeLog_toStr(std::string _str) {
-            return _str;
-        }
-
-        static std::string _writeLog_toStr(const char *_cz) {
-            return std::string(_cz);
-        }
-
-        SOCKET m_sckfdWP { SOCKET_ERROR };
         static volatile std::atomic_bool m_bRun;
-        static int m_fdPipeKill[2];
 
-        static int  m_iLogID;
-        static bool m_bLogTruncate;
+
+        /* Web Panel watcher
+        **
+        */
+        void WP_watcherTerminal_Launch();
+        void WP_watcherWebPanel_Launch(uint16_t _ui8Port);
+        static void WP_signalBlockAllExcept(int _iFlags = 0);
+        static void WP_signalHandler(int _signum);
+
+        SOCKET m_WP_sckfd { SOCKET_ERROR };
+        static int m_WP_fdPipeKill[2];
+
+
+        /* Log writing
+        **
+        */
+        template<typename... Args>
+        static void LW_writeLog(std::string _strFileLine, std::string _strType = "ERR", Args&& ... args);
+
+        static int  m_LW_iLogID;
+        static bool m_LW_bLogTruncate;
 
     private:
-        void _watcherterminal();
-        void _watcherwebpanel();
+        /* Web Panel watcher
+        **
+        */
+        void WP_watcherTerminal_thd();
+        void WP_watcherWebPanel_tdh();
+
+        std::thread *m_WP_thdWatcherTerminal { nullptr },
+                    *m_WP_thdWatcherWebpanel { nullptr };
 
 
-
-        std::thread *m_thdWatcherTerminal { nullptr },
-                    *m_thdWatcherWebpanel { nullptr };
+        /* Log writing
+        **
+        */
+        template<typename T>
+        static std::string LW_writeLog_toStr(T _rval);
+        static std::string LW_writeLog_toStr(std::string _str);
+        static std::string LW_writeLog_toStr(const char *_cz);
     };
 
     /* // MS CLIENTS SOCKET
@@ -78,8 +91,8 @@ namespace SK {
         SK_WRITELOG(SK_FILENLINE, STRERROR);
 
     ev[1].events = EPOLLIN | EPOLLRDHUP | EPOLLERR;
-    ev[1].data.fd = m_fdPipeKill[0];
-    if(::epoll_ctl(epfd, EPOLL_CTL_ADD, m_fdPipeKill[0], &ev[0]) != 0)
+    ev[1].data.fd = m_WP_fdPipeKill[0];
+    if(::epoll_ctl(epfd, EPOLL_CTL_ADD, m_WP_fdPipeKill[0], &ev[0]) != 0)
         SK_WRITELOG(SK_FILENLINE, STRERROR);
 
     while(m_bRun) {
@@ -93,7 +106,7 @@ namespace SK {
                     std::getline(std::cin, strCmd);
                     if(strCmd == "stop") {
                         m_bRun = false;
-                        ::write(m_fdPipeKill[1], "1", strlen("1"));
+                        ::write(m_WP_fdPipeKill[1], "1", strlen("1"));
                     }
                 }
             }
@@ -103,11 +116,11 @@ namespace SK {
     if(::epoll_ctl(epfd, EPOLL_CTL_DEL, STDIN_FILENO, &ev[0]) == -1)
         SK_WRITELOG(SK_FILENLINE, STRERROR);
 
-    if(::epoll_ctl(epfd, EPOLL_CTL_DEL, m_fdPipeKill[0], &ev[1]) == -1)
+    if(::epoll_ctl(epfd, EPOLL_CTL_DEL, m_WP_fdPipeKill[0], &ev[1]) == -1)
         SK_WRITELOG(SK_FILENLINE, STRERROR);
 
     */
 }
 
 #define NoExtraWarning_SK_MS_TEMPLATE
-#include "synak_masterserver_template.cpp" NoExtraWarning_SK_MS_TEMPLATE
+#include "synak_masterserver_writelog_template.cpp" NoExtraWarning_SK_MS_TEMPLATE

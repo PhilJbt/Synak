@@ -4,9 +4,10 @@
 * main.cpp
 */
 
-#include <network layer/synak.h>
-#include <master server/synak_masterserver.h>
-#include <master server/synak_masterserver_define.h>
+#define SK_NO_CPP_INCLUDING
+
+#include "network layer/synak.h"
+#include "master server/synak_masterserver.h"
 
 #define TYPEFORVARIANT     uint8_t, uint16_t, uint32_t, uint64_t, int8_t, int16_t, int32_t, int64_t, float, double, bool, std::string
 using VariantType_t     =  std::variant<TYPEFORVARIANT>;
@@ -34,20 +35,20 @@ public:
     }
 
     struct endianSupport {
-        endianSupport(std::string _strName, json *_jReturn) : m_strName(_strName), m_jReturn(_jReturn) { }
+        endianSupport(std::string _strName, nlohmann::json *_jReturn) : m_strName(_strName), m_jReturn(_jReturn) { }
 
         template< typename T >
         void operator() (const T &_val) const {
             // STD::MAP<VARIANT>
             if constexpr (std::is_same_v<T, std::map<uint16_t, VariantType_t>>) {
-                //json j = json::parse(v.begin(), v.end());
-                //json j_vec(c_vector);
+                //nlohmann::json j = nlohmann::json::parse(v.begin(), v.end());
+                //nlohmann::json j_vec(c_vector);
                 std::cerr << "std::map<uint16_t, VariantType_t>" << std::endl;
             }
             // STD::VECTOR<VARIANT>
             else if constexpr (std::is_same_v<T, std::vector<VariantType_t>>) {
-                //json j = json::parse(v.begin(), v.end());
-                //json j_vec(c_vector);
+                //nlohmann::json j = nlohmann::json::parse(v.begin(), v.end());
+                //nlohmann::json j_vec(c_vector);
                 std::cerr << "std::vector<VariantType_t>>" << std::endl;
             }
             // FUNDAMENTAL TYPES
@@ -102,12 +103,12 @@ public:
                 (*m_jReturn)[m_strName] = _val;
             }
         }
-        std::string  m_strName { "" };
-        json        *m_jReturn { nullptr };
+        std::string     m_strName { "" };
+        nlohmann::json *m_jReturn { nullptr };
     };
 
 private:
-    json m_jReturn;
+    nlohmann::json m_jReturn;
 };
 
 int main() {
@@ -145,7 +146,7 @@ int main() {
     SK::Tools::CryptUncrypt(cBuffRecv, iLen);
     std::cerr << std::to_string(sData.m_i) << std::endl;
 
-    // 
+    //
     std::string strGet { mapData.Serialize() };
 
     return 0;
@@ -169,9 +170,9 @@ int main() {
     //qzd.insert({ 0, 12345678 });
     //qzd.insert({ 1, "abcdef" });
     //mapData.Add("2", qzd);
-    
+
     std::string strGet { mapData.Serialize() };
-    
+
     std::cerr << "RETURN> "  << strGet << std::endl;
     return 0;
 
@@ -202,7 +203,7 @@ int main() {
     */
 
     SK_WRITELOG(std::string(SK_FILENLINE), "NFO", "Starting Synak MS.", std::string("PID " + std::to_string(::getpid())), std::string("BUILD " + SK_BUILDTIMESTAMP));
-    SK::MasterServer::m_bLogTruncate = false;
+    SK::MasterServer::m_LW_bLogTruncate = false;
 
     // Network Layer initialization
     SK::SynakManager mngr_nl;
@@ -211,8 +212,8 @@ int main() {
     // Master Server initialization
     SK::MasterServer mngr_ms;
     mngr_ms.initialization();
-    mngr_ms.watcherTerminal();      // Optional
-    mngr_ms.watcherWebpanel(45318); // Optional
+    mngr_ms.WP_watcherTerminal_Launch();      // Optional
+    mngr_ms.WP_watcherWebPanel_Launch(45318); // Optional
 
     while (mngr_ms.m_bRun);
 

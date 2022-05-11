@@ -9,6 +9,7 @@ import sk__dbg
 import sk_mng_strt
 import sk_mng_stop
 import sk_mng_kill
+import sk_mng_optn
 import sk_mng_chck
 import sk_mod_bani
 import sk_mod_unbi
@@ -31,6 +32,7 @@ else:
     'sk_mng_strt' : sk_mng_strt,
     'sk_mng_stop' : sk_mng_stop,
     'sk_mng_kill' : sk_mng_kill,
+    'sk_mng_optn' : sk_mng_optn,
     'sk_mng_chck' : sk_mng_chck,
     'sk_mod_bani' : sk_mod_bani,
     'sk_mod_unbi' : sk_mod_unbi,

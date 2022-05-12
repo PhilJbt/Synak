@@ -1,8 +1,9 @@
 <div class="header">
-  Master Server &#8212; Options
+  Master Server &#8212; Start
 </div>
 <div class="content">
-  <div class="ui header">Options available to apply for the Synak Master Server:</div>
+  <div class="ui header">Options available for startup:</div>
+  %FORM_OPT_START%
   %FORM_OPT_GLOBAL%
 </div>
 <div class="actions">
@@ -14,12 +15,12 @@
       CANCEL
     </div>
   </div>
-  <div id="btn_proceed" class="ui animated green button" onclick="sk_mng_optn()">
+  <div id="btn_proceed" class="ui animated green button" onclick="sk_mng_strt()">
     <div class="visible content">
-      <i class="icon check"></i>
+      <i class="icon play"></i>
     </div>
     <div class="hidden content">
-      APPLY
+      START
     </div>
   </div>
 </div>
@@ -28,10 +29,12 @@ $('#dp_loglevel').dropdown({
     allowCategorySelection: true,
     showOnFocus: false
 });
-$('#dp_loglevel').dropdown('set selected', %LGLV%);
-function sk_mng_optn() {
+$('#dp_loglevel').dropdown('set selected', "2");
+function sk_mng_strt() {
   arrOptVal = {};
   arrOptVal['lglv'] = $('#dp_loglevel_cnt')[0].firstChild.dataset.value.toString();
-  prepareReq('sk__req', 'proc', 'sk_mng_optn', JSON.stringify(arrOptVal));
+  arrOptVal['ptwp'] = $('#in_port_webpanel')[0].value;
+  arrOptVal['ptpl'] = $('#in_port_players')[0].value;
+  prepareReq('sk__req', 'proc', 'sk_mng_strt', JSON.stringify(arrOptVal));
 }
 </script>

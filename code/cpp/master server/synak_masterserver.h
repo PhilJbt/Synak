@@ -20,7 +20,7 @@ namespace SK {
         /* General
         **
         */
-        void initialization();
+        void initialization(int _argc, char *_argv[]);
         void desinitialization();
 
         static void epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int _iAction, bool _bAssign = false, int _iFlags = 0);
@@ -35,6 +35,7 @@ namespace SK {
         void WP_watcherWebPanel_Launch(uint16_t _ui8Port);
         static void WP_signalBlockAllExcept(int _iFlags = 0);
         static void WP_signalHandler(int _signum);
+        int WP_port() { return m_LW_iPort; }
 
         SOCKET m_WP_sckfd = SOCKET_ERROR;
         static int m_WP_fdPipeKill[2];
@@ -50,6 +51,12 @@ namespace SK {
         static bool m_LW_bLogTruncate;
 
     private:
+        /* General
+        **
+        */
+        int m_GN_iPort = 45350;
+
+
         /* Web Panel watcher
         **
         */
@@ -58,6 +65,8 @@ namespace SK {
 
         std::thread *m_WP_thdWatcherTerminal = nullptr,
                     *m_WP_thdWatcherWebpanel = nullptr;
+
+        int m_LW_iPort = 45318;
 
 
         /* Log writing
@@ -68,6 +77,8 @@ namespace SK {
         static std::string LW_writeLog_toStr(std::string _str);
         static std::string LW_writeLog_toStr(const char *_cz);
         static std::string LW_cleanLine(std::string _str);
+
+        int m_LW_iLogLevel = 3;
     };
 
     /* // MS CLIENTS SOCKET

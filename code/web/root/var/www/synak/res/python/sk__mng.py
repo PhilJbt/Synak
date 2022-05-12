@@ -26,8 +26,8 @@ def getPid(_bZeroExpected):
     return pid
   # If PID value does not does not match the expected one
   else:
-    # Wait for 3 seconds
-    time.sleep(3.0)
+    # Wait for 2 seconds
+    time.sleep(2)
     # Get MS PID again
     pid = checkPid()
     # Send the latter to the client

@@ -20,11 +20,8 @@ def prepare(_data):
   }
   res, err = sk__skt.send(dictDataSend, arrKeysExpected)
 
-  # An error occured (python side), debug message already shown by sk__skt.send()
-  if err:
-    exit()
   # No error occured
-  else:
+  if not err:
     ## Get templates
     fTemplate = open("../template/sk_nfo_syms.tpl", "r")
     htmlTemplate = fTemplate.read()

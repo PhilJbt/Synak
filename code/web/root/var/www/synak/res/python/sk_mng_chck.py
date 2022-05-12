@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 
 import sk__res
-from sk__mng import *
+import sk__mng
 
 # get the MS process ID and push the result to the client
 def prepare(_data):
   # Get MS PID
-  pid = getPid(False)
+  pid = sk__mng.getPid(False)
   # MS is not running, push error message to client
   if pid == 0:
     # Get templates, and push to client

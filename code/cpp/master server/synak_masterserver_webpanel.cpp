@@ -213,16 +213,13 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                                                 // Master Server options get
                                                 else if (jRecv.at("type").get<std::string>() == "optgt") {
                                                     jSend["type"] = "optgt";
-
-                                                    static int iLglv(1);
-                                                    jSend["data"]["lglv"] = std::to_string(iLglv);
+                                                    jSend["data"]["lglv"] = std::to_string(m_LW_iLogLevel);
                                                 }
                                                 // Master Server options set
                                                 else if (jRecv.at("type").get<std::string>() == "optst"
                                                     && bHasData) {
                                                     jSend["type"] = "optst";
 
-                                                    int iLglv(1);
                                                     if (jRecv["data"].contains("lglv")) {
                                                         bool bPassed(true);
                                                         int iLglv_tmp(0);
@@ -230,13 +227,13 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                                                             iLglv_tmp = std::stoi(jRecv["data"].at("lglv").get<std::string>());
                                                         }
                                                         catch (const std::exception &_e) {
-                                                            SK_WRITELOG(SK_FILENLINE, "ERR", "json parse error:", _e.what(), "data:", std::string(ptrRecv, ui32BuffSize)/*, "data size:", static_cast<int>(ui32BuffSize)*/);
+                                                            SK_WRITELOG(SK_FILENLINE, "ERR", "std::stoi failed:", _e.what(), "data:", std::string(ptrRecv, ui32BuffSize));
                                                             bPassed = false;
                                                         }
                                                         if (bPassed
-                                                            && iLglv != iLglv_tmp) {
-                                                            iLglv = iLglv_tmp;
-                                                            jSend["data"]["lglv"] = std::to_string(iLglv);
+                                                            && (m_LW_iLogLevel != iLglv_tmp)) {
+                                                            m_LW_iLogLevel = iLglv_tmp;
+                                                            jSend["data"]["lglv"] = std::to_string(m_LW_iLogLevel);
                                                         }
                                                     }
 

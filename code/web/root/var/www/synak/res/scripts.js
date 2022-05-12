@@ -87,7 +87,7 @@ function preLoadFile() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   if (urlParams.get('page') !== null)
-    sendReq('sk__req', 'prep', urlParams.get('page'));
+    prepareReq('sk__req', 'prep', urlParams.get('page'));
 }
 
 async function sendReq(_scriptname, _action, _file, _data = null) {
@@ -174,7 +174,7 @@ function authKeyErr() {
 
 function authKeySet() {
   if (typeof(Storage) !== "undefined") {
-    localStorage.setItem("msauthkey", $('#in_authkey').val()); 
+    localStorage.setItem("msauthkey", $('#in_authkey').val());
     $('#btn_save').text("Stored");
     $('#btn_save').addClass("green");
   }

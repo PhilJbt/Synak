@@ -15,6 +15,7 @@
 #include <cstring>
 #include <stdio.h>
 #include <variant>
+#include <chrono>
 #include <thread>
 #include <atomic>
 #include <sstream>

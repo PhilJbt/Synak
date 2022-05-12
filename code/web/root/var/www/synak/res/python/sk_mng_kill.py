@@ -3,12 +3,12 @@
 import sk__cmd
 import sk__res
 import sk__dbg
-from sk__mng import *
+import sk__mng
 
 # Push the modal disclaimer about killing the MS process
 def prepare(_data):
   # Get MS PID
-  pid = getPid(False)
+  pid = sk__mng.getPid(False)
   # MS is not running, push error message to client
   if pid == 0:
     sk__dbg.message(sk__dbg.messtype.NFO, "Master Server is not running")
@@ -28,7 +28,7 @@ def prepare(_data):
 # Push segment to client
 def process(_data):
   # Get MS PID
-  pid = getPid(False)
+  pid = sk__mng.getPid(False)
   # MS has been shut down in the meantime, push error message to client
   if pid == 0:
     sk__dbg.message(sk__dbg.messtype.ATT, "It seems that no Master Server was running")
@@ -37,7 +37,7 @@ def process(_data):
     # Send OS SIGKILL signal to the MS process
     sk__cmd.send(f"sudo kill -9 {pid}")
     # Get the MS PID
-    pid = getPid(True)
+    pid = sk__mng.getPid(True)
     # MS has been successfully shut down, push success message to client
     if pid == 0:
       sk__dbg.message(sk__dbg.messtype.SUC, "Master Server has been <b>STOPPED</b> successfully")

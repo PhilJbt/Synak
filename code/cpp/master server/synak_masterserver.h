@@ -36,7 +36,7 @@ namespace SK {
         static void WP_signalBlockAllExcept(int _iFlags = 0);
         static void WP_signalHandler(int _signum);
 
-        SOCKET m_WP_sckfd { SOCKET_ERROR };
+        SOCKET m_WP_sckfd = SOCKET_ERROR;
         static int m_WP_fdPipeKill[2];
 
 
@@ -56,8 +56,8 @@ namespace SK {
         void WP_watcherTerminal_thd();
         void WP_watcherWebPanel_tdh();
 
-        std::thread *m_WP_thdWatcherTerminal { nullptr },
-                    *m_WP_thdWatcherWebpanel { nullptr };
+        std::thread *m_WP_thdWatcherTerminal = nullptr,
+                    *m_WP_thdWatcherWebpanel = nullptr;
 
 
         /* Log writing
@@ -67,6 +67,7 @@ namespace SK {
         static std::string LW_writeLog_toStr(T _rval);
         static std::string LW_writeLog_toStr(std::string _str);
         static std::string LW_writeLog_toStr(const char *_cz);
+        static std::string LW_cleanLine(std::string _str);
     };
 
     /* // MS CLIENTS SOCKET
@@ -82,23 +83,23 @@ namespace SK {
 
     int epfd = ::epoll_create(2);
     if(epfd == -1)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 
     epoll_event ev[2];
     ev[0].events = EPOLLIN | EPOLLRDHUP | EPOLLERR;
     ev[0].data.fd = STDIN_FILENO;
     if(::epoll_ctl(epfd, EPOLL_CTL_ADD, STDIN_FILENO, &ev[0]) != 0)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 
     ev[1].events = EPOLLIN | EPOLLRDHUP | EPOLLERR;
     ev[1].data.fd = m_WP_fdPipeKill[0];
     if(::epoll_ctl(epfd, EPOLL_CTL_ADD, m_WP_fdPipeKill[0], &ev[0]) != 0)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 10, 5000);
         if (nfds < 0)
-            SK_WRITELOG(SK_FILENLINE, STRERROR);
+            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == STDIN_FILENO
@@ -114,10 +115,10 @@ namespace SK {
     }
 
     if(::epoll_ctl(epfd, EPOLL_CTL_DEL, STDIN_FILENO, &ev[0]) == -1)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 
     if(::epoll_ctl(epfd, EPOLL_CTL_DEL, m_WP_fdPipeKill[0], &ev[1]) == -1)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 
     */
 }

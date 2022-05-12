@@ -103,8 +103,8 @@ public:
                 (*m_jReturn)[m_strName] = _val;
             }
         }
-        std::string     m_strName { "" };
-        nlohmann::json *m_jReturn { nullptr };
+        std::string     m_strName = "";
+        nlohmann::json *m_jReturn = nullptr;
     };
 
 private:
@@ -115,14 +115,14 @@ int main() {
     /*
     // MESSAGE
     // Declare
-    int         iValA   { 123 },
-                iValB   { -987 };
-    float       fValA   { 1.234f },
-                fValB   { -987.1f };
-    std::string strValA { "Val A" },
-                u32str  { u8"Бори́са"};
+    int         iValA   = 123,
+                iValB   = -987;
+    float       fValA   = 1.234f,
+                fValB   = -987.1f;
+    std::string strValA = "Val A",
+                u32str  = u8"Бори́са;
     struct Stest { int   m_i; float m_f; };
-    Stest       sStruct { 5, 1.5f };
+    Stest       sStruct( 5, 1.5f );
 
     // Populate struct
     SMessageData mapData;
@@ -134,20 +134,20 @@ int main() {
     mapData.Add<std::string>("std::string2", u32str);
 
     // Simulate sending buffer
-    std::uint8_t *cBuffSend { new std::uint8_t[mapData.Length()] };
+    std::uint8_t *cBuffSend ( new std::uint8_t[mapData.Length()] );
     ::memset(cBuffSend, 0, mapData.Length());
     ::memcpy(cBuffSend, mapData.ToCharArray(), mapData.Length());
     SK::Tools::CryptUncrypt(cBuffSend, mapData.Length());
 
     // Simulate receiving buffer
-    int iLen { mapData.Length() };
-    std::uint8_t *cBuffRecv { new std::uint8_t[iLen] };
+    int iLen ( mapData.Length() );
+    std::uint8_t *cBuffRecv ( new std::uint8_t[iLen] );
     ::memcpy(cBuffRecv, cBuffSend, iLen);
     SK::Tools::CryptUncrypt(cBuffRecv, iLen);
     std::cerr << std::to_string(sData.m_i) << std::endl;
 
     //
-    std::string strGet { mapData.Serialize() };
+    std::string strGet ( mapData.Serialize() );
 
     return 0;
     */
@@ -155,15 +155,15 @@ int main() {
     /*
     SMessageData mapData;
 
-    uint8_t ui8Val { 125 };
+    uint8_t ui8Val ( 125 );
     mapData.Add<uint8_t>("abc", 128);
-    std::string str { "test" };
+    std::string str ( "test" );
     mapData.Add<std::string>("123", "qzd");
 
-    //std::string str { "foobar" };
+    //std::string str ( "foobar" );
     //mapData.Add("123", str);
 
-    //std::string u32str { u8"Бори́са"};
+    //std::string u32str ( u8"Бори́са");
     //mapData.Add("1", u32str);
 
     //std::map<uint16_t, std::variant<TYPEFORNETWORK>> qzd;
@@ -171,17 +171,17 @@ int main() {
     //qzd.insert({ 1, "abcdef" });
     //mapData.Add("2", qzd);
 
-    std::string strGet { mapData.Serialize() };
+    std::string strGet ( mapData.Serialize() );
 
     std::cerr << "RETURN> "  << strGet << std::endl;
     return 0;
 
     struct sTest {
-        std::uint32_t m_i    { 654 };
+        std::uint32_t m_i    = 654;
         std::uint8_t  m_c[5] { 'a', 'b', 'c', 'd', 'e' };
     };
     sTest sData;
-    std::uint8_t *cBuff { new std::uint8_t[sizeof(sData)] };
+    std::uint8_t *cBuff ( new std::uint8_t[sizeof(sData)] );
     ::memset(cBuff, 0, sizeof(sData));
     ::memcpy(cBuff, &sData, sizeof(sData));
     SK::Tools::CryptUncrypt(cBuff, sizeof(sData));
@@ -202,7 +202,7 @@ int main() {
     return 0;
     */
 
-    SK_WRITELOG(std::string(SK_FILENLINE), "NFO", "Starting Synak MS.", std::string("PID " + std::to_string(::getpid())), std::string("BUILD " + SK_BUILDTIMESTAMP));
+    SK_WRITELOG(SK_FILENLINE, "NFO", "Starting Synak MS.", std::string("PID " + std::to_string(::getpid())), std::string("BUILD " + SK_BUILDTIMESTAMP));
     SK::MasterServer::m_LW_bLogTruncate = false;
 
     // Network Layer initialization

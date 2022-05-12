@@ -3,7 +3,6 @@
 * Network Layer
 * synak_manager.cpp
 */
-#pragma once
 
 #include "synak.h"
 
@@ -58,8 +57,8 @@ bool SK::SsocketOperations::optionsAdd(std::vector<Sopt> _vecOpts) {
         // The option has been successfully applied
         else {
             // Create a temporary option initialized to zero
-            socklen_t  iOptLen{ sizeof(elem.m_aOptVal) };
-            char* cArrOptVal{ new char[iOptLen] };
+            socklen_t  iOptLen( sizeof(elem.m_aOptVal) );
+            char* cArrOptVal( new char[iOptLen] );
             ::memset(cArrOptVal, 0, iOptLen);
 
             // Get the current option state of the socket

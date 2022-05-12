@@ -26,7 +26,6 @@ void SK::MasterServer::WP_signalBlockAllExcept(int _iFlags) {
 ** Handle unix signals sent from Web Panel
 */
 void SK::MasterServer::WP_signalHandler(int _signum) {
-    std::cerr << "SIGUSR1" << std::endl;
     m_bRun = false;
     ::write(m_WP_fdPipeKill[1], "1", ::strlen("1"));
     //::exit(_signum);
@@ -52,11 +51,11 @@ void SK::MasterServer::WP_watcherTerminal_thd() {
     // Check commands written in the terminal
     int epfd = ::epoll_create(3);
     if(epfd == -1)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 
     epoll_event ev[3];
 
-    int iFlagsCreate { EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR };
+    int iFlagsCreate(EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR);
     epollAdd(&ev[0], epfd, ::fileno(stdin), EPOLL_CTL_ADD, true, iFlagsCreate);
     epollAdd(&ev[1], epfd, m_WP_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
     epollAdd(&ev[2], epfd, m_WP_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
@@ -64,7 +63,7 @@ void SK::MasterServer::WP_watcherTerminal_thd() {
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 60000);
         if(nfds < 0)
-            SK_WRITELOG(SK_FILENLINE, STRERROR);
+            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == ::fileno(stdin)
@@ -115,7 +114,7 @@ void SK::MasterServer::WP_watcherWebPanel_Launch(uint16_t _ui8Port) {
 
     // Create pipe for emergency stop
     if (::pipe2(m_WP_fdPipeKill, O_NONBLOCK) == -1)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 
     // Launch thread
     if (!m_WP_thdWatcherWebpanel)
@@ -130,16 +129,16 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
 
     // Accept web panel incoming connections
     if (::listen(m_WP_sckfd, SOMAXCONN) != 0)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 
     // Check incoming web panel instructions
     int epfd = ::epoll_create(3);
     if(epfd == -1)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 
     epoll_event ev[3];
 
-    int iFlagsCreate { EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR };
+    int iFlagsCreate(EPOLLIN | EPOLLOUT | EPOLLRDHUP | EPOLLERR);
     epollAdd(&ev[0], epfd, m_WP_sckfd,       EPOLL_CTL_ADD, true, iFlagsCreate);
     epollAdd(&ev[1], epfd, m_WP_fdPipeKill[0], EPOLL_CTL_ADD, true, iFlagsCreate);
     epollAdd(&ev[2], epfd, m_WP_fdPipeKill[1], EPOLL_CTL_ADD, true, iFlagsCreate);
@@ -147,26 +146,26 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 60000);
         if(nfds < 0)
-            SK_WRITELOG(SK_FILENLINE, STRERROR);
+            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == m_WP_sckfd
                     && ev[i].events & EPOLLIN) {
                     in6_addr  addrRecv { 0 };
-                    socklen_t len { sizeof(addrRecv) };
+                    socklen_t len(sizeof(addrRecv));
                     SOCKET m_sckfdNew = ::accept(m_WP_sckfd, (sockaddr *)&addrRecv, &len);
                     if(m_sckfdNew == SOCKET_ERROR)
-                        SK_WRITELOG(SK_FILENLINE, STRERROR);
+                        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
                     else {
                         // Receive message size
-                        std::uint32_t ui32BuffSize { 0 };
+                        std::uint32_t ui32BuffSize(0);
                         if (::recv(m_sckfdNew, &ui32BuffSize, sizeof(ui32BuffSize), MSG_NOSIGNAL) <= 0)
-                            SK_WRITELOG(SK_FILENLINE, STRERROR);
+                            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
                         else {
                             // Receive checksum
-                            std::uint32_t ui32CrcRecv { 0 };
+                            std::uint32_t ui32CrcRecv(0);
                             if (::recv(m_sckfdNew, &ui32CrcRecv, sizeof(ui32CrcRecv), MSG_NOSIGNAL) <= 0)
-                                SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
                             else {
                                 // Cast buffer size to host-endianness
                                 ui32BuffSize = ::ntohl(ui32BuffSize);
@@ -175,54 +174,133 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                                 ui32CrcRecv = ::ntohl(ui32CrcRecv);
 
                                 // Declare buffer size
-                                char *ptrRecv { new char[ui32BuffSize] };
+                                char *ptrRecv(new char[ui32BuffSize]);
                                 if (::recv(m_sckfdNew, ptrRecv, ui32BuffSize, MSG_NOSIGNAL) <= 0)
-                                    SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                    SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
                                 else {
                                     // Verify checksum
                                     std::uint32_t ui32CrcRecvVerif;
                                     ui32CrcRecvVerif = CRC::Calculate(ptrRecv, ui32BuffSize, SK::SynakManager::m_crcTable);
                                     if (ui32CrcRecv != ui32CrcRecvVerif)
-                                        SK_WRITELOG(SK_FILENLINE, "Checksum is not valid.");
+                                        SK_WRITELOG(SK_FILENLINE, "ERR", "Checksum is not valid.");
                                     else {
-                                        nlohmann::json jRecv { nlohmann::json::parse(ptrRecv) },
-                                                       jSend;
+                                        // Try to parse received json
+                                        bool           bJsonParsed(true);
+                                        int            iError(-1);
                                         std::string    strErrMess;
-                                        bool           bError { false };
-                                        jRecv = jRecv[0]; // https://github.com/nlohmann/json/issues/1359
+                                        nlohmann::json jRecv,
+                                                       jSend;
+                                        try {
+                                            jRecv = nlohmann::json::parse(std::string(ptrRecv, ui32BuffSize));
+                                        }
+                                        catch (const std::exception &_e) {
+                                            SK_WRITELOG(SK_FILENLINE, "ERR", "json parse error:", _e.what(), "data:", std::string(ptrRecv, ui32BuffSize)/*, "data size:", static_cast<int>(ui32BuffSize)*/);
+                                            bJsonParsed = false;
+                                        }
+                                        if (bJsonParsed) {
+                                            std::cerr << jRecv.dump() << std::endl;
 
-                                        if (!jRecv.is_null()
-                                            && jRecv.contains("type")) {
-                                            // Master Server statistics
-                                            if (jRecv.at("type").get<std::string>() == "stats") {
-                                                jSend["type"] = "stats";
-                                                jSend["data"]["conn"] = "-1";
-                                                jSend["data"]["prty"] = "-2";
+                                            if (!jRecv.is_null()
+                                                && jRecv.contains("type")) {
+                                                bool bHasData(jRecv.contains("data"));
+
+                                                // Master Server statistics
+                                                if (jRecv.at("type").get<std::string>() == "stats") {
+                                                    jSend["type"] = "stats";
+                                                    jSend["data"]["conn"] = "-1";
+                                                    jSend["data"]["prty"] = "-2";
+                                                }
+                                                // Master Server options get
+                                                else if (jRecv.at("type").get<std::string>() == "optgt") {
+                                                    jSend["type"] = "optgt";
+
+                                                    static int iLglv(1);
+                                                    jSend["data"]["lglv"] = std::to_string(iLglv);
+                                                }
+                                                // Master Server options set
+                                                else if (jRecv.at("type").get<std::string>() == "optst"
+                                                    && bHasData) {
+                                                    jSend["type"] = "optst";
+
+                                                    int iLglv(1);
+                                                    if (jRecv["data"].contains("lglv")) {
+                                                        bool bPassed(true);
+                                                        int iLglv_tmp(0);
+                                                        try {
+                                                            iLglv_tmp = std::stoi(jRecv["data"].at("lglv").get<std::string>());
+                                                        }
+                                                        catch (const std::exception &_e) {
+                                                            SK_WRITELOG(SK_FILENLINE, "ERR", "json parse error:", _e.what(), "data:", std::string(ptrRecv, ui32BuffSize)/*, "data size:", static_cast<int>(ui32BuffSize)*/);
+                                                            bPassed = false;
+                                                        }
+                                                        if (bPassed
+                                                            && iLglv != iLglv_tmp) {
+                                                            iLglv = iLglv_tmp;
+                                                            jSend["data"]["lglv"] = std::to_string(iLglv);
+                                                        }
+                                                    }
+
+                                                    if (!jSend.contains("data")
+                                                        || jSend["data"].empty()) {
+                                                        strErrMess = "The values of the sent options are the same as those currently used.";
+                                                        iError = 1;
+                                                    }
+                                                }
+                                                else {
+                                                    strErrMess = "Unknown type, or no data.";
+                                                    iError = 2;
+                                                }
                                             }
-                                            // ...
+                                            else {
+                                                strErrMess = "Type is missing.";
+                                                iError = 2;
+                                            }
                                         }
                                         else {
-                                            strErrMess = "Type is missing.";
-                                            bError = true;
+                                            strErrMess = "Json cannot be parsed.";
+                                            iError = 2;
                                         }
 
-                                        if (bError) {
+                                        if (iError > -1) {
+                                            jSend = nlohmann::json();
                                             jSend["type"] = "erro";
-                                            jSend["data"]["colr"] = "red";
-                                            jSend["data"]["icon"] = "exclamation";
                                             jSend["data"]["titl"] = "MASTER SERVER ANSWER";
                                             jSend["data"]["mess"] = strErrMess;
+
+                                            switch (iError) {
+                                            case 0:
+                                            {
+                                                jSend["data"]["colr"] = "blue";
+                                                jSend["data"]["icon"] = "info circle";
+                                                jSend["data"]["mess"] = strErrMess;
+                                            }
+                                            break;
+                                            case 1:
+                                            {
+                                                jSend["data"]["colr"] = "orange";
+                                                jSend["data"]["icon"] = "exclamation circle";
+                                                jSend["data"]["mess"] = strErrMess;
+                                            }
+                                            break;
+                                            case 2:
+                                            {
+                                                jSend["data"]["colr"] = "red";
+                                                jSend["data"]["icon"] = "exclamation triangle";
+                                                jSend["data"]["mess"] = strErrMess;
+                                            }
+                                            break;
+                                            }
                                             jSend["data"] = jSend["data"].dump();
                                         }
 
                                         // Serialize Json
-                                        std::string strJson { jSend.dump() };
+                                        std::string strJson(jSend.dump());
 
                                         // Calculate message size (network-endianness)
-                                        std::uint32_t uiMesslen { ::htonl(static_cast<std::uint32_t>(strJson.length())) };
+                                        std::uint32_t uiMesslen(::htonl(static_cast<std::uint32_t>(strJson.length())));
 
                                         // Calculate checksum (network-endianness)
-                                        std::uint32_t ui32CrcSend { ::htonl(CRC::Calculate(strJson.data(), strJson.length(), SK::SynakManager::m_crcTable)) };
+                                        std::uint32_t ui32CrcSend(::htonl(CRC::Calculate(strJson.data(), strJson.length(), SK::SynakManager::m_crcTable)));
 
                                         // Pack and send message
                                         std::uint32_t ui32Messlen {
@@ -233,13 +311,13 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                                                 strJson.length()
                                             )
                                         };
-                                        char *ptrBuffMessSend { new char[ui32Messlen] };
-                                        ::memset(ptrBuffMessSend,                                           0,              ui32Messlen);
-                                        ::memcpy(ptrBuffMessSend,                                           &uiMesslen,     sizeof(uiMesslen));
-                                        ::memcpy(ptrBuffMessSend + sizeof(uiMesslen),                       &ui32CrcSend,   sizeof(ui32CrcSend));
+                                        char *ptrBuffMessSend(new char[ui32Messlen]);
+                                        ::memset(ptrBuffMessSend, 0, ui32Messlen);
+                                        ::memcpy(ptrBuffMessSend, &uiMesslen, sizeof(uiMesslen));
+                                        ::memcpy(ptrBuffMessSend + sizeof(uiMesslen), &ui32CrcSend, sizeof(ui32CrcSend));
                                         ::memcpy(ptrBuffMessSend + sizeof(uiMesslen) + sizeof(ui32CrcSend), strJson.data(), strJson.length());
                                         if (::send(m_sckfdNew, ptrBuffMessSend, ui32Messlen, MSG_NOSIGNAL) == -1)
-                                            SK_WRITELOG(SK_FILENLINE, STRERROR);
+                                            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
                                         delete[] ptrBuffMessSend;
                                     }
                                 }

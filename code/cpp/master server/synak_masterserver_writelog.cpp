@@ -7,8 +7,8 @@
 #include "master server/synak_masterserver.h"
 
 
-int SK::MasterServer::m_LW_iLogID { 0 };
-bool SK::MasterServer::m_LW_bLogTruncate { true };
+int SK::MasterServer::m_LW_iLogID = 0;
+bool SK::MasterServer::m_LW_bLogTruncate = true;
 
 
 /* SK::MasterServer::LW_writeLog_toStr(T _rval)
@@ -33,3 +33,43 @@ std::string SK::MasterServer::LW_writeLog_toStr(const char *_cz) {
     return std::string(_cz);
 }
 
+/* SK::MasterServer::LW_writeLog_toStr(const char *_cz)
+** Function escaping apostrophes, quotation marks, square brackets, slashes and back slashes.
+*/
+std::string SK::MasterServer::LW_cleanLine(std::string _str) {
+    std::string strLine;
+
+    for (unsigned int i(0); i < _str.length(); ++i) {
+        switch (_str[i]) {
+        default:
+            strLine += _str[i];
+            break;
+        case '\\':
+            strLine += "&#92;";
+            break;
+        case '/':
+            strLine += "&#47;";
+            break;
+        case '"':
+            strLine += "&#34;";
+            break;
+        case '\'':
+            strLine += "&#39;";
+            break;
+        case '[':
+            strLine += "&#91;";
+            break;
+        case ']':
+            strLine += "&#93;";
+            break;
+        case '{':
+            strLine += "&#123;";
+            break;
+        case '}':
+            strLine += "&#125;";
+            break;
+        }
+    }
+
+    return strLine;
+}

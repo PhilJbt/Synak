@@ -7,7 +7,7 @@
 #include "master server/synak_masterserver.h"
 
 
-volatile std::atomic_bool SK::MasterServer::m_bRun { false };
+volatile std::atomic_bool SK::MasterServer::m_bRun = false;
 
 /* MasterServer::Initialization
 ** Initialization the Master Server class
@@ -22,7 +22,7 @@ void SK::MasterServer::initialization() {
     sigbreak.sa_handler = &MasterServer::WP_signalHandler;
     sigbreak.sa_flags = 0;
     if (::sigaction(SIGUSR1, &sigbreak, NULL) != 0)
-        SK_WRITELOG(SK_FILENLINE, STRERROR);
+        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
 }
 
 /* MasterServer::Unitialization

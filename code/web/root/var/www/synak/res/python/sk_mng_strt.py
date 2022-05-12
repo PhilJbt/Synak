@@ -20,7 +20,7 @@ def prepare(_data):
     pid = getPid(False)
     # One MS process is running, push the success message to client
     if pid != 0:
-      sk__dbg.message(sk__dbg.messtype.SUC, "Master Server has been started successfully")
+      sk__dbg.message(sk__dbg.messtype.SUC, "Master Server has been <b>STARTED</b> successfully")
     # No MS process is running, push the error message to client
     else:
       sk__dbg.message(sk__dbg.messtype.ERR, "Master Server cannot be started")

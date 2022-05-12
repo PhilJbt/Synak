@@ -34,7 +34,7 @@
       CANCEL
     </div>
   </div>
-  <div id="btn_proceed" class="ui animated green button" onclick="prepareReq('sk__req', 'proc', 'sk_mng_optn')">
+  <div id="btn_proceed" class="ui animated green button" onclick="sk_mng_optn()">
     <div class="visible content">
       <i class="icon check"></i>
     </div>
@@ -44,11 +44,14 @@
   </div>
 </div>
 <script type="text/javascript">
-$('#dp_loglevel')
-  .dropdown({
+$('#dp_loglevel').dropdown({
     allowCategorySelection: true,
     showOnFocus: false
-  })
-;
-$("#dp_loglevel_cnt")[0].firstChild.dataset.value;
+});
+$('#dp_loglevel').dropdown('set selected', %LGVL%);
+function sk_mng_optn() {
+  arrOptVal = {};
+  arrOptVal['lglv'] = $('#dp_loglevel_cnt')[0].firstChild.dataset.value.toString();
+  prepareReq('sk__req', 'proc', 'sk_mng_optn', JSON.stringify(arrOptVal));
+}
 </script>

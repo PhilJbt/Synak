@@ -3,11 +3,10 @@
 import sk__res
 import sk__skt
 import sk__dbg
-from sk__mng import *
 
 # Push the filled Synak MS informations segment to the client
 def prepare(_data):
-  ## Get Master Server informations
+  # Get Master Server informations
   dictDataSend = {
     'type' : 'stats'
   }
@@ -24,27 +23,23 @@ def prepare(_data):
   # An error occured (python side), debug message already shown by sk__skt.send()
   if err:
     exit()
+  # No error occured
   else:
-    # An error occured (c++ side)
-    if res['type'] == 'erro':
-      sk__res.show('erro', res['data'])
-    # No error occured
-    else:
-      ## Get templates
-      fTemplate = open("../template/sk_nfo_syms.tpl", "r")
-      htmlTemplate = fTemplate.read()
-      fStatistics = open("../template/sk_nfo_syms_sta.tpl", "r")
-      htmlStatistics = fStatistics.read()
-      # Declare all stats concat
-      htmlStatsCont = ""
+    ## Get templates
+    fTemplate = open("../template/sk_nfo_syms.tpl", "r")
+    htmlTemplate = fTemplate.read()
+    fStatistics = open("../template/sk_nfo_syms_sta.tpl", "r")
+    htmlStatistics = fStatistics.read()
+    # Declare all stats concat
+    htmlStatsCont = ""
 
-      ## Fill stats template
-      # For all stats retrieved from MS
-      for key in res['data']:
-        htmlStatTemp = htmlStatistics.replace("%NAME%", arrTranslate[key])
-        htmlStatTemp = htmlStatTemp.replace("%VALUE%", str(res['data'][key]))
-        htmlStatsCont += htmlStatTemp
+    ## Fill stats template
+    # For all stats retrieved from MS
+    for key in res['data']:
+      htmlStatTemp = htmlStatistics.replace("%NAME%", arrTranslate[key])
+      htmlStatTemp = htmlStatTemp.replace("%VALUE%", str(res['data'][key]))
+      htmlStatsCont += htmlStatTemp
 
-      ## Fill modal template, and push to client
-      htmlTemplate = htmlTemplate.replace("%STATS%", htmlStatsCont)
-      sk__res.show("proc", htmlTemplate)
+    ## Fill modal template, and push to client
+    htmlTemplate = htmlTemplate.replace("%STATS%", htmlStatsCont)
+    sk__res.show("proc", htmlTemplate)

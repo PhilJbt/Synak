@@ -37,7 +37,7 @@ def process(_data):
     pid = getPid(True)
     # There is no MS process running anymore, push a success message to client
     if pid == 0:
-      sk__dbg.message(sk__dbg.messtype.SUC, "Master Server has been KILLED successfully")
+      sk__dbg.message(sk__dbg.messtype.SUC, "Master Server has been <b>STOPPED</b> successfully")
     # There is still at least 1 MS process running, push an error message to the client
     else:
       sk__dbg.message(sk__dbg.messtype.ERR, "Master Server is still running")

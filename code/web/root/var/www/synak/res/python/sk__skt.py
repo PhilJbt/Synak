@@ -14,7 +14,7 @@ from crc32 import CRC32
 
 
 # Function to send a request to the Synak Master Server
-def send(_dictData, _arrKeysExpected):
+def send(_dictData, _arrKeysExpected = None):
   # Create IPv6 socket
   sockfd = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
   # Enable IPv4-mapped IPv6 IPs
@@ -43,17 +43,16 @@ def send(_dictData, _arrKeysExpected):
     MESSLEN = struct.pack("!I", MESSLEN)
     # Send message
     sockfd.send(MESSLEN + CKSMSND + MESSJSN)
-    BUFFER_SIZE = 0
     # Receive answer
     try:
       # Receive buffer size
       BUFFER_SIZE = sockfd.recv(4)
       # Cast to host-endianness
-      BUFFER_SIZE = struct.unpack("=I", BUFFER_SIZE)[0]
+      BUFFER_SIZE = struct.unpack("!I", BUFFER_SIZE)[0]
       # Receive checksum
       CKSMRECV = sockfd.recv(4)
       # Cast to host-endianness
-      CKSMRECV = struct.unpack("=I", CKSMRECV)[0]
+      CKSMRECV = struct.unpack("!I", CKSMRECV)[0]
       # Receive data
       DATA = sockfd.recv(BUFFER_SIZE)
       DATA = DATA.decode()
@@ -64,24 +63,30 @@ def send(_dictData, _arrKeysExpected):
       return "null", True
     # MS does answer
     else:
+      # Verifying checksum
+      CKSMRECV_VERIF = CRC32(type="CRC-32C").calc(str(DATA))
+      if CKSMRECV_VERIF != CKSMRECV :
+        sk__dbg.message(sk__dbg.messtype.ERR, f"Checksum not valid. CALC({CKSMRECV_VERIF}) != RECV({CKSMRECV})")
+        return "null", True
       # Checking Json validity
       try:
         DATA = json.loads(DATA)
       except Exception as e:
         sk__dbg.message(sk__dbg.messtype.ERR, f"Json is not valid ({str(e)}) ({DATA}).")
         return "null", True
+      # Check that the master server has not encountered any errors
+      if DATA['type'] == 'erro':
+        sk__res.show('erro', DATA['data'])
+        return "null", True
+      # Bypass arg return if no arg expected
+      strCond = '1'
+      if _arrKeysExpected != None:
+        strCond = f'all(elem in {DATA["data"]} for elem in {_arrKeysExpected})'
+      # All expected keys are in the json received
+      if eval(strCond):
+        return DATA, False
+      # At least one expected argument is missing
       else:
-        # All expected keys are in the json received
-        if all(elem in DATA["data"] for elem in _arrKeysExpected):
-          # Verifying checksum
-          CKSMRECV_VERIF = CRC32(type="CRC-32C").calc(str(DATA))
-          if CKSMRECV_VERIF != CKSMRECV :
-            return DATA, False
-          else:
-            sk__dbg.message(sk__dbg.messtype.ERR, f"Checksum not valid. CALC({CKSMRECV_VERIF}) != RECV({CKSMRECV})")
-            return "null", True
-        # At least one expected argument is missing
-        else:
-          sk__dbg.message(sk__dbg.messtype.ERR, "At least one expected argument is missing from Master Server answer.")
-          return "null", True
+        sk__dbg.message(sk__dbg.messtype.ERR, "At least one expected argument is missing from Master Server answer.")
+        return "null", True
 

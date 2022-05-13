@@ -9,7 +9,9 @@
 ** Write messages in log file
 */
 template<typename... Args>
-void SK::MasterServer::LW_writeLog(std::string _strFileLine, std::string _strType, Args&& ... args) {
+void SK::MasterServer::LW_writeLog(std::string _strFileLine, eLogType _eType, Args&& ... args) {
+    if (static_cast<int>(_eType) < static_cast<int>(SK::MasterServer::m_LW_eLogLevel))
+        return;
     
     std::string strMess( "[" );
     ((strMess += "\"" + LW_cleanLine(LW_writeLog_toStr(args)) + "\","), ...);
@@ -17,14 +19,21 @@ void SK::MasterServer::LW_writeLog(std::string _strFileLine, std::string _strTyp
 
     std::string strTime(20, 0);
     std::time_t t = std::time(nullptr);
-    strTime.resize(std::strftime(&strTime[0], strTime.size(),
-        "%H:%M:%S %d/%m/%Y", std::localtime(&t)));
+    strTime.resize(std::strftime(&strTime[0], strTime.size(), "%H:%M:%S %d/%m/%Y", std::localtime(&t)));
 
-    std::ios_base::openmode iosOpenmode ( std::ios_base::binary | std::ios_base::out | (m_LW_bLogTruncate ? std::ios_base::trunc : std::ios_base::app) );
-    std::string strPath ( "/synak_ms/synak_ms.log" ),
+    std::string strLogType;
+    switch (static_cast<int>(_eType)) {
+        case 0:  strLogType = "NFO"; break;
+        case 1:  strLogType = "ATT"; break;
+        case 2:  strLogType = "ERR"; break;
+        default: strLogType = "N/A"; break;
+    }
+
+    std::ios_base::openmode iosOpenmode(std::ios_base::binary | std::ios_base::out | std::ios_base::app);
+    std::string strPath("/synak_ms/synak_ms.log"),
     strLine (
         "[\"" + std::to_string(++m_LW_iLogID) + "\","
-        "\"" + _strType + "\","
+        "\"" + strLogType + "\","
         "\"" + _strFileLine + "\","
         "\"" + strTime + "\","
         + strMess + "]"
@@ -33,13 +42,9 @@ void SK::MasterServer::LW_writeLog(std::string _strFileLine, std::string _strTyp
     
     if(fLogFile) {
         fLogFile << strLine << std::endl;
-        if(fLogFile.bad())
-            std::cerr << "Can't write the log file (file permissions?): " << STRERROR << std::endl;
-        else {
+        if(!fLogFile.bad()) {
             fLogFile.close();
             std::cout.flush();
         }
     }
-    else
-        std::cerr << "Can't open/create the log file (file permissions?): " << STRERROR << std::endl;
 }

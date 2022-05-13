@@ -8,15 +8,13 @@
 
 
 int SK::MasterServer::m_LW_iLogID = 0;
-bool SK::MasterServer::m_LW_bLogTruncate = true;
 
 
 /* SK::MasterServer::LW_writeLog_toStr(T _rval)
-** Function needed for fold expression, primitive data types specialisation
+** Function needed for fold expression, int specialisation
 */
-template<typename T>
-std::string SK::MasterServer::LW_writeLog_toStr(T _rval) {
-    return std::to_string(_rval);
+std::string SK::MasterServer::LW_writeLog_toStr(int _iVal) {
+    return std::to_string(_iVal);
 }
 
 /* SK::MasterServer::LW_writeLog_toStr(std::string _str)
@@ -72,4 +70,24 @@ std::string SK::MasterServer::LW_cleanLine(std::string _str) {
     }
 
     return strLine;
+}
+
+/* MasterServer::LW_flushLog
+** Flush log file
+*/
+void SK::MasterServer::LW_flushLog() {
+    std::ios_base::openmode iosOpenmode(std::ios_base::binary | std::ios_base::out | std::ios_base::trunc);
+    std::string strPath("/synak_ms/synak_ms.log");
+    std::ofstream fLogFile(strPath, iosOpenmode);
+
+    if (fLogFile) {
+        if (fLogFile.bad())
+            std::cerr << "Can't write the log file (file permissions?): " << STRERROR << std::endl;
+        else {
+            fLogFile.close();
+            std::cout.flush();
+        }
+    }
+    else
+        std::cerr << "Can't open/create the log file (file permissions?): " << STRERROR << std::endl;
 }

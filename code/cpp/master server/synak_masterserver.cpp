@@ -8,22 +8,29 @@
 
 
 volatile std::atomic_bool SK::MasterServer::m_bRun = false;
+SK::MasterServer::eLogType SK::MasterServer::m_LW_eLogLevel = SK::MasterServer::eLogType::ERR;
+
 
 /* MasterServer::Initialization
 ** Initialization the Master Server class
 */
 void SK::MasterServer::initialization(int _argc, char *_argv[]) {
+    // Flush log
+    LW_flushLog();
+
+    // Block all signals on this thread
     WP_signalBlockAllExcept();
 
-
+    // Bind MasterServer::WP_signalHandler() to the SIGUSR1 signal
+    // Used for clean threads stop
     struct sigaction sigbreak;
     ::sigemptyset(&sigbreak.sa_mask);
     sigbreak.sa_handler = &MasterServer::WP_signalHandler;
     sigbreak.sa_flags = 0;
     if (::sigaction(SIGUSR1, &sigbreak, NULL) != 0)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
-
+    // Load configuration file for listening ports and log level values
     if (_argc == 2) {
         nlohmann::json jInitConfig;
         bool bJsonParsed(true);
@@ -32,7 +39,7 @@ void SK::MasterServer::initialization(int _argc, char *_argv[]) {
             jInitConfig = nlohmann::json::parse(std::string(_argv[1]));
         }
         catch (const std::exception &_e) {
-            SK_WRITELOG(SK_FILENLINE, "ERR", "json parse error:", _e.what(), "data:", std::string(jInitConfig));
+            SK_LOG_ERR("json parse error:", _e.what(), "data:", std::string(jInitConfig));
             bJsonParsed = false;
         }
 
@@ -40,29 +47,50 @@ void SK::MasterServer::initialization(int _argc, char *_argv[]) {
             && jInitConfig.contains("lglv")
             && jInitConfig.contains("ptwp")
             && jInitConfig.contains("ptpl")) {
-            try {
-                m_LW_iLogLevel = std::stoi(jInitConfig.at("lglv").get<std::string>());
-                m_LW_iPort = std::stoi(jInitConfig.at("ptwp").get<std::string>());
-                m_GN_iPort = std::stoi(jInitConfig.at("ptpl").get<std::string>());
+            bool bApplyLoadedValues(true);
+            int iLogLevel_tmp(0),
+                iPanelPort_tmp(0),
+                iGamePort_tmp(0);
 
-                SK_WRITELOG(SK_FILENLINE, "NFO", "WebPanel listening port:", std::to_string(m_LW_iPort), "Players listening port:", std::to_string(m_GN_iPort));
+            try {
+                iLogLevel_tmp = std::stoi(jInitConfig.at("lglv").get<std::string>());
+                iPanelPort_tmp = std::stoi(jInitConfig.at("ptwp").get<std::string>());
+                iGamePort_tmp = std::stoi(jInitConfig.at("ptpl").get<std::string>());
             }
             catch (const std::exception &_e) {
-                SK_WRITELOG(SK_FILENLINE, "ERR", "std::stoi failed", _e.what(), "data:", std::string(jInitConfig));
+                SK_LOG_ERR("std::stoi failed", _e.what(), "data:", std::string(jInitConfig));
+                bApplyLoadedValues = false;
+            }
+
+            if (bApplyLoadedValues) {
+                m_LW_eLogLevel = static_cast<SK::MasterServer::eLogType>(iLogLevel_tmp);
+                m_WP_iPort = iPanelPort_tmp;
+                m_GN_iPort = iGamePort_tmp;
             }
         }
     }
+    
+    // Write configuration file
+    configBackup();
 
+    // Allow threads to stay opened
+    m_bRun = true;
+}
+
+/* MasterServer::configBackup
+** Save the configuration into a text file
+*/
+void SK::MasterServer::configBackup() {
     nlohmann::json jCfg;
-    jCfg["lglv"] = std::to_string(m_LW_iLogLevel);
-    jCfg["ptwp"] = std::to_string(m_LW_iPort);
+    jCfg["lglv"] = std::to_string(static_cast<int>(m_LW_eLogLevel));
+    jCfg["ptwp"] = std::to_string(m_WP_iPort);
     jCfg["ptpl"] = std::to_string(m_GN_iPort);
+
     std::string strCfg(jCfg.dump());
+
     std::ofstream fCfg("/synak_ms/synak_ms.cfg");
     fCfg.write(strCfg.data(), strCfg.length());
-
-
-    m_bRun = true;
+    fCfg.close();
 }
 
 /* MasterServer::Unitialization

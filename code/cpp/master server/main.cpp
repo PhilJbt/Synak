@@ -202,9 +202,6 @@ int main(int _argc, char *_argv[]) {
     return 0;
     */
 
-    SK_WRITELOG(SK_FILENLINE, "NFO", "Starting Synak MS.", std::string("PID " + std::to_string(::getpid())), std::string("BUILD " + SK_BUILDTIMESTAMP));
-    SK::MasterServer::m_LW_bLogTruncate = false;
-
     // Network Layer initialization
     SK::SynakManager mngr_nl;
     mngr_nl.initialization();
@@ -215,13 +212,17 @@ int main(int _argc, char *_argv[]) {
     mngr_ms.WP_watcherTerminal_Launch();                  // Optional
     mngr_ms.WP_watcherWebPanel_Launch(mngr_ms.WP_port()); // Optional
 
+    // Main thread loop
+    SK_LOG_NFO("Starting Synak MS.", std::string("PID " + std::to_string(::getpid())), std::string("BUILD " + SK_BUILDTIMESTAMP));
+
     while (mngr_ms.m_bRun)
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
+    // Main thread desinit
     mngr_ms.desinitialization();
     mngr_nl.desinitialization();
 
-    SK_WRITELOG(SK_FILENLINE, "NFO", "Stopping Synak MS.");
+    SK_LOG_NFO("Stopping Synak MS.");
 
     return 0;
 }

@@ -51,7 +51,7 @@ void SK::MasterServer::WP_watcherTerminal_thd() {
     // Check commands written in the terminal
     int epfd = ::epoll_create(3);
     if(epfd == -1)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
     epoll_event ev[3];
 
@@ -63,7 +63,7 @@ void SK::MasterServer::WP_watcherTerminal_thd() {
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 60000);
         if(nfds < 0)
-            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+            SK_LOG_ERR(STRERROR);
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == ::fileno(stdin)
@@ -98,7 +98,7 @@ void SK::MasterServer::epollAdd(epoll_event *_ev, const int &_epfd, int _fd, int
 /* MasterServer::WatcherTerminal
 ** Launch the threaded Terminal Watcher
 */
-void SK::MasterServer::WP_watcherWebPanel_Launch(uint16_t _ui8Port) {
+void SK::MasterServer::WP_watcherWebPanel_Launch(int _iPort) {
     linger sl { 1, 0 };
     SK::SsocketOperations sockOpts(m_WP_sckfd);
     sockOpts.socketCreate();
@@ -110,11 +110,11 @@ void SK::MasterServer::WP_watcherWebPanel_Launch(uint16_t _ui8Port) {
         { IPPROTO_TCP,	TCP_NODELAY,	1  }, // Disable Nagle's algorithm
         { IPPROTO_TCP,	TCP_CORK,	    0  }  // Disable Cork
     });
-    sockOpts.socketBind(_ui8Port);
+    sockOpts.socketBind(static_cast<uint16_t>(_iPort));
 
     // Create pipe for emergency stop
     if (::pipe2(m_WP_fdPipeKill, O_NONBLOCK) == -1)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
     // Launch thread
     if (!m_WP_thdWatcherWebpanel)
@@ -129,12 +129,12 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
 
     // Accept web panel incoming connections
     if (::listen(m_WP_sckfd, SOMAXCONN) != 0)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
     // Check incoming web panel instructions
     int epfd = ::epoll_create(3);
     if(epfd == -1)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
     epoll_event ev[3];
 
@@ -146,7 +146,7 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 3, 60000);
         if(nfds < 0)
-            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+            SK_LOG_ERR(STRERROR);
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == m_WP_sckfd
@@ -155,17 +155,17 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                     socklen_t len(sizeof(addrRecv));
                     SOCKET m_sckfdNew = ::accept(m_WP_sckfd, (sockaddr *)&addrRecv, &len);
                     if(m_sckfdNew == SOCKET_ERROR)
-                        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+                        SK_LOG_ERR(STRERROR);
                     else {
                         // Receive message size
                         std::uint32_t ui32BuffSize(0);
                         if (::recv(m_sckfdNew, &ui32BuffSize, sizeof(ui32BuffSize), MSG_NOSIGNAL) <= 0)
-                            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+                            SK_LOG_ERR(STRERROR);
                         else {
                             // Receive checksum
                             std::uint32_t ui32CrcRecv(0);
                             if (::recv(m_sckfdNew, &ui32CrcRecv, sizeof(ui32CrcRecv), MSG_NOSIGNAL) <= 0)
-                                SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+                                SK_LOG_ERR(STRERROR);
                             else {
                                 // Cast buffer size to host-endianness
                                 ui32BuffSize = ::ntohl(ui32BuffSize);
@@ -176,13 +176,13 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                                 // Declare buffer size
                                 char *ptrRecv(new char[ui32BuffSize]);
                                 if (::recv(m_sckfdNew, ptrRecv, ui32BuffSize, MSG_NOSIGNAL) <= 0)
-                                    SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+                                    SK_LOG_ERR(STRERROR);
                                 else {
                                     // Verify checksum
                                     std::uint32_t ui32CrcRecvVerif;
                                     ui32CrcRecvVerif = CRC::Calculate(ptrRecv, ui32BuffSize, SK::SynakManager::m_crcTable);
                                     if (ui32CrcRecv != ui32CrcRecvVerif)
-                                        SK_WRITELOG(SK_FILENLINE, "ERR", "Checksum is not valid.");
+                                        SK_LOG_ERR("Checksum is not valid.");
                                     else {
                                         // Try to parse received json
                                         bool           bJsonParsed(true);
@@ -194,7 +194,7 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                                             jRecv = nlohmann::json::parse(std::string(ptrRecv, ui32BuffSize));
                                         }
                                         catch (const std::exception &_e) {
-                                            SK_WRITELOG(SK_FILENLINE, "ERR", "json parse error:", _e.what(), "data:", std::string(ptrRecv, ui32BuffSize)/*, "data size:", static_cast<int>(ui32BuffSize)*/);
+                                            SK_LOG_ERR("json parse error:", _e.what(), "data:", std::string(ptrRecv, ui32BuffSize)/*, "data size:", static_cast<int>(ui32BuffSize)*/);
                                             bJsonParsed = false;
                                         }
                                         if (bJsonParsed) {
@@ -213,7 +213,7 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                                                 // Master Server options get
                                                 else if (jRecv.at("type").get<std::string>() == "optgt") {
                                                     jSend["type"] = "optgt";
-                                                    jSend["data"]["lglv"] = std::to_string(m_LW_iLogLevel);
+                                                    jSend["data"]["lglv"] = std::to_string(static_cast<int>(m_LW_eLogLevel));
                                                 }
                                                 // Master Server options set
                                                 else if (jRecv.at("type").get<std::string>() == "optst"
@@ -221,19 +221,22 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                                                     jSend["type"] = "optst";
 
                                                     if (jRecv["data"].contains("lglv")) {
-                                                        bool bPassed(true);
+                                                        bool bstoiErr(false);
                                                         int iLglv_tmp(0);
                                                         try {
                                                             iLglv_tmp = std::stoi(jRecv["data"].at("lglv").get<std::string>());
                                                         }
                                                         catch (const std::exception &_e) {
-                                                            SK_WRITELOG(SK_FILENLINE, "ERR", "std::stoi failed:", _e.what(), "data:", std::string(ptrRecv, ui32BuffSize));
-                                                            bPassed = false;
+                                                            SK_LOG_ERR("std::stoi failed:", _e.what(), "data:", std::string(ptrRecv, ui32BuffSize));
+                                                            bstoiErr = true;
                                                         }
-                                                        if (bPassed
-                                                            && (m_LW_iLogLevel != iLglv_tmp)) {
-                                                            m_LW_iLogLevel = iLglv_tmp;
-                                                            jSend["data"]["lglv"] = std::to_string(m_LW_iLogLevel);
+                                                        if (!bstoiErr
+                                                            && (static_cast<int>(m_LW_eLogLevel) != iLglv_tmp)) {
+                                                            m_LW_eLogLevel = static_cast<SK::MasterServer::eLogType>(iLglv_tmp);
+                                                            jSend["data"]["lglv"] = std::to_string(static_cast<int>(m_LW_eLogLevel));
+
+                                                            // Update the configuration file
+                                                            configBackup();
                                                         }
                                                     }
 
@@ -314,7 +317,7 @@ void SK::MasterServer::WP_watcherWebPanel_tdh() {
                                         ::memcpy(ptrBuffMessSend + sizeof(uiMesslen), &ui32CrcSend, sizeof(ui32CrcSend));
                                         ::memcpy(ptrBuffMessSend + sizeof(uiMesslen) + sizeof(ui32CrcSend), strJson.data(), strJson.length());
                                         if (::send(m_sckfdNew, ptrBuffMessSend, ui32Messlen, MSG_NOSIGNAL) == -1)
-                                            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+                                            SK_LOG_ERR(STRERROR);
                                         delete[] ptrBuffMessSend;
                                     }
                                 }

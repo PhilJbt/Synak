@@ -32,10 +32,10 @@ namespace SK {
         **
         */
         void WP_watcherTerminal_Launch();
-        void WP_watcherWebPanel_Launch(uint16_t _ui8Port);
+        void WP_watcherWebPanel_Launch(int _iPort);
         static void WP_signalBlockAllExcept(int _iFlags = 0);
         static void WP_signalHandler(int _signum);
-        int WP_port() { return m_LW_iPort; }
+        int WP_port() { return m_WP_iPort; }
 
         SOCKET m_WP_sckfd = SOCKET_ERROR;
         static int m_WP_fdPipeKill[2];
@@ -44,16 +44,23 @@ namespace SK {
         /* Log writing
         **
         */
+        enum class eLogType : int {
+            NFO,
+            ATT,
+            ERR
+        };
         template<typename... Args>
-        static void LW_writeLog(std::string _strFileLine, std::string _strType = "ERR", Args&& ... args);
+        static void LW_writeLog(std::string _strFileLine, eLogType _eType, Args&& ... args);
+        static void LW_flushLog();
 
         static int  m_LW_iLogID;
-        static bool m_LW_bLogTruncate;
 
     private:
         /* General
         **
         */
+        void configBackup();
+
         int m_GN_iPort = 45350;
 
 
@@ -66,19 +73,18 @@ namespace SK {
         std::thread *m_WP_thdWatcherTerminal = nullptr,
                     *m_WP_thdWatcherWebpanel = nullptr;
 
-        int m_LW_iPort = 45318;
+        int m_WP_iPort = 45318;
 
 
         /* Log writing
         **
         */
-        template<typename T>
-        static std::string LW_writeLog_toStr(T _rval);
+        static std::string LW_writeLog_toStr(int _iVal);
         static std::string LW_writeLog_toStr(std::string _str);
         static std::string LW_writeLog_toStr(const char *_cz);
         static std::string LW_cleanLine(std::string _str);
 
-        int m_LW_iLogLevel = 3;
+        static eLogType m_LW_eLogLevel;
     };
 
     /* // MS CLIENTS SOCKET
@@ -94,23 +100,23 @@ namespace SK {
 
     int epfd = ::epoll_create(2);
     if(epfd == -1)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
     epoll_event ev[2];
     ev[0].events = EPOLLIN | EPOLLRDHUP | EPOLLERR;
     ev[0].data.fd = STDIN_FILENO;
     if(::epoll_ctl(epfd, EPOLL_CTL_ADD, STDIN_FILENO, &ev[0]) != 0)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
     ev[1].events = EPOLLIN | EPOLLRDHUP | EPOLLERR;
     ev[1].data.fd = m_WP_fdPipeKill[0];
     if(::epoll_ctl(epfd, EPOLL_CTL_ADD, m_WP_fdPipeKill[0], &ev[0]) != 0)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
     while(m_bRun) {
         int nfds = ::epoll_wait(epfd, ev, 10, 5000);
         if (nfds < 0)
-            SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+            SK_LOG_ERR(STRERROR);
         else {
             for(int i = 0; i < nfds; ++i) {
                 if(ev[i].data.fd == STDIN_FILENO
@@ -126,10 +132,10 @@ namespace SK {
     }
 
     if(::epoll_ctl(epfd, EPOLL_CTL_DEL, STDIN_FILENO, &ev[0]) == -1)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
     if(::epoll_ctl(epfd, EPOLL_CTL_DEL, m_WP_fdPipeKill[0], &ev[1]) == -1)
-        SK_WRITELOG(SK_FILENLINE, "ERR", STRERROR);
+        SK_LOG_ERR(STRERROR);
 
     */
 }

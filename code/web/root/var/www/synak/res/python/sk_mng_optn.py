@@ -10,46 +10,46 @@ import sk__dbg
 def prepare(_data):
     # Get Master Server options values
     dictDataSend = {
-      'type' : 'optgt'
+        'type' : 'optgt'
     }
     res, err = sk__skt.send(dictDataSend)
 
     # No error occured
     if not err:
-      # Get the option modal template
-      file_raw = open("../template/sk_mng_optn.tpl", "r")
-      template_raw = file_raw.read()
+        # Get the option modal template
+        file_raw = open("../template/sk_mng_optn.tpl", "r")
+        template_raw = file_raw.read()
 
-      # Replace the default value of the log level option
-      template_mod = template_raw.replace("%LGLV%", f'''"{res['data']['lglv']}"''')
+        # Replace the default value of the log level option
+        template_mod = template_raw.replace("%LGLV%", f'''"{res['data']['lglv']}"''')
 
-      # Get the form modal template
-      file_form = open("../template/sk_mng_optn_form_global.tpl", "r")
-      template_form = file_form.read()
+        # Get the form modal template
+        file_form = open("../template/sk_mng_optn_form_global.tpl", "r")
+        template_form = file_form.read()
 
-      # Populate the raw option modal with the option form
-      template_mod = template_mod.replace("%FORM_OPT_GLOBAL%", template_form)
+        # Populate the raw option modal with the option form
+        template_mod = template_mod.replace("%FORM_OPT_GLOBAL%", template_form)
 
-      # Send the modal to the client
-      sk__res.show("prep", template_mod)
+        # Send the modal to the client
+        sk__res.show("prep", template_mod)
 
 # Push segment to client
 def process(_data):
-  # Send Master Server options values
-  dictDataSend = {
-    'type' : 'optst',
-    'data' : json.loads(_data)
-  }
-  arrTranslate = {
-    'lglv' : 'Log level'
-  }
-  res, err = sk__skt.send(dictDataSend)
+    # Send Master Server options values
+    dictDataSend = {
+        'type' : 'optst',
+        'data' : json.loads(_data)
+    }
+    arrTranslate = {
+        'lglv' : 'Log level'
+    }
+    res, err = sk__skt.send(dictDataSend)
 
-  # No error occured
-  if not err:
-    # Show each changed Synak Master Server option
-    strLine = '<ul class="ui list">'
-    for key in res['data']:
-      strLine += f"<li><b>{arrTranslate[key]}</b> value has been changed to <b>{str(res['data'][key])}</b></li>"
-    strLine += '</ul>'
-    sk__dbg.message(sk__dbg.messtype.SUC, strLine)
+    # No error occured
+    if not err:
+        # Show each changed Synak Master Server option
+        strLine = '<ul class="ui list">'
+        for key in res['data']:
+            strLine += f"<li><b>{arrTranslate[key]}</b> value has been changed to <b>{str(res['data'][key])}</b></li>"
+        strLine += '</ul>'
+        sk__dbg.message(sk__dbg.messtype.SUC, strLine)

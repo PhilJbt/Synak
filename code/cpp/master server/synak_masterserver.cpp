@@ -65,7 +65,7 @@ void SK::MasterServer::initialization(int _argc, char *_argv[]) {
             if (bApplyLoadedValues) {
                 m_LW_eLogLevel = static_cast<SK::MasterServer::eLogType>(iLogLevel_tmp);
                 m_WP_iPort = iPanelPort_tmp;
-                m_GN_iPort = iGamePort_tmp;
+                m_IG_iPort = iGamePort_tmp;
             }
         }
     }
@@ -75,6 +75,15 @@ void SK::MasterServer::initialization(int _argc, char *_argv[]) {
 
     // Allow threads to stay opened
     m_bRun = true;
+
+    // Write startup log
+    SK_LOG_NFO(
+        "Starting Synak MS.",
+        std::string("BUILD: " + SK_BUILDTIMESTAMP),
+        std::string("LOG LEVEL: " + std::to_string(static_cast<int>(m_LW_eLogLevel))),
+        std::string("WEB PANEL LISTENING PORT: " + std::to_string(m_WP_iPort)),
+        std::string("PLAYERS LISTENING PORT: " + std::to_string(m_IG_iPort))
+    );
 }
 
 /* MasterServer::configBackup
@@ -84,7 +93,7 @@ void SK::MasterServer::configBackup() {
     nlohmann::json jCfg;
     jCfg["lglv"] = std::to_string(static_cast<int>(m_LW_eLogLevel));
     jCfg["ptwp"] = std::to_string(m_WP_iPort);
-    jCfg["ptpl"] = std::to_string(m_GN_iPort);
+    jCfg["ptpl"] = std::to_string(m_IG_iPort);
 
     std::string strCfg(jCfg.dump());
 

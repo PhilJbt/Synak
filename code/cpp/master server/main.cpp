@@ -213,8 +213,6 @@ int main(int _argc, char *_argv[]) {
     mngr_ms.WP_watcherWebPanel_Launch(mngr_ms.WP_port()); // Optional
 
     // Main thread loop
-    SK_LOG_NFO("Starting Synak MS.", std::string("PID " + std::to_string(::getpid())), std::string("BUILD " + SK_BUILDTIMESTAMP));
-
     while (mngr_ms.m_bRun)
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 

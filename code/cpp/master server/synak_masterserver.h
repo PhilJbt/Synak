@@ -61,7 +61,7 @@ namespace SK {
         */
         void configBackup();
 
-        int m_GN_iPort = 45350;
+        int m_IG_iPort = 45350;
 
 
         /* Web Panel watcher

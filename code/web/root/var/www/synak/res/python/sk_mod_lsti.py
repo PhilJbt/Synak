@@ -6,6 +6,7 @@ import ipaddress
 import sk__cmd
 import sk__res
 import sk__dbg
+import sk__opn
 
 # Push the filled IP banned list modal to the client
 def prepare(_data):
@@ -14,8 +15,7 @@ def prepare(_data):
     listIPv6_raw = sk__cmd.send("sudo ip6tables -L INPUT -v -n | grep DROP | awk '{print $7}'")
 
     # Get the item template for the banned IPs list
-    fileItem = open("../template/sk_mod_lsti_itm.tpl", "r")
-    htmlItem = fileItem.read()
+    htmlItem = sk__opn.getTemplate("sk_mod_lsti_itm")
 
   # Populate place holder with the banned IPv4 list in the item list template
     listIPv4_mod = ""
@@ -28,8 +28,7 @@ def prepare(_data):
         listIPv6_mod += htmlItem.replace("%IP%", itemRaw)
 
     # Get the  modal template of the banned IPs list
-    file = open("../template/sk_mod_lsti.tpl", "r")
-    template_raw = file.read()
+    template_raw = sk__opn.getTemplate("sk_mod_lsti")
     # If there is at least 1 banned IPv4
     if len(listIPv4_mod) > 0:
         # Populate the unban modal template with the IPv4 banned list

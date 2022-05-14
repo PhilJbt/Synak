@@ -4,6 +4,7 @@ import sk__cmd
 import sk__res
 import sk__dbg
 import sk__mng
+import sk__opn
 
 # Push the modal disclaimer about killing the MS process
 def prepare(_data):
@@ -19,8 +20,7 @@ def prepare(_data):
         # Replace terminal to web new line
         proctree = proctree.replace('\n', '<br/>')
         # Get the segment template
-        file = open("../template/sk_mng_kill.tpl", "r")
-        template_raw = file.read()
+        template_raw = sk__opn.getTemplate("sk_mng_kill")
         # Fill template with MS process tree
         template_mod = template_raw.replace("%PROC_TREE%", proctree)
         sk__res.show("prep", template_mod)

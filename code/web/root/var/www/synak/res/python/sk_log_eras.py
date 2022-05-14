@@ -8,12 +8,12 @@ from datetime import datetime
 import sk__cmd
 import sk__res
 import sk__dbg
+import sk__opn
 
 # Push the Log erase modal to the client
 def prepare(_data):
     # Get the ban modal template
-    file = open("../template/sk_log_eras.tpl", "r")
-    template_raw = file.read()
+    template_raw = sk__opn.getTemplate("sk_log_eras")
     # Send the modal to the client
     sk__res.show("prep", template_raw)
 

@@ -2,6 +2,7 @@
 
 import sk__res
 import sk__mng
+import sk__opn
 
 # get the MS process ID and push the result to the client
 def prepare(_data):
@@ -10,12 +11,10 @@ def prepare(_data):
     # MS is not running, push error message to client
     if pid == 0:
         # Get templates, and push to client
-        fTemplate = open("../template/sk_log_chck_offline.tpl", "r")
-        htmlTemplate = fTemplate.read()
+        htmlTemplate = sk__opn.getTemplate("sk_log_chck_offline")
         sk__res.show("proc", htmlTemplate)
     # MS is running
     else:
         # Get templates, and push to client
-        fTemplate = open("../template/sk_log_chck_online.tpl", "r")
-        htmlTemplate = fTemplate.read()
+        htmlTemplate = sk__opn.getTemplate("sk_log_chck_online")
         sk__res.show("proc", htmlTemplate)

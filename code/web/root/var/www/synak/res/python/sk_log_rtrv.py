@@ -7,6 +7,7 @@ import os.path
 
 import sk__dbg
 import sk__res
+import sk__opn
 
 def _typeGet(_strType):
     if _strType == 'ERR':
@@ -30,11 +31,9 @@ def prepare(_data):
         # If log file exists and is not empty, push the log file to the client
         else:
             # Get the log template
-            fileLog = open("../template/sk_log_rtrv.tpl", "r")
-            htmlLog = fileLog.read()
+            htmlLog = sk__opn.getTemplate("sk_log_rtrv")
             # Get the log item template
-            fileItem = open("../template/sk_log_rtrv_itm.tpl", "r")
-            htmlItem = fileItem.read()
+            htmlItem = sk__opn.getTemplate("sk_log_rtrv_itm")
             # Replace brackets by HTML label tags
             lines = []
             for line in res.splitlines():

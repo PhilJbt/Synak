@@ -7,12 +7,12 @@ import sk__cmd
 import sk__res
 import sk__dbg
 import sk__sql
+import sk__opn
 
 # Push the UID unban modal to the client
 def prepare(_data):
     # Get the ban modal template
-    file = open("../template/sk_mod_unbu.tpl", "r")
-    template_raw = file.read()
+    template_raw = sk__opn.getTemplate("sk_mod_unbu")
     # Send the modal to the client
     sk__res.show("prep", template_raw)
 

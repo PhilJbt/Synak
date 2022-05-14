@@ -9,6 +9,6 @@ Require valid-user
 ######################
 #    ALLOW ONE IP    #
 ######################
-Order Deny,Allow
-Deny from all
-Allow from <IP>
+#Order Deny,Allow
+#Deny from all
+#Allow from <IP>

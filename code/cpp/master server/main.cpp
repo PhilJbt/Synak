@@ -202,6 +202,12 @@ int main(int _argc, char *_argv[]) {
     return 0;
     */
 
+    /*auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+    std::cout << std::put_time(&tm, "%Y-%m-%d") << std::endl;
+
+    return 0;*/
+
     // Network Layer initialization
     SK::SynakManager mngr_nl;
     mngr_nl.initialization();

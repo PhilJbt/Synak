@@ -6,6 +6,7 @@ import sk__cmd
 import sk__res
 import sk__dbg
 import sk__mng
+import sk__opn
 
 # Push the modal disclaimer about killing the MS process
 def prepare(_data):
@@ -17,8 +18,7 @@ def prepare(_data):
     # A MS process is running
     else:
         # Get the modal stop template
-        file = open("../template/sk_mng_stop.tpl", "r")
-        template_raw = file.read()
+        template_raw = sk__opn.getTemplate("sk_mng_stop")
         # Push the modal to the client
         sk__res.show("prep", template_raw)
 

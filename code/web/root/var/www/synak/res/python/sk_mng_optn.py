@@ -5,6 +5,7 @@ import json
 import sk__res
 import sk__skt
 import sk__dbg
+import sk__opn
 
 # Push the option modal to the client
 def prepare(_data):
@@ -17,15 +18,13 @@ def prepare(_data):
     # No error occured
     if not err:
         # Get the option modal template
-        file_raw = open("../template/sk_mng_optn.tpl", "r")
-        template_raw = file_raw.read()
+        template_raw = sk__opn.getTemplate("sk_mng_optn")
 
         # Replace the default value of the log level option
         template_mod = template_raw.replace("%LGLV%", f'''"{res['data']['lglv']}"''')
 
         # Get the form modal template
-        file_form = open("../template/sk_mng_optn_form_global.tpl", "r")
-        template_form = file_form.read()
+        template_form = sk__opn.getTemplate("sk_mng_optn_form_global")
 
         # Populate the raw option modal with the option form
         template_mod = template_mod.replace("%FORM_OPT_GLOBAL%", template_form)

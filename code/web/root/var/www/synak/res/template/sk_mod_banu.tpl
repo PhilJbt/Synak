@@ -15,10 +15,7 @@
     </div>
     <div class="ui header">UID to ban:</div>
     <div id="list_uid">
-      <div class="modban ui icon input fluid">
-        <input type="text" placeholder="UID to ban">
-        <i class="pencil alternate icon"></i>
-      </div>
+      %BAN_ITEM%
     </div>
   </div>
 </div>
@@ -58,24 +55,35 @@ function template_init() {
 }
 function sk_mod_ban_listuid(_action) {
   if (_action == 'add')
-    $('#list_uid').append('<div class="modban ui icon input fluid"><input type="text" placeholder="UID to ban"><i class="pencil alternate icon"></i></div>')
+    $('#list_uid').append('%BAN_ITEM%');
   else if (_action == 'clr') {
-    var objListUid = $('#list_uid').find('input');
+    var objListUid = $('#list_uid').find('.nptban');
     var iNbrChild = objListUid.length;
     for (var i = iNbrChild - 1; i >= 0; --i)
-      if (!objListUid[i].value.trim().length
-      && ($('#list_uid').find('input').length > 1 || i > 0))
-        objListUid[i].parentNode.remove();
+      if (objListUid[i].value.trim().length == 0
+      && $('.rowban').length > 1)
+        objListUid[i].parentNode.parentNode.parentNode.parentNode.remove();
   }
 }
 function sk_mod_ban_send() {
   listUid = [];
 
-  var objListUid = $('#list_uid').find('input');
+  var objListUid = $('.rowban');
   var iNbrChild = objListUid.length;
-  for (var i = 0; i < iNbrChild; ++i)
-    if (!!objListUid[i].value.trim().length)
-      listUid.push(objListUid[i].value.trim());
+  for (var i = 0; i < iNbrChild; ++i) {
+    if (objListUid[i].getElementsByTagName('input')[0].value.trim().length > 0) {
+      if (objListUid[i].getElementsByTagName('input')[1].value.trim().length == 0) {
+        objListUid[i].getElementsByTagName('input')[1].style.backgroundColor = "Red";
+        return;
+      }
+
+      var objListInp = objListUid[i].getElementsByTagName('input');
+      arrTmp = [];
+      arrTmp.push(objListInp[0].value);
+      arrTmp.push(objListInp[1].value);
+      listUid.push(arrTmp);
+    }
+  }
 
   if (listUid.length > 0)
     prepareReq('sk__req', 'proc', 'sk_mod_banu', JSON.stringify(listUid));

@@ -58,7 +58,7 @@ function template_init() {
 }
 function sk_mod_unban_listip(_action) {
   if (_action == 'add')
-    $('#list_ipv4v6').append('<div class="modunban ui icon input fluid"><input type="text" placeholder="IP to unban"><i class="pencil alternate icon"></i></div>')
+    $('#list_ipv4v6').append('<div class="modunban ui icon input fluid"><input type="text" placeholder="IP to unban"><i class="pencil alternate icon"></i></div>');
   else if (_action == 'clr') {
     var objListIp = $('#list_ipv4v6').find('input');
     var iNbrChild = objListIp.length;

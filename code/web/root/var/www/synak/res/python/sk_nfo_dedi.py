@@ -5,7 +5,7 @@ import string
 
 import sk__cmd
 import sk__res
-
+import sk__opn
 
 # Array with optimizations and explanations
 arrValues = {
@@ -35,13 +35,11 @@ arrValues = {
 # Push the filled dedicated informations segment to the client
 def prepare(_data):
     # Get the page template template
-    fileTbl = open("../template/sk_nfo_dedi_tbl.tpl", "r")
-    template_mod = fileTbl.read()
+    template_mod = sk__opn.getTemplate("sk_nfo_dedi_tbl")
 
     ## Stats#1 Section
     # Get the template
-    fileSta = open("../template/sk_nfo_dedi_sta.tpl", "r")
-    stat_raw = fileSta.read()
+    stat_raw = sk__opn.getTemplate("sk_nfo_dedi_sta")
 
     # Fill stats#1 with hostname
     info_hst = sk__cmd.send('hostnamectl | grep -iF hostname').split(": ")
@@ -90,8 +88,7 @@ def prepare(_data):
 
     ## Optimizations Section
     # Get the table template
-    fileRow = open("../template/sk_nfo_dedi_row.tpl", "r")
-    tplRow = fileRow.read()
+    tplRow = sk__opn.getTemplate("sk_nfo_dedi_row")
     strStackedRows = ""
     iErrCount = 0
     # Fill the table template with optimizations

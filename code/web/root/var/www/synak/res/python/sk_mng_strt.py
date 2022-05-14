@@ -7,6 +7,7 @@ import sk__cmd
 import sk__res
 import sk__dbg
 import sk__mng
+import sk__opn
 
 # Push the modal disclaimer about killing the MS process
 def prepare(_data):
@@ -18,19 +19,16 @@ def prepare(_data):
     # MS is not running
     else:
         # Get the option modal template
-        file_raw = open("../template/sk_mng_strt.tpl", "r")
-        template_raw = file_raw.read()
+        template_raw = sk__opn.getTemplate("sk_mng_strt")
 
         # Get the form modal template
-        file_form_global = open("../template/sk_mng_optn_form_global.tpl", "r")
-        template_form_global = file_form_global.read()
+        template_form_global = sk__opn.getTemplate("sk_mng_optn_form_global")
 
         # Populate the raw option modal with the option form
         template_mod = template_raw.replace("%FORM_OPT_GLOBAL%", template_form_global)
 
         # Get the form modal template
-        file_form_start = open("../template/sk_mng_optn_form_start.tpl", "r")
-        template_form_start = file_form_start.read()
+        template_form_start = sk__opn.getTemplate("sk_mng_optn_form_start")
 
         # Populate the raw option modal with the option form
         template_mod = template_mod.replace("%FORM_OPT_START%", template_form_start)
@@ -54,7 +52,7 @@ def prepare(_data):
         # Populate values with last configuration (or default)
         template_mod = template_mod.replace("%portWP%", portWP)
         template_mod = template_mod.replace("%portPL%", portPL)
-        template_mod += f'''<script type="text/javascript">$('#dp_loglevel').dropdown('set selected', "{logLvl}");</script>'''
+        template_mod = template_mod.replace("%LOGLEVEL%", logLvl)
 
         # Send the modal to the client
         sk__res.show("prep", template_mod)

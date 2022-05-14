@@ -22,7 +22,7 @@ def sql_con():
     cur.execute("""SELECT count(name) FROM sqlite_master WHERE type='table' AND name='t_ban'""")
     if cur.fetchone()[0] == 0 :
         try:
-            cur.execute("""CREATE TABLE if not exists t_ban(c_uid CHAR(32) NOT NULL PRIMARY KEY)""")
+            cur.execute("""CREATE TABLE if not exists t_ban(c_uid TEXT NOT NULL PRIMARY KEY, c_tim TEXT NOT NULL)""")
             con.commit()
         except sqlite3.Error as er:
             sk__dbg.message(sk__dbg.messtype.ERR, 'Error when creating table t_ban: %s' % (' '.join(er.args)))

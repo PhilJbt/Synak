@@ -24,14 +24,16 @@
   </div>
 </div>
 <script type="text/javascript">
-$('#dp_loglevel').dropdown({
-    allowCategorySelection: true,
-    showOnFocus: false
-});
-$('#dp_loglevel').dropdown('set selected', %LGLV%);
-function sk_mng_optn() {
-  arrOptVal = {};
-  arrOptVal['lglv'] = $('#dp_loglevel_cnt')[0].firstChild.dataset.value.toString();
-  prepareReq('sk__req', 'proc', 'sk_mng_optn', JSON.stringify(arrOptVal));
+function template_init() {
+  $('#dp_loglevel').dropdown({
+      allowCategorySelection: true,
+      showOnFocus: false
+  });
+  $('#dp_loglevel').dropdown('set selected', %LGLV%);
+  function sk_mng_optn() {
+    arrOptVal = {};
+    arrOptVal['lglv'] = $('#dp_loglevel_cnt')[0].firstChild.dataset.value.toString();
+    prepareReq('sk__req', 'proc', 'sk_mng_optn', JSON.stringify(arrOptVal));
+  }
 }
 </script>

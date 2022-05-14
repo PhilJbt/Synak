@@ -6,7 +6,7 @@ import os.path
 import sk__res
 import sk__dbg
 import sk__dbg
-
+import sk__opn
 
 # Push the filled dedicated informations segment to the client
 def prepare(_data):
@@ -20,8 +20,7 @@ def prepare(_data):
             return None, True
 
         # Get the config html template
-        file_raw = open("../template/sk_nfo_cnfg.tpl", "r")
-        template_raw = file_raw.read()
+        template_raw = sk__opn.getTemplate("sk_nfo_cnfg")
 
         # Format user readable Log Level
         strLogLevel = ''

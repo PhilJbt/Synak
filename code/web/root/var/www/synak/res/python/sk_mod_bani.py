@@ -6,14 +6,18 @@ import ipaddress
 import sk__cmd
 import sk__res
 import sk__dbg
+import sk__opn
 
 # Push the UID banning modal to the client
 def prepare(_data):
     # Get the ban modal template
-    file = open("../template/sk_mod_bani.tpl", "r")
-    template_raw = file.read()
+    template_raw = sk__opn.getTemplate("sk_mod_bani")
+    # Get the ban ip item template
+    template_itm = sk__opn.getTemplate("sk_mod_bani_itm")
+    # Populate the first pre-filled node in the modal and the HTML in the javascript code for add a new node
+    template_mod = template_raw.replace("%BAN_ITEM%", template_itm)
     # Send the modal to the client
-    sk__res.show("prep", template_raw)
+    sk__res.show("prep", template_mod)
 
 # Push segment to client
 def process(_data):

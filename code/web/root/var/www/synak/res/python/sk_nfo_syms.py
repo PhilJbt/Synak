@@ -3,6 +3,7 @@
 import sk__res
 import sk__skt
 import sk__dbg
+import sk__opn
 
 # Push the filled Synak MS informations segment to the client
 def prepare(_data):
@@ -23,10 +24,8 @@ def prepare(_data):
     # No error occured
     if not err:
         ## Get templates
-        fTemplate = open("../template/sk_nfo_syms.tpl", "r")
-        htmlTemplate = fTemplate.read()
-        fStatistics = open("../template/sk_nfo_syms_sta.tpl", "r")
-        htmlStatistics = fStatistics.read()
+        htmlTemplate = sk__opn.getTemplate("sk_nfo_syms")
+        htmlStatistics = sk__opn.getTemplate("sk_nfo_syms_sta")
         # Declare all stats concat
         htmlStatsCont = ""
 

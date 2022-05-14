@@ -58,7 +58,7 @@ function template_init() {
 }
 function sk_mod_unban_listuid(_action) {
   if (_action == 'add')
-    $('#list_uid').append('<div class="modunban ui icon input fluid"><input type="text" placeholder="UID to unban"><i class="pencil alternate icon"></i></div>')
+    $('#list_uid').append('<div class="modunban ui icon input fluid"><input type="text" placeholder="UID to unban"><i class="pencil alternate icon"></i></div>');
   else if (_action == 'clr') {
     var objListUid = $('#list_uid').find('input');
     var iNbrChild = objListUid.length;

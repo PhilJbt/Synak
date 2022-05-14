@@ -25,11 +25,13 @@
   </div>
 </div>
 <script type="text/javascript">
-$('#dp_loglevel').dropdown({
-    allowCategorySelection: true,
-    showOnFocus: false
-});
-$('#dp_loglevel').dropdown('set selected', "2");
+function template_init() {
+  $('#dp_loglevel').dropdown({
+      allowCategorySelection: true,
+      showOnFocus: false
+  });
+  $('#dp_loglevel').dropdown('set selected', '%LOGLEVEL%');
+}
 function sk_mng_strt() {
   arrOptVal = {};
   arrOptVal['lglv'] = $('#dp_loglevel_cnt')[0].firstChild.dataset.value.toString();

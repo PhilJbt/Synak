@@ -1,7 +1,7 @@
 <div class="header">
   Master Server &#8212; Unban IP
 </div>
-<div class="content">
+<div class="scrolling content">
   <div class="description">
     <div class="ui buttons">
       <button class="ui button" onclick="sk_mod_unban_listip('add')">
@@ -69,27 +69,15 @@ function sk_mod_unban_listip(_action) {
   }
 }
 function sk_mod_unban_send() {
-  let rCheckIPv4v6 = /(?:^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$)|(?:^(?:(?:[a-fA-F\d]{1,4}:){7}(?:[a-fA-F\d]{1,4}|:)|(?:[a-fA-F\d]{1,4}:){6}(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|:[a-fA-F\d]{1,4}|:)|(?:[a-fA-F\d]{1,4}:){5}(?::(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,2}|:)|(?:[a-fA-F\d]{1,4}:){4}(?:(?::[a-fA-F\d]{1,4}){0,1}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,3}|:)|(?:[a-fA-F\d]{1,4}:){3}(?:(?::[a-fA-F\d]{1,4}){0,2}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,4}|:)|(?:[a-fA-F\d]{1,4}:){2}(?:(?::[a-fA-F\d]{1,4}){0,3}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,5}|:)|(?:[a-fA-F\d]{1,4}:){1}(?:(?::[a-fA-F\d]{1,4}){0,4}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,6}|:)|(?::(?:(?::[a-fA-F\d]{1,4}){0,5}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-fA-F\d]{1,4}){1,7}|:)))(?:%[0-9a-zA-Z]{1,})?$)/gm;
   listIPv4v6 = [];
-  bValidValues = true;
 
   var objListIp = $('#list_ipv4v6').find('input');
   var iNbrChild = objListIp.length;
-  for (var i = 0; i < iNbrChild; ++i) {
-    objListIp[i].classList.remove("inputError");
-    if (!!objListIp[i].value.trim().length) {
-      if (!rCheckIPv4v6.test(objListIp[i].value.trim())) {
-        objListIp[i].classList.add("inputError");
-        bValidValues = false;
-      }
-      else
+  for (var i = 0; i < iNbrChild; ++i)
+    if (!!objListIp[i].value.trim().length)
         listIPv4v6.push(objListIp[i].value.trim());
-    }
-  }
 
-  if (!bValidValues)
-    $('.ui.modal').transition('bounce');
-  else if (listIPv4v6.length > 0)
+  if (listIPv4v6.length > 0)
     prepareReq('sk__req', 'proc', 'sk_mod_unbi', JSON.stringify(listIPv4v6));
 }
 </script>

@@ -18,7 +18,7 @@ def prepare(_data):
     if not conChk:
         return
 
-    # Get POST data
+    # Get POST data, which is the desired page number
     data = 0
     try:
         data = json.loads(_data)
@@ -26,7 +26,7 @@ def prepare(_data):
         data = 0
 
     # Get banned UIDs
-    resUIDs, resChk = sk__sql.sql_req(con, f"SELECT c_uid, c_tim FROM t_ban limit 100 offset {data}")
+    resUIDs, resChk = sk__sql.sql_req(con, f"SELECT c_uid, c_tim FROM t_ban limit 100 offset {data*100}")
     if not resChk:
         return
 
@@ -42,7 +42,7 @@ def prepare(_data):
     iPageMax = math.ceil(resCount[0][0] / 100)
     strPagination = """<div class="ui borderless menu">"""
     for i in range(0,iPageMax):
-        strPagination += f"""<a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lstu', JSON.stringify({i*100}));">{i+1}</a>"""
+        strPagination += f"""<a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lstu', JSON.stringify({i}));">{i+1}</a>"""
     strPagination += """</div>"""
 
     # Get the item list template

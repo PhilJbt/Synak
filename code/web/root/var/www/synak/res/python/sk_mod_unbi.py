@@ -29,10 +29,10 @@ def process(_data):
             ip = ipaddress.ip_address(elem)
             # If IPv4, unban with iptables
             if ip.version == 4:
-                sk__cmd.send(f'sudo iptables -D INPUT -s {elem} -j DROP')
+                sk__cmd.send(f'sudo iptables -w 5 -D INPUT -s {elem} -j DROP')
             # If IPv4, unban with ip6tables
             elif ip.version == 6:
-                sk__cmd.send(f'sudo ip6tables -D INPUT -s {elem} -j DROP')
+                sk__cmd.send(f'sudo ip6tables -w 5 -D INPUT -s {elem} -j DROP')
             # Add the unbanned IP to the list of unvanned IPs
             strIpVld += f'<div class="item">{elem}</div>'
         # An error occured while casting str to ip_addr, do nothing (== do not add this IP to the list)

@@ -1,7 +1,7 @@
 <div class="header">
   Master Server &#8212; Unban UID
 </div>
-<div class="content">
+<div class="scrolling content">
   <div class="description">
     <div class="ui buttons">
       <button class="ui button" onclick="sk_mod_unban_listuid('add')">

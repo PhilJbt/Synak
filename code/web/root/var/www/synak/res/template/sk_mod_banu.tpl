@@ -3,19 +3,9 @@
 </div>
 <div class="scrolling content">
   <div class="description">
-    <div class="ui buttons">
-      <button class="ui button" onclick="sk_mod_ban_listuid('add')">
-        <i class="plus icon"></i>
-        ADD
-      </button>
-      <button class="ui button" onclick="sk_mod_ban_listuid('clr')">
-        <i class="recycle icon"></i>
-        CLEAR
-      </button>
-    </div>
-    <div class="ui header">UID to ban:</div>
-    <div id="list_uid">
-      %BAN_ITEM%
+    <div class="ui header">UIDs to ban:</div>
+    <div class="ui form">
+      <textarea id="list_uid" placeholder="a6a5e426-e06a-4d32-8b8a-83234f367b4d 7&#10;81e5a262-5027-4b5a-b5d8-4f87c75568ee 365"></textarea>
     </div>
   </div>
 </div>
@@ -24,7 +14,7 @@
     <div class="left floated left aligned ten wide column middle aligned content">
       <i id="popnfo_modban" class="info help icon link"></i>
       <div class="ui top left popup flowing">
-        <p>By default, the Synak UID (<i>Unique Identifier</i>) is the volume GUID (i.e. <i>{47ba2efc-3db1-11e0-78f8-806e5f6e6963}</i>).</p>
+        <p>Paste one UID per line, separate the ban duration in days with a space.<br/>By default, the Synak UID (<i>Unique Identifier</i>) is the volume GUID (i.e. <i>{47ba2efc-3db1-11e0-78f8-806e5f6e6963}</i>).</p>
       </div>
     </div>
     <div class="right floated right aligned six wide column">
@@ -53,44 +43,29 @@ function template_init() {
     variation : 'very wide'
   });
 }
-function sk_mod_ban_listuid(_action) {
-  if (_action == 'add')
-    $('#list_uid').append('%BAN_ITEM%');
-  else if (_action == 'clr') {
-    var objListUid = $('#list_uid').find('.nptban');
-    var iNbrChild = objListUid.length;
-    for (var i = iNbrChild - 1; i >= 0; --i)
-      if (objListUid[i].value.trim().length == 0
-      && $('.rowban').length > 1)
-        objListUid[i].parentNode.parentNode.parentNode.parentNode.remove();
-  }
-}
 function sk_mod_ban_send() {
   listUid = [];
-  bValuesValid = true;
 
-  var objListUid = $('.rowban');
-  var iNbrChild = objListUid.length;
-  for (var i = 0; i < iNbrChild; ++i) {
-    objListUid[i].getElementsByTagName('input')[1].classList.remove("inputError");
-    if (objListUid[i].getElementsByTagName('input')[0].value.trim().length > 0) {
-      if (objListUid[i].getElementsByTagName('input')[1].value.trim().length == 0
-      || /^\d+$/.test(objListUid[i].getElementsByTagName('input')[1].value.trim()) == false) {
-        objListUid[i].getElementsByTagName('input')[1].classList.add("inputError");
-        bValuesValid = false;
+  var objListUid = $('#list_uid')[0];
+  listIPv4v6 = objListUid.value.split('\n');
+  for (let i = 0; i < listIPv4v6.length; ++i) {
+    const element = listIPv4v6[i].replace(/\s+/g, ' ').trim();
+    if (element.length > 0) {
+      if ((element.match(/ /g)||[]).length != 1) {
+        $('.ui.modal').transition('bounce');
+        return;
       }
-
-      var objListInp = objListUid[i].getElementsByTagName('input');
-      arrTmp = [];
-      arrTmp.push(objListInp[0].value);
-      arrTmp.push(objListInp[1].value);
-      listUid.push(arrTmp);
+      else {
+        let strLine = element.split(' ');
+        arrTmp = [];
+        arrTmp.push(strLine[0]);
+        arrTmp.push(strLine[1]);
+        listUid.push(arrTmp);
+      }
     }
   }
 
-  if (!bValuesValid)
-    $('.ui.modal').transition('bounce');
-  else if (listUid.length > 0)
+  if (listUid.length > 0)
     prepareReq('sk__req', 'proc', 'sk_mod_banu', JSON.stringify(listUid));
 }
 </script>

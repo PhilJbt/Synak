@@ -41,8 +41,11 @@ def prepare(_data):
     # Populate pagination template
     iPageMax = math.ceil(resCount[0][0] / 100)
     strPagination = """<div class="ui borderless menu">"""
-    for i in range(0,iPageMax):
-        strPagination += f"""<a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lstu', JSON.stringify({i}));">{i+1}</a>"""
+    if iPageMax == 0:
+        strPagination += f"""<a class="item disabled">1</a>"""
+    else:
+        for i in range(0, iPageMax):
+            strPagination += f"""<a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lstu', JSON.stringify({i}));">{i+1}</a>"""
     strPagination += """</div>"""
 
     # Get the item list template

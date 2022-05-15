@@ -14,12 +14,8 @@ import sk__opn
 def prepare(_data):
     # Get the ban modal template
     template_raw = sk__opn.getTemplate("sk_mod_banu")
-    # Get the ban modal template
-    template_itm = sk__opn.getTemplate("sk_mod_banu_itm")
-    # Populate the first pre-filled node in the modal and the HTML in the javascript code for add a new node
-    template_mod = template_raw.replace("%BAN_ITEM%", template_itm)
     # Send the modal to the client
-    sk__res.show("prep", template_mod)
+    sk__res.show("prep", template_raw)
 
 # Push segment to client
 def process(_data):

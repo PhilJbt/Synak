@@ -3,22 +3,9 @@
 </div>
 <div class="scrolling content">
   <div class="description">
-    <div class="ui buttons">
-      <button class="ui button" onclick="sk_mod_unban_listuid('add')">
-        <i class="plus icon"></i>
-        ADD
-      </button>
-      <button class="ui button" onclick="sk_mod_unban_listuid('clr')">
-        <i class="recycle icon"></i>
-        CLEAR
-      </button>
-    </div>
     <div class="ui header">UID to unban:</div>
-    <div id="list_uid">
-      <div class="modunban ui icon input fluid">
-        <input type="text" placeholder="UID to unban">
-        <i class="pencil alternate icon"></i>
-      </div>
+    <div class="ui form">
+      <textarea id="list_uid" placeholder="a6a5e426-e06a-4d32-8b8a-83234f367b4d&#10;81e5a262-5027-4b5a-b5d8-4f87c75568ee"></textarea>
     </div>
   </div>
 </div>
@@ -27,7 +14,7 @@
     <div class="left floated left aligned ten wide column middle aligned content">
       <i id="popnfo_modunban" class="info help icon link"></i>
       <div class="ui top left popup flowing">
-        <p>By default, the Synak UID (<i>Unique Identifier</i>) is the volume GUID (i.e. <i>{47ba2efc-3db1-11e0-78f8-806e5f6e6963}</i>).</p>
+        <p>Paste one UID per line.<br/>By default, the Synak UID (<i>Unique Identifier</i>) is the volume GUID (i.e. <i>{47ba2efc-3db1-11e0-78f8-806e5f6e6963}</i>).</p>
       </div>
     </div>
     <div class="right floated right aligned six wide column">
@@ -56,28 +43,15 @@ function template_init() {
     variation : 'very wide'
   });
 }
-function sk_mod_unban_listuid(_action) {
-  if (_action == 'add')
-    $('#list_uid').append('<div class="modunban ui icon input fluid"><input type="text" placeholder="UID to unban"><i class="pencil alternate icon"></i></div>');
-  else if (_action == 'clr') {
-    var objListUid = $('#list_uid').find('input');
-    var iNbrChild = objListUid.length;
-    for (var i = iNbrChild - 1; i >= 0; --i)
-      if (!objListUid[i].value.trim().length
-      && ($('#list_uid').find('input').length > 1 || i > 0))
-        objListUid[i].parentNode.remove();
-  }
-}
 function sk_mod_unban_send() {
-  listUid = [];
+  var objlistUid = $('#list_uid')[0];
+  listUIDs = objlistUid.value.split('\n');
+  listUIDs = listUIDs.filter(item => !(item.trim().length == 0));
+  listUIDs.forEach((element, index) => {
+    listUIDs[index] = element.replace(/\s+/g, ' ').trim();
+  });
 
-  var objListUid = $('#list_uid').find('input');
-  var iNbrChild = objListUid.length;
-  for (var i = 0; i < iNbrChild; ++i)
-    if (!!objListUid[i].value.trim().length)
-      listUid.push(objListUid[i].value.trim());
-
-  if (listUid.length > 0)
-    prepareReq('sk__req', 'proc', 'sk_mod_unbu', JSON.stringify(listUid));
+  if (listUIDs.length > 0)
+    prepareReq('sk__req', 'proc', 'sk_mod_unbu', JSON.stringify(listUIDs));
 }
 </script>

@@ -17,7 +17,7 @@ def prepare(_data):
     # Get the item template for the banned IPs list
     htmlItem = sk__opn.getTemplate("sk_mod_lsti_itm")
 
-  # Populate place holder with the banned IPv4 list in the item list template
+    # Populate place holder with the banned IPv4 list in the item list template
     listIPv4_mod = ""
     for itemRaw in listIPv4_raw.splitlines():
         listIPv4_mod += htmlItem.replace("%IP%", itemRaw)
@@ -27,7 +27,7 @@ def prepare(_data):
     for itemRaw in listIPv6_raw.splitlines():
         listIPv6_mod += htmlItem.replace("%IP%", itemRaw)
 
-    # Get the  modal template of the banned IPs list
+    # Get the modal template of the banned IPs list
     template_raw = sk__opn.getTemplate("sk_mod_lsti")
     # If there is at least 1 banned IPv4
     if len(listIPv4_mod) > 0:

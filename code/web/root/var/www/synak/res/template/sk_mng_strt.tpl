@@ -33,10 +33,29 @@ function template_init() {
   $('#dp_loglevel').dropdown('set selected', '%LOGLEVEL%');
 }
 function sk_mng_strt() {
+  bValidValues = true;
   arrOptVal = {};
   arrOptVal['lglv'] = $('#dp_loglevel_cnt')[0].firstChild.dataset.value.toString();
   arrOptVal['ptwp'] = $('#in_port_webpanel')[0].value;
   arrOptVal['ptpl'] = $('#in_port_players')[0].value;
-  prepareReq('sk__req', 'proc', 'sk_mng_strt', JSON.stringify(arrOptVal));
+
+  $('#in_port_webpanel')[0].classList.remove("inputError");
+  if (/^\d+$/.test(arrOptVal['ptwp']) == false
+  || arrOptVal['ptwp'].length == 0) {
+    $('#in_port_webpanel')[0].classList.add("inputError");
+    bValidValues = false;
+  }
+
+  $('#in_port_players')[0].classList.remove("inputError");
+  if (/^\d+$/.test(arrOptVal['ptpl']) == false
+  || arrOptVal['ptpl'].length == 0) {
+    $('#in_port_players')[0].classList.add("inputError");
+    bValidValues = false;
+  }
+
+  if (bValidValues)
+    prepareReq('sk__req', 'proc', 'sk_mng_strt', JSON.stringify(arrOptVal));
+  else
+    $('.ui.modal').transition('bounce');
 }
 </script>

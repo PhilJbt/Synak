@@ -30,10 +30,10 @@ function template_init() {
       showOnFocus: false
   });
   $('#dp_loglevel').dropdown('set selected', %LGLV%);
-  function sk_mng_optn() {
-    arrOptVal = {};
-    arrOptVal['lglv'] = $('#dp_loglevel_cnt')[0].firstChild.dataset.value.toString();
-    prepareReq('sk__req', 'proc', 'sk_mng_optn', JSON.stringify(arrOptVal));
-  }
+}
+function sk_mng_optn() {
+  arrOptVal = {};
+  arrOptVal['lglv'] = $('#dp_loglevel_cnt')[0].firstChild.dataset.value.toString();
+  prepareReq('sk__req', 'proc', 'sk_mng_optn', JSON.stringify(arrOptVal));
 }
 </script>

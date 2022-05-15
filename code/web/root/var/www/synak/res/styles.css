@@ -50,3 +50,18 @@ hl {
  font-weight: bold;
  text-decoration: underline;
 }
+.inputError {
+  animation: animInputError 5s ease 0s infinite normal forwards;
+}
+@keyframes animInputError {
+	0%,
+	50%,
+	100% {
+		background: #f00;
+	}
+
+	25%,
+	75% {
+		background: #fff;
+	}
+}

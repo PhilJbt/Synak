@@ -27,7 +27,7 @@
     <div class="left floated left aligned ten wide column middle aligned content">
       <i id="popnfo_modunban" class="info help icon link"></i>
       <div class="ui top left popup flowing">
-        <p>By default, the Synak UID (<i>Unique Identifier</i>) is the volume GUID, without brackets or dash (i.e. <i>{47ba2efc-3db1-11e0-78f8-806e5f6e6963}</i> becomes <i>47ba2efc3db111e078f8806e5f6e6963</i>).</p>
+        <p>By default, the Synak UID (<i>Unique Identifier</i>) is the volume GUID (i.e. <i>{47ba2efc-3db1-11e0-78f8-806e5f6e6963}</i>).</p>
       </div>
     </div>
     <div class="right floated right aligned six wide column">

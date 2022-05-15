@@ -80,7 +80,7 @@ void SK::MasterServer::initialization(int _argc, char *_argv[]) {
     SK_LOG_NFO(
         "Starting Synak MS.",
         std::string("BUILD: " + SK_BUILDTIMESTAMP),
-        std::string("LOG LEVEL: " + std::to_string(static_cast<int>(m_LW_eLogLevel))),
+        std::string("LOG LEVEL: INFORMATION"), // This message will only be visibile if LOG LEVEL is INFORMATION, so...
         std::string("WEB PANEL LISTENING PORT: " + std::to_string(m_WP_iPort)),
         std::string("PLAYERS LISTENING PORT: " + std::to_string(m_IG_iPort))
     );

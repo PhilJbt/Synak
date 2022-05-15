@@ -1,7 +1,7 @@
 <div class="header">
   Master Server &#8212; Ban UID
 </div>
-<div class="content">
+<div class="scrolling content">
   <div class="description">
     <div class="ui buttons">
       <button class="ui button" onclick="sk_mod_ban_listuid('add')">
@@ -24,7 +24,7 @@
     <div class="left floated left aligned ten wide column middle aligned content">
       <i id="popnfo_modban" class="info help icon link"></i>
       <div class="ui top left popup flowing">
-        <p>By default, the Synak UID (<i>Unique Identifier</i>) is the volume GUID, without brackets or dash (i.e. <i>{47ba2efc-3db1-11e0-78f8-806e5f6e6963}</i> becomes <i>47ba2efc3db111e078f8806e5f6e6963</i>).</p>
+        <p>By default, the Synak UID (<i>Unique Identifier</i>) is the volume GUID (i.e. <i>{47ba2efc-3db1-11e0-78f8-806e5f6e6963}</i>).</p>
       </div>
     </div>
     <div class="right floated right aligned six wide column">
@@ -67,14 +67,17 @@ function sk_mod_ban_listuid(_action) {
 }
 function sk_mod_ban_send() {
   listUid = [];
+  bValuesValid = true;
 
   var objListUid = $('.rowban');
   var iNbrChild = objListUid.length;
   for (var i = 0; i < iNbrChild; ++i) {
+    objListUid[i].getElementsByTagName('input')[1].classList.remove("inputError");
     if (objListUid[i].getElementsByTagName('input')[0].value.trim().length > 0) {
-      if (objListUid[i].getElementsByTagName('input')[1].value.trim().length == 0) {
-        objListUid[i].getElementsByTagName('input')[1].style.backgroundColor = "Red";
-        return;
+      if (objListUid[i].getElementsByTagName('input')[1].value.trim().length == 0
+      || /^\d+$/.test(objListUid[i].getElementsByTagName('input')[1].value.trim()) == false) {
+        objListUid[i].getElementsByTagName('input')[1].classList.add("inputError");
+        bValuesValid = false;
       }
 
       var objListInp = objListUid[i].getElementsByTagName('input');
@@ -85,7 +88,9 @@ function sk_mod_ban_send() {
     }
   }
 
-  if (listUid.length > 0)
+  if (!bValuesValid)
+    $('.ui.modal').transition('bounce');
+  else if (listUid.length > 0)
     prepareReq('sk__req', 'proc', 'sk_mod_banu', JSON.stringify(listUid));
 }
 </script>

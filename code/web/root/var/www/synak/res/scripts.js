@@ -47,7 +47,11 @@ function prepReq_init() {
 
 function prepReq_uninit(_text) {
   $('.ui.modal').html(_text);
-  $('.ui.modal').modal('show');
+  $('.ui.modal').modal({
+    centered: false,
+    transition: 'slide down'
+  })
+  .modal('show');
   $('#mdl_output').removeClass("loading");
   enableMessageClose();
   template_try();

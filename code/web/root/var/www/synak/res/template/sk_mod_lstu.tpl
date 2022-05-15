@@ -1,3 +1,4 @@
+%PAGINATION%
 <div class="ui message">
   <div class="header">
     BANNED UIDs
@@ -6,3 +7,4 @@
     %UIDS%
   </div>
 </div>
+%PAGINATION%

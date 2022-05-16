@@ -80,8 +80,6 @@ Standard version: C++17
 - **Network Layer** / **Master Server**
   - [nlohmann-json-3.10.2](https://github.com/nlohmann/json) (included)
   - [CRCpp 1.1.0.0](https://github.com/d-bahr/CRCpp) (included)
-  - [MessagePack 4.0.0C](https://github.com/msgpack/msgpack-c/tree/cpp_master) (included)
-    - [Boost 1.77.0](https://www.boost.org/) (included)
 
 &#160;
 

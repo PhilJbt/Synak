@@ -17,15 +17,15 @@ def prepare(_data):
 
 # Push segment to client
 def process(_data):
-    # Get POST data
-    data = json.loads(_data)
-
     # Declare feedback vars
     strIpVld = '<div class="header">Successfully banned IP</div><div class="ui bulleted list">'
     strIpErr = '<div class="header">Not valid IP</div><div class="ui bulleted list">'
     # Declare success/error IP ban number vars
     ipVldNbr = 0
     ipErrNbr = 0
+
+    # Get POST data
+    data = json.loads(_data)
 
     # For every IP in the POST data
     for elem in data:
@@ -36,10 +36,10 @@ def process(_data):
                 ip = ipaddress.ip_address(elem)
                 # IPv4 detected, ban it with iptables
                 if ip.version == 4:
-                    sk__cmd.send(f'sudo iptables -w 5 -A INPUT -s {elem} -j DROP')
+                    sk__cmd.send(f'sudo iptables -w 60 -A INPUT -s {elem} -j DROP')
                 # IPv6 detected, ban it with ip6tables
                 elif ip.version == 6:
-                    sk__cmd.send(f'sudo ip6tables -w 5 -A INPUT -s {elem} -j DROP')
+                    sk__cmd.send(f'sudo ip6tables -w 60 -A INPUT -s {elem} -j DROP')
                 # Add the banned IP to the corresponding feedback stack
                 strIpVld += f'<div class="item">{elem}</div>'
                 # Increment the number of banned IP by one

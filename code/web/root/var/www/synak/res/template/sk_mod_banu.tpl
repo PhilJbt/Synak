@@ -6,7 +6,7 @@
     <div class="ui header">UIDs to ban:</div>
     <div class="ui form">
       <textarea id="list_uid" placeholder="a6a5e426-e06a-4d32-8b8a-83234f367b4d 7&#10;81e5a262-5027-4b5a-b5d8-4f87c75568ee 365"></textarea>
-      <div id="tip_uid" class="ui pointing label basic red" style="opacity:0">
+      <div id="tip_uid" class="ui pointing label basic red popuperr">
         Null
       </div>
     </div>

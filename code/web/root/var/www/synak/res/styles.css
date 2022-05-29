@@ -9,10 +9,11 @@
 }
 #menu{
   margin:0 !important;
-  }
+  border-radius:0px;
+}
 .cmdoutputcont{
-  /*height:calc(100vh - 67px);*/
   position:relative;
+  flex: 1;
 }
 .cmdoutputseg{
   position:absolute;
@@ -57,4 +58,16 @@ hl {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.menu_cont {
+  display: flex;
+}
+.menu_vert {
+  height: 100%;
+  position: fixed;
+  z-index: 999;
+  border-radius: 0px !important;
+}
+.img_logo {
+  padding: 10px;
 }

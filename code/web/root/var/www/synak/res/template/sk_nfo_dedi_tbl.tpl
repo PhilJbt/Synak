@@ -1,7 +1,7 @@
-<div class="ui center aligned segment basic secondary">
+<div class="ui center aligned segment secondary">
   %STATS_1%
 </div>
-<div class="ui center aligned segment basic tertiary">
+<div class="ui center aligned segment tertiary">
   %STATS_2%
 </div>
 <table class="ui selectable celled table very compact %TABLE_COLOR%">

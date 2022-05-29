@@ -12,66 +12,13 @@
     <script src="res/scripts.js" defer></script>
   </head>
   <body>
-    <div>
-      <div id="menu" class="ui menu massive">
-        <div class="item ui image">
-          <img src="res/img/logo.png">
-        </div>
-        <div class="ui dropdown item">
-          <i class="power off icon"></i>
-          Managing
-          <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_strt')"><i class="icon play"></i> Start</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_stop')"><i class="icon stop"></i> Stop</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_kill')"><i class="icon close"></i> Kill</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_optn')"><i class="icon sliders horizontal"></i> Options</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_chck')"><i class="icon server"></i> Status</a>
-          </div>
-        </div>
-        <div class="ui dropdown item">
-          <i class="gavel icon"></i>
-          Moderation
-          <div class="menu">
-            <div class="ui dropdown item">
-              <i class="icon sitemap"></i> IP
-              <i class="dropdown icon"></i>
-              <div class="menu">
-                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_bani')"><i class="icon user plus"></i> Ban</a>
-                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unbi')"><i class="icon user times"></i> Unban</a>
-                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lsti')"><i class="icon list ol"></i> List</a>
-              </div>
-            </div>
-            <div class="ui dropdown item">
-              <i class="icon barcode"></i> UID
-              <i class="dropdown icon"></i>
-              <div class="menu">
-                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_banu')"><i class="icon user plus"></i> Ban</a>
-                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unbu')"><i class="icon user times"></i> Unban</a>
-                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lstu')"><i class="icon list ol"></i> List</a>
-                <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_clnu')"><i class="icon recycle"></i> Clean Up</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="ui dropdown item">
-          <i class="folder icon"></i>
-          Logs
-          <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_rtrv')"><i class="icon download"></i> Get</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_eras')"><i class="icon erase"></i> Erase</a>
-          </div>
-        </div>
-        <div class="ui dropdown item">
-          <i class="clipboard list icon"></i>
-          Informations
-          <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_cnfg')"><i class="icon file alternate"></i> Configuration</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_syms')"><i class="icon chart pie"></i> Master Server</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_dedi')"><i class="icon tasks"></i> Dedicated Server</a>
-          </div>
-        </div>
+    <div class="menu_cont">
+      <div class="ui pointing vertical menu inverted menu_vert">
+        <a class="ui image">
+          <img class="img_logo" src="res/img/logo.png">
+        </a>
         <div id="popup_signin" class="ui dropdown item float right">
-          <i class="sign-in icon"></i>
+          <i id="popup_signin_icn" class="sign-in icon"></i>
           Authentication
         </div>
         <div class="ui flowing popup top left transition hidden">
@@ -88,9 +35,56 @@
             </div>
           </div>
         </div>
+        <div class="item">
+          <i class="power off icon"></i>
+          <b>Managing</b>
+          <div class="menu">
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_strt')"><i class="icon play"></i> Start</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_stop')"><i class="icon stop"></i> Stop</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_kill')"><i class="icon close"></i> Kill</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_optn')"><i class="icon sliders horizontal"></i> Options</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_chck')"><i class="icon server"></i> Status</a>
+          </div>
+        </div>
+        <div class="item">
+          <i class="icon sitemap"></i>
+          <b>Moderation IPs</b>
+          <div class="menu">
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_bani')"><i class="icon lock"></i> Ban IPs</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unbi')"><i class="icon lock open"></i> Unban IPs</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lsti')"><i class="icon list ol"></i> List IPs</a>
+          </div>
+        </div>
+        <div class="item">
+          <i class="icon barcode"></i>
+          <b>Moderation UID</b>
+          <div class="menu">
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_banu')"><i class="icon lock"></i> Ban UIDs</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unbu')"><i class="icon lock open"></i> Unban UIDs</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lstu')"><i class="icon list ol"></i> List UIDs</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_clnu')"><i class="icon recycle"></i> Clean Up UIDs</a>
+          </div>
+        </div>
+        <div class="item">
+          <i class="folder icon"></i>
+          <b>Logs</b>
+          <div class="menu">
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_rtrv')"><i class="icon download"></i> Get</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_eras')"><i class="icon erase"></i> Erase</a>
+          </div>
+        </div>
+        <div class="item">
+          <i class="clipboard list icon"></i>
+          <b>Informations</b>
+          <div class="menu">
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_cnfg')"><i class="icon file alternate"></i> Configuration</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_syms')"><i class="icon chart pie"></i> Master Server</a>
+            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_dedi')"><i class="icon tasks"></i> Dedicated Server</a>
+          </div>
+        </div>
       </div>
       <div class="cmdoutputcont">
-        <div class="ui segment blue basic very padded cmdoutputseg">
+        <div class="ui segment basic very padded cmdoutputseg">
           <div class="ui two column centered grid">
             <div class="five ten centered row">
               <div class="column">

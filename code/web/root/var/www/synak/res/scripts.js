@@ -1,11 +1,14 @@
 var bFetching = false;
 
 window.addEventListener("load", function(){
+  authKeyGet();
+
   $('.ui.dropdown').dropdown();
   $('#popup_signin').popup({
   inline: false,
-  hoverable: true,
-  position: 'bottom left',
+  useFlex: true,
+  detachable: true,
+  position: 'bottom right',
   on: 'click',
   closable: true,
   delay: {
@@ -18,7 +21,6 @@ window.addEventListener("load", function(){
       preLoadFile();
   });
 
-  authKeyGet();
   preLoadFile();
 });
 
@@ -99,8 +101,8 @@ async function sendReq(_scriptname, _action, _file, _data = null) {
 
   var msauthkey = "";
   if (typeof(Storage) !== "undefined"
-  && localStorage.getItem("msauthkey") !== null)
-    msauthkey = localStorage.getItem("msauthkey");
+  && window.localStorage.getItem("msauthkey") !== null)
+    msauthkey = window.localStorage.getItem("msauthkey");
 
   try {
     const config = {
@@ -178,22 +180,28 @@ function authKeyErr() {
 
 function authKeySet() {
   if (typeof(Storage) !== "undefined") {
-    localStorage.setItem("msauthkey", $('#in_authkey').val());
+    window.localStorage.setItem("msauthkey", $('#in_authkey').val());
     $('#btn_save').text("Stored");
     $('#btn_save').addClass("green");
+    $('#popup_signin_icn')[0].classList.add('green');
   }
   else
     authKeyErr();
 }
 
 function authKeyGet() {
-  if (typeof(Storage) !== "undefined") {
-    if (localStorage.getItem("msauthkey") !== null) {
-      $('#in_authkey').val(localStorage.getItem("msauthkey"));
+  if (!!window.localStorage
+    && typeof window.localStorage.getItem === 'function'
+    && typeof window.localStorage.setItem === 'function'
+    && typeof window.localStorage.removeItem === 'function') {
+    if (window.localStorage.getItem("msauthkey") !== null) {
+      $('#in_authkey').val(window.localStorage.getItem("msauthkey"));
       $('#btn_save').text("Stored");
       $('#btn_save').addClass("green");
+      $('#popup_signin_icn')[0].classList.add('green');
     }
-  } else
+  }
+  else
     authKeyErr();
 }
 

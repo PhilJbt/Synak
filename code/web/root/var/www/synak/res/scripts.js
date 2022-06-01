@@ -2,6 +2,10 @@
 ** Run script when all the DOM is loaded
 */
 window.addEventListener("load", function() {
+  // Show the disclaimer in the console
+  console.log("%c%s",'color: #FF0000; font-size: 50px;font-family:"Roboto", Arial, sans-serif;font-weight:bold;',"WARNING");
+  console.log("READ BEFORE DOING ANYTHING: If someone has invited you to copy and paste something here, whatever the reason, know that this may allow the person in question to steal your credential details.");
+
   // Declare and initialize the variable blocking a feature request if another request is already loading
   window.bFetching = false;
 

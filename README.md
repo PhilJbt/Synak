@@ -88,5 +88,5 @@ Standard version: C++17
   - Apache ≥2.0
     - mod_rewrite
   - Python ≥3.0
-  - [Semantic UI](https://semantic-ui.com/) (included)
-  - [crc32.py](https://gist.github.com/cholcombe973/a0af818d212e58ae151c) (included)
+  - [Semantic UI 2.4](https://semantic-ui.com/) (included)
+  - [crc32.py 7/11/15](https://gist.github.com/cholcombe973/a0af818d212e58ae151c) (included)

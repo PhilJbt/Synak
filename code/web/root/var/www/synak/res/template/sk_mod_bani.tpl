@@ -44,8 +44,8 @@
     </div>
   </div>
 </div>
-<script>
-function template_init() {
+<script type="text/javascript">
+function templateInit_run() {
   $('#popnfo_info').popup({
     variation : 'very wide'
   });
@@ -96,7 +96,7 @@ function sk_mod_ban_send() {
   listIPv4v6 = objListIp.value.split('\n');
   listIPv4v6 = listIPv4v6.filter(item => !(item.trim().length == 0));
   if (listIPv4v6.length > 0)
-    prepareReq('sk__req', 'proc', 'sk_mod_bani', JSON.stringify(listIPv4v6));
+    requestSend('sk__req', 'proc', 'sk_mod_bani', JSON.stringify(listIPv4v6));
   else {
     $('#tip_ip')[0].innerHTML = 'Error : No entry filled';
     $('#tip_ip')[0].style.opacity = 1;

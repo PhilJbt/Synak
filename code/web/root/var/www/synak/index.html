@@ -15,71 +15,99 @@
     <div class="menu_cont">
       <div class="ui pointing vertical menu inverted menu_vert">
         <a class="ui image">
+          <div class="ui bottom attached mini label black lbl_ver"><i class="icon tag"></i> 220601a</div>
           <img class="img_logo" src="res/img/logo.png">
         </a>
-        <div id="popup_signin" class="ui dropdown item float right">
-          <i id="popup_signin_icn" class="sign-in icon"></i>
-          Authentication
-        </div>
-        <div class="ui flowing popup top left transition hidden">
-          <i id="popnfo_authkey" class="info help icon link" data-content="(Disabled by default) This local browser stored key can be used as authentication to be able to access some features of the Synak Master Server from the Web Panel."></i>
-          <div class="ui basic right floated segment">
-            <div class="ui equal width form">
-              <div class="inline field">
-                <div class="ui large left icon input">
-                  <input type="password" placeholder="Master Server auth key" id="in_authkey" onkeypress="authKeyReset()">
-                  <i class="key icon"></i>
-                </div>
+        <div class="item">
+          <div class="ui inverted accordion accordion_menu">
+            <div class="title">
+              <i class="icon power off"></i>
+              <b>Managing</b>
+            </div>
+            <div class="content">
+              <div class="menu">
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_strt')"><i class="icon play"></i> Start</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_stop')"><i class="icon stop"></i> Stop</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_kill')"><i class="icon close"></i> Kill</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_optn')"><i class="icon sliders horizontal"></i> Options</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_chck')"><i class="icon server"></i> Status</a>
               </div>
-              <div id="btn_save" class="ui button fluid right floated" onclick="authKeySet()">Store</div>
             </div>
           </div>
         </div>
         <div class="item">
-          <i class="power off icon"></i>
-          <b>Managing</b>
-          <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_strt')"><i class="icon play"></i> Start</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_stop')"><i class="icon stop"></i> Stop</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_kill')"><i class="icon close"></i> Kill</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_optn')"><i class="icon sliders horizontal"></i> Options</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mng_chck')"><i class="icon server"></i> Status</a>
+          <div class="ui inverted accordion accordion_menu">
+            <div class="title">
+              <i class="icon balance scale"></i>
+              <b>Moderation</b>
+            </div>
+            <div class="content">
+              <div class="menu">
+                <h4>
+                  <b>IPs</b>
+                  <i class="icon sitemap men_sub_icn"></i>
+                </h4>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_bani')"><i class="icon lock"></i> Ban IPs</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_unbi')"><i class="icon lock open"></i> Unban IPs</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_lsti')"><i class="icon list ol"></i> List IPs</a>
+                <div class="ui divider"></div>
+                <h4>
+                  <b>UIDs</b>
+                  <i class="icon barcode men_sub_icn"></i>
+                </h4>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_banu')"><i class="icon lock"></i> Ban UIDs</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_unbu')"><i class="icon lock open"></i> Unban UIDs</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_lstu')"><i class="icon list ol"></i> List UIDs</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_clnu')"><i class="icon recycle"></i> Clean Up UIDs</a>
+              </div>
+            </div>
           </div>
         </div>
         <div class="item">
-          <i class="icon sitemap"></i>
-          <b>Moderation IPs</b>
-          <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_bani')"><i class="icon lock"></i> Ban IPs</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unbi')"><i class="icon lock open"></i> Unban IPs</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lsti')"><i class="icon list ol"></i> List IPs</a>
+          <div class="ui inverted accordion accordion_menu">
+            <div class="title">
+              <i class="icon folder"></i>
+              <b>Logs</b>
+            </div>
+            <div class="content">
+              <div class="menu">
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_log_rtrv')"><i class="icon download"></i> Get</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_log_eras')"><i class="icon erase"></i> Erase</a>
+              </div>
+            </div>
           </div>
         </div>
         <div class="item">
-          <i class="icon barcode"></i>
-          <b>Moderation UID</b>
-          <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_banu')"><i class="icon lock"></i> Ban UIDs</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_unbu')"><i class="icon lock open"></i> Unban UIDs</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_lstu')"><i class="icon list ol"></i> List UIDs</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_mod_clnu')"><i class="icon recycle"></i> Clean Up UIDs</a>
+          <div class="ui inverted accordion accordion_menu">
+            <div class="title">
+              <i class="icon clipboard list"></i>
+              <b>Informations</b>
+            </div>
+            <div class="content">
+              <div class="menu">
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_nfo_cnfg')"><i class="icon file alternate"></i> Configuration</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_nfo_syms')"><i class="icon chart pie"></i> Master Server</a>
+                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_nfo_dedi')"><i class="icon tasks"></i> Dedicated Server</a>
+              </div>
+            </div>
           </div>
         </div>
         <div class="item">
-          <i class="folder icon"></i>
-          <b>Logs</b>
-          <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_rtrv')"><i class="icon download"></i> Get</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_log_eras')"><i class="icon erase"></i> Erase</a>
-          </div>
-        </div>
-        <div class="item">
-          <i class="clipboard list icon"></i>
-          <b>Informations</b>
-          <div class="menu">
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_cnfg')"><i class="icon file alternate"></i> Configuration</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_syms')"><i class="icon chart pie"></i> Master Server</a>
-            <a class="item" onclick="prepareReq('sk__req', 'prep', 'sk_nfo_dedi')"><i class="icon tasks"></i> Dedicated Server</a>
+          <div class="ui inverted accordion accordion_menu">
+            <div class="title">
+              <i class="icon key"></i>
+              <b>Permissions</b>
+            </div>
+            <div class="content">
+              <div class="menu">
+                <form action="" id="frm_auth" name="frm_auth">
+                  <div class="ui input fluid mini">
+                    <input type="password" id="inp_auth" name="cred" placeholder="Permission key..." autocomplete="new-password" readonly />
+                  </div>
+                  <input id="btn_auth" class="ui button fluid right floated mini" type="submit" value="Apply"/>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>

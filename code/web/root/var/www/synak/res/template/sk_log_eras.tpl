@@ -28,8 +28,8 @@
     </div>
   </div>
 </div>
-<script>
-function template_init() {
+<script type="text/javascript">
+function templateInit_run() {
   $('#popnfo_modban').popup({
     variation : 'very wide'
   });

@@ -25,7 +25,7 @@
   </div>
 </div>
 <script type="text/javascript">
-function template_init() {
+function templateInit_run() {
   $('#dp_loglevel').dropdown({
       allowCategorySelection: true,
       showOnFocus: false
@@ -72,6 +72,6 @@ function sk_mng_strt() {
     return;
   }
 
-  prepareReq('sk__req', 'proc', 'sk_mng_strt', JSON.stringify(arrOptVal));
+  requestSend('sk__req', 'proc', 'sk_mng_strt', JSON.stringify(arrOptVal));
 }
 </script>

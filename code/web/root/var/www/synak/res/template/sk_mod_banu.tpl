@@ -44,8 +44,8 @@
     </div>
   </div>
 </div>
-<script>
-function template_init() {
+<script type="text/javascript">
+function templateInit_run() {
   $('#popnfo_info').popup({
     variation : 'very wide'
   });
@@ -134,7 +134,7 @@ function sk_mod_ban_send() {
   }
 
   if (listUid.length > 0)
-    prepareReq('sk__req', 'proc', 'sk_mod_banu', JSON.stringify(listUid));
+    requestSend('sk__req', 'proc', 'sk_mod_banu', JSON.stringify(listUid));
   else {
     $('#tip_uid')[0].innerHTML = 'Error : No entry filled.';
     $('#tip_uid')[0].style.opacity = 1;

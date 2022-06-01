@@ -4,6 +4,7 @@ import sys
 import select
 import json
 import os.path
+import base64
 
 import sk__dbg
 import sk_mng_strt
@@ -70,8 +71,9 @@ else:
                 sk__dbg.message(sk__dbg.messtype.ERR, f"The permissions file (synak/res/webpanel.permissions) is not valid: {str(e)}")
             # Push an error message to the client if the user does not have permissions to execute this script, else continue the script
             else:
-                if (jsonPost["auth"] not in jsonPerms
-                    or file_name not in jsonPerms[jsonPost["auth"]]):
+                authKey = base64.b64decode(jsonPost["auth"]).decode('utf-8')
+                if (authKey not in jsonPerms
+                    or file_name not in jsonPerms[authKey]):
                     sk__dbg.message(sk__dbg.messtype.KEY, f"You do not have the necessary permissions to access this feature ({file_name}).")
                     exit()
 

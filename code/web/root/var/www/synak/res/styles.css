@@ -67,7 +67,21 @@ hl {
   position: fixed;
   z-index: 999;
   border-radius: 0px !important;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .img_logo {
   padding: 10px;
+}
+#frm_auth {
+  margin: 10px;
+}
+#btn_auth {
+  margin-top: 5px;
+}
+.lbl_ver {
+  opacity: .25;
+}
+.men_sub_icn {
+  float: right;
 }

@@ -1,5 +1,5 @@
 {
-  "MyAdminPrivateKey": [
+  "PermissionKeyWithFullRights": [
     "sk_mng_strt",
     "sk_mng_stop",
     "sk_mng_kill",
@@ -18,7 +18,7 @@
     "sk_nfo_syms",
     "sk_nfo_dedi"
   ],
-  "PrivateKeyForModerators": [
+  "PermissionKeyForModerators": [
     "sk_mod_bani",
     "sk_mod_banu"
   ]

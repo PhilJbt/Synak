@@ -15,7 +15,7 @@
       CANCEL
     </div>
   </div>
-  <div id="btn_proceed" class="ui animated orange button" onclick="prepareReq('sk__req', 'proc', 'sk_mng_stop')">
+  <div id="btn_proceed" class="ui animated orange button" onclick="requestSend('sk__req', 'proc', 'sk_mng_stop')">
     <div class="visible content">
       <i class="icon stop"></i>
     </div>

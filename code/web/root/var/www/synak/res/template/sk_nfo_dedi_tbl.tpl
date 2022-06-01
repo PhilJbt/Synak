@@ -34,8 +34,8 @@
     </tr>
   </tfoot>
 </table>
-<script>
-function template_init() {
+<script type="text/javascript">
+function templateInit_run() {
   $('.sk_tbl_pop').popup();
 }
 </script>

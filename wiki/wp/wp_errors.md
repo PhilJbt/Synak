@@ -1,6 +1,6 @@
 # :warning: ERROR MESSAGES
 
-Here is a non-exhaustive list of error messages that you may encounter in the case of a bad configuration, their meaning and how to fix the error related to.
+Here is a non-exhaustive list of error messages that you may encounter (in the case of a bad configuration), their meaning and how to fix the error related to.
 
 &#160;
 

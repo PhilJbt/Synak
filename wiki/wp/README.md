@@ -63,11 +63,20 @@ The **Web Panel** permissions file is a Json where each array corresponds to a n
 
 STRING FOR PERMISSIONS FILE | WHERE TO FIND IN THE WEB PANEL | PURPOSE
 ------------ | ------------- | -------------
-**sk_mng_srt** | _MANAGING_ > _START_ | Starts the Master Server process
-**sk_mng_stp** | _MANAGING_ > _STOP_ | Stops the Master Server process
-**sk_mng_kll** | _MANAGING_ > _KILL_ | Kill the Master Server process
-**sk_mod_ban** | _MODERATION_ > _BAN_ | Ban an IPv4, IPv6 or IPv4-mapped IPv6 address
-**sk_mod_unb** | _MODERATION_ > _UNBAN_ | See and unban banned IPs
-**sk_log_get** | _LOG_ > _GET_ | Get logs
-**sk_nfo_sms** | _INFORMATIONS_ > _MASTER SERVER_ | Get statistics from the Synak Master Server
-**sk_nfo_ded** | _INFORMATIONS_ > _DEDICATED SERVER_ | Get informations from the dedicated server
+**sk_mng_strt** | _MANAGING_ > _START_ | Starts the Master Server process
+**sk_mng_stop** | _MANAGING_ > _STOP_ | Stops the Master Server process
+**sk_mng_kill** | _MANAGING_ > _KILL_ | Kill the Master Server process
+**sk_mng_optn** | _MANAGING_ > _OPTIONS_ | Change the configuration of the running Synak Master Server instance
+**sk_mng_chck** | _MANAGING_ > _STATUS_ | Check if a Synak Master Server instance is running
+**sk_mod_bani** | _MODERATION_ > _BAN_ | Ban IPv4, IPv6 or IPv4-mapped IPv6 addresses
+**sk_mod_unbi** | _MODERATION_ > _UNBAN_ | Unban IPs addresses
+**sk_mod_lsti** | _MODERATION_ > _LIST BANNED_ | List banned IPs
+**sk_mod_banu** | _MODERATION_ > _BAN_ | Ban UIDs
+**sk_mod_unbu** | _MODERATION_ > _UNBAN_ | Unban banned UIDs
+**sk_mod_lstu** | _MODERATION_ > _LIST BANNED_ | List banned UIDs
+**sk_mod_clnu** | _MODERATION_ > _CLEAR UP_ | Clean already passed bans
+**sk_log_rtrv** | _LOG_ > _GET_ | Get log
+**sk_log_eras** | _LOG_ > _ERASE_ | Erase log
+**sk_nfo_cnfg** | _INFORMATION_ > _CONFIGURATION_ | Last configuration of the Synak Master Server
+**sk_nfo_syms** | _INFORMATIONS_ > _MASTER SERVER_ | Get statistics from the Synak Master Server
+**sk_nfo_dedi** | _INFORMATIONS_ > _DEDICATED SERVER_ | Get informations from the dedicated server

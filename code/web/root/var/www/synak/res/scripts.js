@@ -242,7 +242,7 @@ async function pythonProxyLiaison(_scriptname, _action, _file, _data = null) {
       })
     }
     // Wait for the Python proxy answer
-    const response = await fetch('res/python/' + _scriptname + '.py', config);
+    const response = await fetch('res/python/' + _scriptname + '.cgi', config);
     // The answer is valid
     if (response.ok
       && response.status == 200) {

@@ -1,4 +1,4 @@
-# DEDICATED SERVER OPTIMIZATIONS APPLICATION
+# :chart_with_upwards_trend: DEDICATED SERVER OPTIMIZATIONS APPLICATION
 
 These are only optional optimizations and are not mandatory, you can either temporarily or permanently patch these values.
 

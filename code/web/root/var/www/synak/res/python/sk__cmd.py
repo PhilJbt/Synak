@@ -14,11 +14,11 @@ def send(_cmd):
         sk__dbg.message(sk__dbg.messtype.ERR, f"The command '{_cmd}' triggered an OSError:<br/><b>{str(err)}</b>")
         return False, ''
     except Exception as err:
-        sk__dbg.message(sk__dbg.messtype.ERR, f"The command '{_cmd}' triggered an Exception:<br/><b>{str(err.args)}</b>")
+        sk__dbg.message(sk__dbg.messtype.ERR, f"The command '{_cmd}' triggered an Exception:<br/><b>{str(err.message)}</b>")
         return False, ''
 
     # If an error occurs, show an error message
-    if output.returncode is not 0 or err is not None:
+    if output.returncode != 0:
         sk__dbg.message(sk__dbg.messtype.ERR, f"The command '{_cmd}' triggered an error:<br/><b>{str('Unknown error.' if err is None else err)}</b>")
         return False, ''
     # Else, return the output

@@ -42,17 +42,26 @@ def prepare(_data):
     stat_raw = sk__opn.getTemplate("sk_nfo_dedi_sta")
 
     # Fill stats#1 with hostname
-    info_hst = sk__cmd.send('hostnamectl | grep -iF hostname').split(": ")
+    chk, info_hst = sk__cmd.send('hostnamectl | grep -iF hostname')
+    if chk is False:
+        raise SystemExit
+    info_hst = info_hst.split(": ")
     stat_hst = stat_raw.replace("%NAME%", info_hst[0])
     stat_hst = stat_hst.replace("%VALUE%", info_hst[1])
 
     # Fill stats#1 with operating system
-    info_lin = sk__cmd.send('hostnamectl | grep -iF operating').split(": ")
+    chk, info_lin = sk__cmd.send('hostnamectl | grep -iF operating')
+    if chk is False:
+        raise SystemExit
+    info_lin = info_lin.split(": ")
     stat_lin = stat_raw.replace("%NAME%", info_lin[0])
     stat_lin = stat_lin.replace("%VALUE%", info_lin[1])
 
     # Fill stats#1 with architecture
-    info_arc = sk__cmd.send('hostnamectl | grep -iF architecture').split(": ")
+    chk, info_arc = sk__cmd.send('hostnamectl | grep -iF architecture')
+    if chk is False:
+        raise SystemExit
+    info_arc = info_arc.split(": ")
     stat_arc = stat_raw.replace("%NAME%", info_arc[0])
     stat_arc = stat_arc.replace("%VALUE%", info_arc[1])
 
@@ -62,25 +71,36 @@ def prepare(_data):
 
     ## Stats#2 Section
     # Fill stats#2 with hdd/ssd usage
-    info_cpu = format(float(sk__cmd.send('top -b -d1 -n1|grep -i "Cpu(s)"|head -c21|awk \'{print $2}\'')), '.1f')
+    chk, info_cpu = sk__cmd.send('top -b -d1 -n1|grep -i "Cpu(s)"|head -c21|awk \'{print $2}\'')
+    info_cpu = format(float(info_cpu), '.1f')
+    if chk is False:
+        raise SystemExit
     if float(info_cpu) < 0.1:
         info_cpu = '0.1'
     stat_cpu = stat_raw.replace("%NAME%", "CPU USAGE (%)")
     stat_cpu = stat_cpu.replace("%VALUE%", str(info_cpu))
 
     # Fill stats#2 with ram usage
-    info_ram = sk__cmd.send("free -m | grep -iF 'mem' | awk '{print $3}'")
-    info_ram += "/"
-    info_ram += sk__cmd.send("free -m | grep -iF 'mem' | awk '{print $2}'")
+    chk, info_ram1 = sk__cmd.send("free -m | grep -iF 'mem' | awk '{print $3}'")
+    if chk is False:
+        raise SystemExit
+    chk, info_ram2 = sk__cmd.send("free -m | grep -iF 'mem' | awk '{print $2}'")
+    if chk is False:
+        raise SystemExit
     stat_ram = stat_raw.replace("%NAME%", "RAM USAGE (MB)")
-    stat_ram = stat_ram.replace("%VALUE%", info_ram)
+    stat_ram = stat_ram.replace("%VALUE%", info_ram1 + '/' + info_ram2)
 
     # Fill stats#2 with hdd/ssd usage
-    info_hdd = str(format(float(sk__cmd.send("df --total | grep -iF total | awk '{print $3}'")) / 1e+6, '.1f'))
-    info_hdd += "/"
-    info_hdd += str(format(float(sk__cmd.send("df --total | grep -iF total | awk '{print $2}'")) / 1e+6, '.1f'))
+    chk, info_hdd1 = sk__cmd.send("df --total | grep -iF total | awk '{print $3}'")
+    if chk is False:
+        raise SystemExit
+    info_hdd1 = str(format(float(info_hdd1) / 1e+6, '.1f'))
+    chk, info_hdd2 = sk__cmd.send("df --total | grep -iF total | awk '{print $2}'")
+    if chk is False:
+        raise SystemExit
+    info_hdd2 = str(format(float() / 1e+6, '.1f'))
     stat_hdd = stat_raw.replace("%NAME%", "HDD/SSD USAGE (GB)")
-    stat_hdd = stat_hdd.replace("%VALUE%", info_hdd)
+    stat_hdd = stat_hdd.replace("%VALUE%", info_hdd1 + '/' + info_hdd2)
 
     # Fill stats#2 page template with stats#2
     template_mod = template_mod.replace("%STATS_2%", stat_cpu+stat_ram+stat_hdd)
@@ -93,7 +113,9 @@ def prepare(_data):
     iErrCount = 0
     # Fill the table template with optimizations
     for key in arrValues:
-        currValue = sk__cmd.send(f'sysctl -n {key}')
+        chk, currValue = sk__cmd.send(f'sysctl -n {key}')
+        if chk is False:
+            raise SystemExit
         bExpected = False
         expectedVal = arrValues[key][1]
         retrievdVal = currValue

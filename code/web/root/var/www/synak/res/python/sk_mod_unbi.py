@@ -22,23 +22,31 @@ def process(_data):
 
     # Get POST data
     data = json.loads(_data)
-    
+
     # For all IPs in the POST data
     for elem in data:
         # Try to cast str to ip_addr
+        bValid = True
         try:
             ip = ipaddress.ip_address(elem)
-            # If IPv4, unban with iptables
-            if ip.version == 4:
-                sk__cmd.send(f'sudo iptables -w 60 -D INPUT -s {elem} -j DROP')
-            # If IPv4, unban with ip6tables
-            elif ip.version == 6:
-                sk__cmd.send(f'sudo ip6tables -w 60 -D INPUT -s {elem} -j DROP')
-            # Add the unbanned IP to the list of unvanned IPs
-            strIpVld += f'<div class="item">{elem}</div>'
         # An error occured while casting str to ip_addr, do nothing (== do not add this IP to the list)
         except:
+            bValid = False
             pass
+
+        if bValid:
+            # If IPv4, unban with iptables
+            if ip.version == 4:
+                chk, res = sk__cmd.send(f'sudo iptables -w 60 -D INPUT -s {elem} -j DROP')
+                if chk is False:
+                    raise SystemExit
+            # If IPv4, unban with ip6tables
+            elif ip.version == 6:
+                chk, res = sk__cmd.send(f'sudo ip6tables -w 60 -D INPUT -s {elem} -j DROP')
+                if chk is False:
+                    raise SystemExit
+            # Add the unbanned IP to the list of unvanned IPs
+            strIpVld += f'<div class="item">{elem}</div>'
 
     # Close the html content division
     strIpVld += '</div>'

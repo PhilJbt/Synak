@@ -32,7 +32,9 @@ def process(_data):
     # MS process is running
     else:
         # Send OS SIGUSR1 signal to the MS process, triggering a clean shut down
-        sk__cmd.send(f"sudo kill -{signal.SIGUSR1} {pid}")
+        chk, res = sk__cmd.send(f"sudo kill -{signal.SIGUSR1} {pid}")
+        if chk is False:
+            raise SystemExit
         # Get MS PID
         pid = sk__mng.getPid(True)
         # There is no MS process running anymore, push a success message to client

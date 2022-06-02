@@ -6,7 +6,10 @@ import sk__cmd
 
 # Send a command to unix terminal to retrieve MS PID
 def cmdPid():
-    return sk__cmd.send("sudo ps aux | grep synak_ms.bin | grep -v 'tmux\|grep' | awk '{print $2}'")
+    chk, res = sk__cmd.send("sudo ps aux | grep synak_ms.bin | grep -v 'tmux\|grep' | awk '{print $2}'")
+    if chk is False:
+        raise SystemExit
+    return res
 
 # Check PID value, if unvalid store 0 as PID
 def checkPid():

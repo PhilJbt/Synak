@@ -20,7 +20,9 @@ def prepare(_data):
 
     # Get IPv4 and IPv6 banned count
     strCmd = "( sudo iptables -w 60 -L INPUT -v -n | grep DROP | awk '{print $8}' && sudo ip6tables -w 60 -L INPUT -v -n | grep DROP | awk '{print $7}' ) | wc -l"
-    resCount = sk__cmd.send(strCmd)
+    chk, resCount = sk__cmd.send(strCmd)
+    if chk is False:
+        raise SystemExit
 
     # Populate pagination template
     iNbrElem = 100
@@ -41,7 +43,9 @@ def prepare(_data):
     # Get IPv4 and IPv6 banned IPs
     strCmd = "( sudo iptables -w 60 -L INPUT -v -n | grep DROP | awk '{print $8}' && sudo ip6tables -w 60 -L INPUT -v -n | grep DROP | awk '{print $7}' )"
     strCmd += f" | head -n{((data+1)*iNbrElem)+offset} | tail -n{iNbrElem+offset}"
-    listIPv46_raw = sk__cmd.send(strCmd)
+    chk, listIPv46_raw = sk__cmd.send(strCmd)
+    if chk is False:
+        raise SystemExit
 
     # Get the item template for the banned IPs list
     htmlItem = sk__opn.getTemplate("sk_mod_lsti_itm")

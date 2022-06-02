@@ -32,24 +32,32 @@ def process(_data):
         elem = elem.replace(' ', '')
         if len(elem) > 0:
             # Try to cast str to ip_addr
+            bValidIp = True
             try:
                 ip = ipaddress.ip_address(elem)
-                # IPv4 detected, ban it with iptables
-                if ip.version == 4:
-                    sk__cmd.send(f'sudo iptables -w 60 -A INPUT -s {elem} -j DROP')
-                # IPv6 detected, ban it with ip6tables
-                elif ip.version == 6:
-                    sk__cmd.send(f'sudo ip6tables -w 60 -A INPUT -s {elem} -j DROP')
-                # Add the banned IP to the corresponding feedback stack
-                strIpVld += f'<div class="item">{elem}</div>'
-                # Increment the number of banned IP by one
-                ipVldNbr += 1
             # Can't cast str to ip_addr
             except:
+                bValidIp = False
                 # Add the invalid IP to the corresponding feedback stack
                 strIpErr += f'<div class="item">{elem}</div>'
                 # Increment the number of invalid IP by one
                 ipErrNbr += 1
+
+            if bValidIp:
+                # IPv4 detected, ban it with iptables
+                if ip.version == 4:
+                    chk, res = sk__cmd.send(f'sudo iptables -w 60 -A INPUT -s {elem} -j DROP')
+                    if chk is False:
+                        raise SystemExit
+                # IPv6 detected, ban it with ip6tables
+                elif ip.version == 6:
+                    chk, res = sk__cmd.send(f'sudo ip6tables -w 60 -A INPUT -s {elem} -j DROP')
+                    if chk is False:
+                        raise SystemExit
+                # Add the banned IP to the corresponding feedback stack
+                strIpVld += f'<div class="item">{elem}</div>'
+                # Increment the number of banned IP by one
+                ipVldNbr += 1
 
     # Close the html content division
     strIpVld += '</div>'

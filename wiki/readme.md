@@ -18,6 +18,6 @@
 * :pushpin: [Presentation](wp/wp_presentation.md)
 * :bookmark_tabs: [**Installation**](wp/README.md)
 * :warning: [**Error messages**](wp/wp_errors.md)
-* :bookmark_tabs: [Dedicated Server Optimizations](wp/wp_optimization.md)
+* :chart_with_upwards_trend: [Dedicated Server Optimizations](wp/wp_optimization.md)
 
 &#160;

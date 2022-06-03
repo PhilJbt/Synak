@@ -100,7 +100,7 @@ function sk_mod_unban_send() {
   });
 
   if (listIPv4v6.length > 0)
-    requestSend('sk__req', 'proc', 'sk_mod_unbi', JSON.stringify(listIPv4v6));
+    requestSend('proc', 'sk_mod_unbi', JSON.stringify(listIPv4v6));
   else {
     $('#tip_ip')[0].innerHTML = 'Error : No entry filled';
     $('#tip_ip')[0].style.opacity = 1;

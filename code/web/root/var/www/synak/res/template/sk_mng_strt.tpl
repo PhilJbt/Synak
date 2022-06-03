@@ -72,6 +72,6 @@ function sk_mng_strt() {
     return;
   }
 
-  requestSend('sk__req', 'proc', 'sk_mng_strt', JSON.stringify(arrOptVal));
+  requestSend('proc', 'sk_mng_strt', JSON.stringify(arrOptVal));
 }
 </script>

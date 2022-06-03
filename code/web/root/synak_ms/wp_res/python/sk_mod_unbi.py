@@ -38,13 +38,13 @@ def process(_data):
             # If IPv4, unban with iptables
             if ip.version == 4:
                 chk, res = sk__cmd.send(f'sudo iptables -w 60 -D INPUT -s {elem} -j DROP')
-                if chk is False:
-                    raise SystemExit
+                if chk == False:
+                    return
             # If IPv4, unban with ip6tables
             elif ip.version == 6:
                 chk, res = sk__cmd.send(f'sudo ip6tables -w 60 -D INPUT -s {elem} -j DROP')
-                if chk is False:
-                    raise SystemExit
+                if chk == False:
+                    return
             # Add the unbanned IP to the list of unvanned IPs
             strIpVld += f'<div class="item">{elem}</div>'
 

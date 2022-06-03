@@ -35,6 +35,6 @@ function templateInit_run() {
   });
 }
 function sk_log_eras() {
-  requestSend('sk__req', 'proc', 'sk_log_eras', '');
+  requestSend('proc', 'sk_log_eras', '');
 }
 </script>

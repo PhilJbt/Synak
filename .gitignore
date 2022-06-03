@@ -37,6 +37,6 @@
 webpanel.permissions
 masterserver.log
 synak_security.h
-code/web/root/synak_ms/python/__pycache__/*
+code/web/root/synak_ms/wp_res/python/__pycache__/*
 code/web/root/synak_ms/synak_ms.*
-code/web/root/synak_ms/db/*.db
+code/web/root/synak_ms/wp_res/db/*.db

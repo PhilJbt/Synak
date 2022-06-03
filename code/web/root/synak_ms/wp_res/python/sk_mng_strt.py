@@ -68,8 +68,8 @@ def process(_data):
     else:
         # Create a new tmux session, and start a Synak MS instance
         chk, res = sk__cmd.send(f'sudo tmux new -A -s "synak_ms" -d /synak_ms/synak_ms.bin "{json.dumps(_data)}"')
-        if chk is False:
-            raise SystemExit
+        if chk == False:
+            return
         # Get MS PID
         pid = sk__mng.getPid(True)
         # One MS process is running, push the success message to client

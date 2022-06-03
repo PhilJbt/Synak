@@ -7,12 +7,12 @@ import sk__dbg
 # Function to get a connection with the SQLITE database
 def sql_con():
     # Open or create database
-    dbPath = r'/synak_ms/db/blacklist_uid.db'
+    dbPath = r'/synak_ms/wp_res/db/blacklist_uid.db'
     con = None
     try:
         con = sqlite3.connect(dbPath)
     except sqlite3.OperationalError:
-        sk__dbg.message(sk__dbg.messtype.ERR, "Can't connect to /synak_ms/db/blacklist_uid.db.")
+        sk__dbg.message(sk__dbg.messtype.ERR, "Can't connect to /synak_ms/wp_res/db/blacklist_uid.db.")
         if con:
             con.close()
         return [None, False]

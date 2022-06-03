@@ -100,7 +100,7 @@ function sk_mod_unban_send() {
   });
 
   if (listUIDs.length > 0)
-    requestSend('sk__req', 'proc', 'sk_mod_unbu', JSON.stringify(listUIDs));
+    requestSend('proc', 'sk_mod_unbu', JSON.stringify(listUIDs));
   else {
     $('#tip_uid')[0].innerHTML = 'Error : No entry filled';
     $('#tip_uid')[0].style.opacity = 1;

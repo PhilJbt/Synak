@@ -16,7 +16,7 @@ def prepare(_data):
     sk__res.show("prep", template_raw)
 
 # Push segment to client
-def process(_data):
+def process(_data, _nswer = True):
     # Declare feedback vars
     strIpVld = '<div class="header">Successfully banned IP</div><div class="ui bulleted list">'
     strIpErr = '<div class="header">Not valid IP</div><div class="ui bulleted list">'
@@ -47,13 +47,13 @@ def process(_data):
                 # IPv4 detected, ban it with iptables
                 if ip.version == 4:
                     chk, res = sk__cmd.send(f'sudo iptables -w 60 -A INPUT -s {elem} -j DROP')
-                    if chk is False:
-                        raise SystemExit
+                    if chk == False:
+                        return
                 # IPv6 detected, ban it with ip6tables
                 elif ip.version == 6:
                     chk, res = sk__cmd.send(f'sudo ip6tables -w 60 -A INPUT -s {elem} -j DROP')
-                    if chk is False:
-                        raise SystemExit
+                    if chk == False:
+                        return
                 # Add the banned IP to the corresponding feedback stack
                 strIpVld += f'<div class="item">{elem}</div>'
                 # Increment the number of banned IP by one
@@ -85,4 +85,5 @@ def process(_data):
         sendline += strIpErr
 
     # Push the final string to the client
-    sk__dbg.message(messType, sendline)
+    if _nswer:
+        sk__dbg.message(messType, sendline)

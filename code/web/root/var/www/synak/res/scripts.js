@@ -12,61 +12,70 @@ window.addEventListener("load", function() {
   // Initializing the menu
   $('.accordion_menu').accordion();
 
-  // Force disabling browser password prompt
-  document.getElementById('inp_auth').onfocus = function() {
-      document.getElementById('inp_auth').removeAttribute('readonly');
-  };
-  document.getElementById('inp_auth').onblur = function() {
-      document.getElementById('inp_auth').setAttribute('readonly','readonly');
-  };
-
-  // Save permission key button bind
-  document.getElementById('frm_auth').addEventListener('submit', function(event) {
-      // Prevent sending the form
-      event.preventDefault();
-
-      // If the key input is not empty
-      if ($('#inp_auth')[0].value.length == 0)
-        return;
-
-      // Disable the clicked button
-      disablePermKeyButton();
-
-      // Cast permission key from utf-8 to base64
-      let authkeyEncrypted = btoa($('#inp_auth').val());
-      // Store casted value to the input text
-      $('#inp_auth').val(authkeyEncrypted);
-
-      // Redirect to an url including the permission key
-      window.location.href = `?permkey=${$('#inp_auth').val()}`;
-  });
-
-  // Check if is the url includes a permission key in order to pre-fill the permission key input text
-  prefillPremKey();
-
-  // If the user goes forward or backward in browser history
+  // Bind the forward and backward browser history move
   $(window).on("popstate", function(e) {
     // Send a new request
     prewarmReq();
   });
 
+  // Check for credential cookie
+  let bCredFound = credentialCookie_Check();
+
   // Send a request if the url includes an action name
-  prewarmReq();
+  if (bCredFound)
+    prewarmReq();
 });
 
 /*
-** Check if is the url includes a permission key in order to pre-fill the permission key input text
+** Show the login modal and ask for credential if credential cookie does not exist
 */
-function prefillPremKey() {
-  // Get the permission key in the url
-  let [paramChk, paramVal] = checkForUrlParam('permkey');
-  // If the 'permkey' param exists
-  if (paramChk) {
-    // Fill the permission key input text with the param value
-    $('#inp_auth').val(paramVal);
-    // Disable and change the color of the permission key
-    disablePermKeyButton();
+function credentialCookie_Check() {
+  // Split the cookie string into an array
+  let arrCred = document.cookie.split(';');
+  // Declare and initialize the credentials dictionnary
+  let dicCred = {};
+  // For every cookie argument
+  arrCred.forEach(function(elem) {
+    // If the string element includes an equal sign
+    if (elem.includes('=')) {
+      // Split the string element in half
+      let arrTempSplit = elem.split('=');
+      // If the string element has two parts
+      if (arrTempSplit.length == 2)
+        // Save the first and second part in the credential dictionnary
+        dicCred[arrTempSplit[0].trim()] = arrTempSplit[1].trim();
+    }
+  });
+
+  // If 'sk_log' or 'sk_pwd' does not exist in the credential cookie
+  if (!('sk_log' in dicCred)
+    || !('sk_pwd' in dicCred)) {
+    // Set up options to the modal
+    $('#mdl_cred').modal({
+      closable: false,
+      transition: 'vertical flip'
+    })
+    // Show the modal
+    .modal('show');
   }
+  // Credential cookie is well populated
+  else
+    return true;
+}
+
+/*
+** Credential modal login
+*/
+function credentialCookie_Set() {
+  // Save the credential cookie
+  document.cookie = `sk_log=${$('#sk_log')[0].value}`;
+  document.cookie = `sk_pwd=${$('#sk_pwd')[0].value}`;
+
+  // Hide the credentials modal
+  $('#mdl_cred').modal('hide');
+
+  // Proceed to a request if the url includes an action
+  prewarmReq();
 }
 
 /*
@@ -111,9 +120,9 @@ function prepReq_beg() {
 */
 function prepReq_end(_text) {
   // Fill the modal with the received HTML
-  $('.ui.modal').html(_text);
+  $('#mdl_cont').html(_text);
   // Set up options to the modal
-  $('.ui.modal').modal({
+  $('#mdl_cont').modal({
     centered: false,
     transition: 'slide down'
   })
@@ -152,7 +161,7 @@ function procReq_end(_text) {
   // Disable the spinner on the output DOM container
   $('#mdl_output').removeClass("loading");
   // Hide the modal
-  $('.ui.modal').modal('hide');
+  $('#mdl_cont').modal('hide');
   // Enable 'close' cross button of the message element
   enableMessageClose();
   // Initialize custom javascript, if does exist
@@ -170,7 +179,7 @@ function errReq_end() {
   // Disable the spinner on the 'Proceed' button of the modal
   $('#mdl_output').removeClass("loading");
   // Hide the modal
-  $('.ui.modal').modal('hide');
+  $('#mdl_cont').modal('hide');
 }
 
 /*
@@ -180,7 +189,7 @@ function redirectUrl(_url) {
   // The history pushstate feature is supported by the browser
   if ("undefined" !== typeof history.pushState)
     // Change the current url without reloading the page
-    history.pushState({}, null, `?permkey=${$('#inp_auth').val()}&action=${_url}`);
+    history.pushState({}, null, `?action=${_url}`);
   // The history pushstate feature is not supported by the browser
   else
     // Proceed to a regular redirection
@@ -215,13 +224,13 @@ function prewarmReq() {
   // If the 'action' URL param exists
   if (paramChk)
     // Send the corresponding request
-    requestSend('sk__req', 'prep', paramVal);
+    requestSend('prep', paramVal);
 }
 
 /*
 ** Send the request to the Python proxy
 */
-async function pythonProxyLiaison(_scriptname, _action, _file, _data = null) {
+async function pythonProxyLiaison(_action, _file, _data = null) {
   // Erase the output DOM container content
   $('#mdl_output').html("");
 
@@ -232,17 +241,17 @@ async function pythonProxyLiaison(_scriptname, _action, _file, _data = null) {
       method: 'POST',
       headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-      'type': _action,
-      'data': (_data !== null ? _data : ''),
-      'file': _file,
-      'auth': $('#inp_auth').val()
-      })
+        'type': _action,
+        'data': (_data !== null ? _data : ''),
+        'file': _file
+      }),
+      credentials: 'include'
     }
     // Wait for the Python proxy answer
-    const response = await fetch('res/python/' + _scriptname + '.cgi', config);
+    const response = await fetch('res/python/sk__req.cgi', config);
     // The answer is valid
     if (response.ok
       && response.status == 200) {
@@ -298,7 +307,7 @@ async function pythonProxyLiaison(_scriptname, _action, _file, _data = null) {
 /*
 ** Formulate a request to be send
 */
-async function requestSend(_scriptname, _action, _file, _data = null){
+async function requestSend(_action, _file, _data = null){
   // Exit the function if a request is already pending
   if (window.bFetching)
     return;
@@ -319,21 +328,7 @@ async function requestSend(_scriptname, _action, _file, _data = null){
     procReq_beg();
 
   // Send the request to the Python proxy
-  pythonProxyLiaison(_scriptname, _action, _file, _data);
-}
-
-/*
-** Disable the 'Permission Key' button
-*/
-function disablePermKeyButton() {
-  // Rename the value of the button
-  $('#btn_auth').val("Applied");
-  // Change the color of the button
-  $('#btn_auth').addClass("green");
-  // Disable the button
-  $('#btn_auth').prop( "disabled", true );
-  // Disable the text input
-  $('#inp_auth').prop( "disabled", true );
+  pythonProxyLiaison(_action, _file, _data);
 }
 
 /*

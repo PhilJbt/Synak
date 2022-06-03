@@ -17,8 +17,8 @@ def prepare(_data):
     else:
         # Get the whole MS process tree
         chk, proctree = sk__cmd.send("pstree -a -U -c -n -p | grep synak_ms | grep -v 'grep\|pstree'")
-        if chk is False:
-            raise SystemExit
+        if chk == False:
+            return
         # Replace terminal to web new line
         proctree = proctree.replace('\n', '<br/>')
         # Get the segment template
@@ -38,8 +38,8 @@ def process(_data):
     else:
         # Send OS SIGKILL signal to the MS process
         chk, res = sk__cmd.send(f"sudo kill -9 {pid}")
-        if chk is False:
-            raise SystemExit
+        if chk == False:
+            return
         # Get the MS PID
         pid = sk__mng.getPid(True)
         # MS has been successfully shut down, push success message to client

@@ -16,7 +16,7 @@
       CANCEL
     </div>
   </div>
-  <div id="btn_proceed" class="ui animated red button" onclick="requestSend('sk__req', 'proc', 'sk_mod_clnu')">
+  <div id="btn_proceed" class="ui animated red button" onclick="requestSend('proc', 'sk_mod_clnu')">
     <div class="visible content">
       <i class="icon recycle"></i>
     </div>

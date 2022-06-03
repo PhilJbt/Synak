@@ -19,7 +19,7 @@ def send(_cmd):
 
     # If an error occurs, show an error message
     if output.returncode != 0:
-        sk__dbg.message(sk__dbg.messtype.ERR, f"The command '{_cmd}' triggered an error:<br/><b>{str('Unknown error.' if err is None else err)}</b>")
+        sk__dbg.message(sk__dbg.messtype.ERR, f"The command '{_cmd}' triggered an error:<br/><b>{str('Unknown error.' if err == None else err)}</b>")
         return False, ''
     # Else, return the output
     else:

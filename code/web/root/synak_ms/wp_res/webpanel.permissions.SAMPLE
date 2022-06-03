@@ -1,0 +1,31 @@
+{
+  "myrootusername": [
+    "TH15 15 MY 5UP3r 10N6 P455W0rD F0r MY r007 U53rN4M3",
+    [
+      "sk_mng_strt",
+      "sk_mng_stop",
+      "sk_mng_kill",
+      "sk_mng_optn",
+      "sk_mng_chck",
+      "sk_mod_bani",
+      "sk_mod_unbi",
+      "sk_mod_lsti",
+      "sk_mod_banu",
+      "sk_mod_unbu",
+      "sk_mod_lstu",
+      "sk_mod_clnu",
+      "sk_log_rtrv",
+      "sk_log_eras",
+      "sk_nfo_cnfg",
+      "sk_nfo_syms",
+      "sk_nfo_dedi"
+    ]
+  ],
+  "mymoderationusername": [
+    "A SUP3r 10N6 4ND 53CUr3D P455W0rD F0r MY M0D3r470r U53rN4M3",
+    [
+      "sk_mod_bani",
+      "sk_mod_banu"
+    ]
+  ]
+}

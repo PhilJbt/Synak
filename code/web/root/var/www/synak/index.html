@@ -26,11 +26,11 @@
             </div>
             <div class="content">
               <div class="menu">
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_strt')"><i class="icon play"></i> Start</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_stop')"><i class="icon stop"></i> Stop</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_kill')"><i class="icon close"></i> Kill</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_optn')"><i class="icon sliders horizontal"></i> Options</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mng_chck')"><i class="icon server"></i> Status</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mng_strt')"><i class="icon play"></i> Start</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mng_stop')"><i class="icon stop"></i> Stop</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mng_kill')"><i class="icon close"></i> Kill</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mng_optn')"><i class="icon sliders horizontal"></i> Options</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mng_chck')"><i class="icon server"></i> Status</a>
               </div>
             </div>
           </div>
@@ -47,18 +47,18 @@
                   <b>IPs</b>
                   <i class="icon sitemap men_sub_icn"></i>
                 </h4>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_bani')"><i class="icon lock"></i> Ban</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_unbi')"><i class="icon lock open"></i> Unban</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_lsti')"><i class="icon list ol"></i> List banned</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mod_bani')"><i class="icon lock"></i> Ban</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mod_unbi')"><i class="icon lock open"></i> Unban</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mod_lsti')"><i class="icon list ol"></i> List banned</a>
                 <div class="ui divider"></div>
                 <h4>
                   <b>UIDs</b>
                   <i class="icon barcode men_sub_icn"></i>
                 </h4>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_banu')"><i class="icon lock"></i> Ban</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_unbu')"><i class="icon lock open"></i> Unban</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_lstu')"><i class="icon list ol"></i> List banned</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_mod_clnu')"><i class="icon recycle"></i> Clean up</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mod_banu')"><i class="icon lock"></i> Ban</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mod_unbu')"><i class="icon lock open"></i> Unban</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mod_lstu')"><i class="icon list ol"></i> List banned</a>
+                <a class="item" onclick="requestSend('prep', 'sk_mod_clnu')"><i class="icon recycle"></i> Clean up</a>
               </div>
             </div>
           </div>
@@ -71,8 +71,8 @@
             </div>
             <div class="content">
               <div class="menu">
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_log_rtrv')"><i class="icon download"></i> Get</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_log_eras')"><i class="icon erase"></i> Erase</a>
+                <a class="item" onclick="requestSend('prep', 'sk_log_rtrv')"><i class="icon download"></i> Get</a>
+                <a class="item" onclick="requestSend('prep', 'sk_log_eras')"><i class="icon erase"></i> Erase</a>
               </div>
             </div>
           </div>
@@ -85,27 +85,9 @@
             </div>
             <div class="content">
               <div class="menu">
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_nfo_cnfg')"><i class="icon file alternate"></i> Configuration</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_nfo_syms')"><i class="icon chart pie"></i> Master Server</a>
-                <a class="item" onclick="requestSend('sk__req', 'prep', 'sk_nfo_dedi')"><i class="icon tasks"></i> Dedicated Server</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="ui inverted accordion accordion_menu">
-            <div class="title">
-              <i class="icon key"></i>
-              <b>Permissions</b>
-            </div>
-            <div class="content">
-              <div class="menu">
-                <form action="" id="frm_auth" name="frm_auth">
-                  <div class="ui input fluid mini">
-                    <input type="password" id="inp_auth" name="cred" placeholder="Permission key..." autocomplete="new-password" readonly />
-                  </div>
-                  <input id="btn_auth" class="ui button fluid right floated mini" type="submit" value="Apply"/>
-                </form>
+                <a class="item" onclick="requestSend('prep', 'sk_nfo_cnfg')"><i class="icon file alternate"></i> Configuration</a>
+                <a class="item" onclick="requestSend('prep', 'sk_nfo_syms')"><i class="icon chart pie"></i> Master Server</a>
+                <a class="item" onclick="requestSend('prep', 'sk_nfo_dedi')"><i class="icon tasks"></i> Dedicated Server</a>
               </div>
             </div>
           </div>
@@ -124,7 +106,38 @@
         </div>
       </div>
     </div>
-    <div class="ui modal">
+    <div class="ui modal" id="mdl_cont">
+    </div>
+    <div class="ui modal" id="mdl_cred">
+      <div class="header">
+        Credentials
+      </div>
+      <div class="ui segment basic">
+        <form class="ui form">
+          <div class="field">
+            <label>Login</label>
+            <input type="text" id="sk_log" placeholder="Username">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="sk_pwd" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+          </div>
+        </form>
+      </div>
+      <div class="actions">
+        <div id="btn_login" class="ui animated green button" onclick="credentialCookie_Set()">
+          <div class="visible content">
+            <i class="icon sign-in"></i>
+          </div>
+          <div class="hidden content">
+            LOGIN
+          </div>
+        </div>
+      </div>
+      <div class="ui bottom attached warning message">
+        <i class="icon exclamation triangle"></i>
+        An incorrect username and/or password will result in your IP being banned.
+      </div>
     </div>
   </body>
 </html>

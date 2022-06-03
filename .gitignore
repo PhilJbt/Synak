@@ -37,5 +37,6 @@
 webpanel.permissions
 masterserver.log
 synak_security.h
-code/web/root/var/www/synak/res/python/__pycache__/
-code/web/root/var/www/synak/res/db/blacklist_uid.db
+code/web/root/synak_ms/python/__pycache__/*
+code/web/root/synak_ms/synak_ms.*
+code/web/root/synak_ms/db/*.db

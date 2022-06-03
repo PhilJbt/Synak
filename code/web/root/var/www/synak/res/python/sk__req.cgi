@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
-import sys
 import select
 import json
 import os.path
 import base64
+import sys
+sys.path.insert(1, '/synak_ms/python')
 
 import sk__dbg
 import sk_mng_strt

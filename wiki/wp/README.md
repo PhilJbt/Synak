@@ -26,14 +26,14 @@ The ```WWW-DATA``` user needs permissions to execute python scripts
 Generate your password to access to the Web Panel
 1. In the terminal, type ```openssl passwd -6 -salt <YOUR_SALT>```
 2. Obviously, you have to personalize ```<YOUR_SALT>```
-3. Rename the [/var/www/synak/.htpasswd.SAMPLE](/var/www/synak/.htpasswd.SAMPLE) file into ```.htpasswd```
+3. Rename the [/var/www/synak/.htpasswd.SAMPLE](/code/web/root/var/www/synak/.htpasswd.SAMPLE) file into ```.htpasswd```
 4. Edit it
     * Replace ```<SHA512>``` by your new generated key
     * Replace ```<USER>``` by a login name
 
 
 ### 2. IP PERMISSION
-1. Rename [/var/www/synak/.htaccess.SAMPLE](/var/www/synak/.htaccess.SAMPLE) into ```.htaccess```
+1. Rename [/var/www/synak/.htaccess.SAMPLE](/code/web/root/var/www/synak/.htaccess.SAMPLE) into ```.htaccess```
 2. Edit it
     * [Line 14](/code/web/root/var/www/synak/.htaccess.SAMPLE#L14), add your IP by replacing ```<IP>```
 
@@ -55,7 +55,7 @@ Replace ```<IPV4>```, ```IPV6``` and ```<DOMAIN>.<EXTENTION>``` by yours.
 ## IV. USER PERMISSIONS
 In case you want to provide an access to the **Web Panel** to multiple individuals, give them different permissions may be necessary.\
 Disabled by default, create the permissions file will enable it.
-1. Rename the [/code/web/root/synak_ms/wp_res/webpanel.permissions.SAMPLE](/code/web/root/synak_ms/wp_res/webpanel.permissions.SAMPLE) file to ```webpanel.permissions```
+1. Rename the [/synak_ms/wp_res/webpanel.permissions.SAMPLE](/code/web/root/synak_ms/wp_res/webpanel.permissions.SAMPLE) file to ```webpanel.permissions```
 2. Edit it
     * Add any user with their corresponding rights (see the table below)
 

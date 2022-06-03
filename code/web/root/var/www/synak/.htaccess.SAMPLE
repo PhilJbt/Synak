@@ -7,7 +7,7 @@ AuthUserFile "/var/www/synak/.htpasswd"
 Require valid-user
 
 ######################
-#    ALLOW ONE IP    #
+#      ALLOW IP      #
 ######################
 #Order Deny,Allow
 #Deny from all

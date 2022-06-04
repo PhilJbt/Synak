@@ -12,10 +12,14 @@ The **index.html** is an empty shell using JavaScript to retrieving data from se
 
 ## What it looks like
 
-![Synak Web Panel Menu](img/wp_menu.gif)
+![Synak Web Panel **Manager > Start**](img/sk_mng_strt.png)
 
-![Synak Web Panel Optimizations](img/wp_dedstats.gif)
+![Synak Web Panel **Log > Get**](img/sk_log_rtrv.png)
 
-![Synak Web Panel Ban/Unban IP](img/wp_banunban.gif)
+![Synak Web Panel **Moderation > Ban IPs**](img/sk_mod_bani.png)
+
+![Synak Web Panel **Moderation > List banned UIDs**](img/sk_mod_lstu.png)
+
+![Synak Web Panel **Information > Dedicated Server**](img/sk_nfo_dedi.png)
 
 &#160;

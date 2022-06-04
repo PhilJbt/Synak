@@ -86,6 +86,9 @@ Standard version: C++17
 - **Web Panel**
   - Tmux ≥1.8
   - Apache ≥2.0
+    - mod_cgi
+    - mod_cgid
+    - mod_env
     - mod_rewrite
   - Python ≥3.0
   - [Semantic UI 2.4](https://semantic-ui.com/) (included)

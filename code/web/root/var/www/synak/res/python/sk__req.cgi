@@ -5,6 +5,7 @@ import json
 import os
 import html
 import base64
+from hashlib import sha256
 import sys
 sys.path.insert(1, '/synak_ms/wp_res/python')
 
@@ -119,24 +120,25 @@ def sk__req():
                                 if dicCredentials['sk_log'] in jsonPerms:
                                     bValidLog = True
                                 # Check if the password is valid
-                                if dicCredentials['sk_pwd'] == jsonPerms[dicCredentials['sk_log']][0]:
+                                if dicCredentials['sk_pwd'] == str(sha256((jsonPerms[dicCredentials['sk_log']][0] + 'SYNAK_wp').encode('utf-8')).hexdigest()):
                                     bValidPwd = True
                                 # Check if the user has the permission for this request
                                 if file_name in jsonPerms[dicCredentials['sk_log']][1]:
                                     bValidReq = True
                             # At least one check failed
                             except:
+                                pass
+                            # The request is valid (i.e. login, password, permissions)
+                            finally:
                                 # The login and/or password failed
                                 if bValidLog == False or bValidPwd == False :
-                                    sk__dbg.message(sk__dbg.messtype.KEY, f"Wrong username and/or password.")
+                                    sk__dbg.message(sk__dbg.messtype.PRM, f"Wrong username and/or password.")
                                     sk_mod_bani.process(json.dumps([html.escape(os.environ["REMOTE_ADDR"])]), False)
                                     return
                                 # The user has not the permission for this request
                                 if bValidLog == False:
-                                    sk__dbg.message(sk__dbg.messtype.KEY, f"You do not have the necessary permissions to access this feature ({file_name}).")
+                                    sk__dbg.message(sk__dbg.messtype.PRM, f"You do not have the necessary permissions to access this feature ({file_name}).")
                                     return
-                            # The request is valid (i.e. login, password, permissions)
-                            else:
                                 # Script doesn't exist
                                 if file_name not in file_dict:
                                     sk__dbg.message(sk__dbg.messtype.ATT, f"script filename does not exist ({file_name}).")

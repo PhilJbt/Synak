@@ -64,12 +64,34 @@ function credentialCookie_Check() {
 }
 
 /*
+** SHA-256 string encryption
+*/
+async function cryptString(message) {
+  // Encode as (utf-8) Uint8Array
+  const msgUint8 = new TextEncoder().encode(message);
+  // Hash the message
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+  // Convert buffer to byte array
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  // Convert bytes to hex string
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashHex;
+}
+
+/*
 ** Credential modal login
 */
-function credentialCookie_Set() {
+async function credentialCookie_Set() {
+  // Encrypt password
+  const digestHexPasswd = await cryptString($('#sk_pwd')[0].value.toString() + 'SYNAK_wp');
+
   // Save the credential cookie
   document.cookie = `sk_log=${$('#sk_log')[0].value}`;
-  document.cookie = `sk_pwd=${$('#sk_pwd')[0].value}`;
+  document.cookie = `sk_pwd=${digestHexPasswd}`;
+
+  // Erase the content of login and password text input
+  $('#sk_log')[0].value = "";
+  $('#sk_pwd')[0].value = "";
 
   // Hide the credentials modal
   $('#mdl_cred').modal('hide');

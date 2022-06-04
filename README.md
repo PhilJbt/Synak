@@ -89,4 +89,5 @@ Standard version: C++17
     - mod_rewrite
   - Python ≥3.0
   - [Semantic UI 2.4](https://semantic-ui.com/) (included)
+    - Google Font dependency bypassed
   - [crc32.py 7/11/15](https://gist.github.com/cholcombe973/a0af818d212e58ae151c) (included)

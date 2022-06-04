@@ -9,7 +9,7 @@ import sk__dbg
 import sk__res
 
 
-sys.path.insert(0, '../../dep/cholcombe973')
+sys.path.insert(1, '../../dep/cholcombe973')
 from crc32 import CRC32
 
 

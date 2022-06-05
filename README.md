@@ -1,7 +1,7 @@
 ![Synak logo](https://raw.githubusercontent.com/PhilJbt/Synak/main/wiki/logo.png)
 
 ```diff
-- ⚠️ SYNAK IS STILL IS DEVELOPMENT ⚠️ -
+- ⚠️ SYNAK IS STILL IN DEVELOPMENT ⚠️ -
 - DO NOT USE IT IN ITS CURRENT STATE -
 ```
 

@@ -1,5 +1,10 @@
 ![Synak logo](https://raw.githubusercontent.com/PhilJbt/Synak/main/wiki/logo.png)
 
+```diff
+- ⚠️ SYNAK IS STILL IS DEVELOPMENT ⚠️ -
+- DO NOT USE IT IN ITS CURRENT STATE -
+```
+
 **Synak** is a C++ library providing networking support for **video games**.
 
 ### Clients
@@ -21,53 +26,52 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 
 # FEATURES
 
-Feature | Status | Notes
------------- | ------------- | -------------
-&#9472; **UDP & TCP** |   |  
-&#160; &#9492; Dual-stack IPv4-IPv6 | :construction: |  
-&#160; &#9492; Thread safe | :construction: |  
-&#160; &#9492; Checksum Control | :heavy_check_mark: | CRC-32   
-&#160; &#9492; Serializing | :construction: |  
-&#160; &#9492; Big / Little-Endianness Support | :construction: |  
-&#160; &#9492; Packet Obfuscation | :construction: |  
-&#160; &#9492; Compression | :construction: |  
-&#160; &#9492; Multiplexer & Demultiplexer | :construction: |
-&#160; &#9492; Ping | :construction: |  
-&#160; &#9492; Synchronize packet sending | :construction: |  
-  |   |  
-&#9472; **UDP** |   |  
-&#160; &#9492; Reliable | :construction: |  
-&#160; &#9492; Ordered | :construction: |  
-&#160; &#9492; Hole punching | :construction: |  
-&#160; &#9492; Host migration | :construction: |  
-&#160; &#9492; Keep alive | :construction: | TTL reduced
-  |   |  
-&#9472; **TCP** |   |  
-&#160; &#9492; Socket options | :construction: | Enable/disable Nagle algorithm, buffers size, etc
-  |   |  
-&#9472; **MASTER SERVER** |   |  
-&#160; &#9492; Port assignation | :construction: |  
-&#160; &#9492; Matchmaking | :construction: |  
-&#160; &#9492; IP alias | :construction: | Obfuscate endpoint IP for P2P connections
-  |   |  
-&#9472; **HTTP** |   |  
-&#160; &#9492; Send GET requests | :construction: |  
-&#160; &#9492; Receive GET answers | :construction: |  
-&#160; &#9492; Receive POST answers | :construction: | POST Arguments supported
-&#160; &#9492; Send POST requests | :construction: | POST Arguments supported
-  |   |  
-&#9472; **WEB PORTAL** |   |  
-&#160; &#9492; Logs | :heavy_check_mark: |  
-&#160; &#9492; Start, Stop/Kill | :heavy_check_mark: |  
-&#160; &#9492; Ban / Unban IPv4/v6 | :heavy_check_mark: |  
-&#160; &#9492; Master Server statistics | :heavy_check_mark: |  
-&#160; &#9492; Dedicated Server optimizations | :heavy_check_mark: |  
-  |   |  
-&#9472; **ALGORITHMS** |   |  
-&#160; &#9492; Interpolation | :construction: | Distant position
-&#160; &#9492; Extrapolation | :construction: | Distant position
-&#160; &#9492; Prediction | :construction: | Local position
-&#160; &#9492; Reconciliation | :construction: | Local position
+&#9472; **UDP & TCP**\
+&#160; &#9492; Dual-stack IPv4-IPv6\
+&#160; &#9492; Thread safe\
+&#160; &#9492; Checksum control *(CRC-32)*\
+&#160; &#9492; Multiplexer & demultiplexer `FORTHCOMING v1.0`\
+&#160; &#9492; Synchronize packet receiving `FORTHCOMING v1.1`\
+&#160; &#9492; Packet payload serializing\
+&#160; &#9492; Packet payload obfuscation\
+&#160; &#9492; Packet payload compression `FORTHCOMING v1.5`\
+&#160; &#9492; Big & little-endianness support\
+&#160; &#9492; Ping
+
+&#9472; **UDP**\
+&#160; &#9492; Reliable\
+&#160; &#9492; Ordered\
+&#160; &#9492; Host migration `FORTHCOMING v1.3`\
+&#160; &#9492; Keep alive\
+&#160; &#9492; Hole punching
+
+&#9472; **TCP**\
+&#160; &#9492; Socket options *(Enable/disable Nagle algorithm, change buffers size, etc)*
+
+&#9472; **MASTER SERVER**\
+&#160; &#9492; Port assignation\
+&#160; &#9492; Matchmaking\
+&#160; &#9492; IP alias *(Obfuscate endpoint IP for P2P connections)* `FORTHCOMING v1.0`
+
+&#9472; **HTTP**\
+&#160; &#9492; Send GET requests `FORTHCOMING v1.4`\
+&#160; &#9492; Receive GET answers `FORTHCOMING v1.4`\
+&#160; &#9492; Receive POST answers `FORTHCOMING v1.4`\
+&#160; &#9492; Send POST requests *(POST Arguments supported)* `FORTHCOMING v1.4`
+
+&#9472; **WEB PANEL**\
+&#160; &#9492; Logs\
+&#160; &#9492; Start, Stop/Kill\
+&#160; &#9492; Ban / Unban IPv4/v6\
+&#160; &#9492; Ban / Unban UID\
+&#160; &#9492; Master Server statistics\
+&#160; &#9492; Dedicated server optimization reporter
+
+&#9472; **ALGORITHMS**\
+&#160; &#9492; Interpolation *(For the distant player position)* `FORTHCOMING 1.6`\
+&#160; &#9492; Extrapolation *(For the distant player position)* `FORTHCOMING 1.6`\
+&#160; &#9492; Prediction *(For the local player position)* `FORTHCOMING 1.6`\
+&#160; &#9492; Reconciliation *(For the local player position)* `FORTHCOMING 1.6`
 
 &#160;
 

@@ -1,8 +1,15 @@
 ![Synak logo](https://raw.githubusercontent.com/PhilJbt/Synak/main/wiki/logo.png)
 
-**Synak** is a C++ library providing networking support for **video games**.\
-It handle TCP **Client and Public Server** liaison and UDP **P2P architecture** between clients — even behind a NAT.\
-It also provides a **Master Server** (for matchmaking, to coordinate connection between P2P nodes, etc) and a **Web Admin Panel** (to start/stop, to ban/unban, for logs, etc) for an Unix public dedicated server.
+**Synak** is a C++ library providing networking support for **video games**.
+
+### Clients
+The liaison between clients is based on **UDP**, with a **client-server P2P architecture** — compatible with nearly all types of **NAT**.
+
+### Master Server
+Although optional, a Master Server is provided for a connection with Clients through **TCP** in vue to propose matchmaking or just connections coordination between clients.\
+A **Web Admin Panel** is available to facilitate the interraction with it (e.g. to start/stop, to ban/unban IP or UID, to see logs, etc), for an Unix public dedicated server or VPS.\
+If the Master Server is not used, the gamer hosting an online game will have to provide the IP address of all players connecting to it - as a whitelist of obfuscated IPs - otherwise the host's NAT will block all connections.
+
 
 &#160;
 
@@ -17,12 +24,12 @@ It also provides a **Master Server** (for matchmaking, to coordinate connection 
 Feature | Status | Notes
 ------------ | ------------- | -------------
 &#9472; **UDP & TCP** |   |  
-&#160; &#9492; Dual-stack IPv4-IPv6 | :heavy_check_mark: |  
-&#160; &#9492; Thread safe | :heavy_check_mark: |  
-&#160; &#9492; Checksum Control | :heavy_check_mark: |    
+&#160; &#9492; Dual-stack IPv4-IPv6 | :construction: |  
+&#160; &#9492; Thread safe | :construction: |  
+&#160; &#9492; Checksum Control | :heavy_check_mark: | CRC-32   
 &#160; &#9492; Serializing | :construction: |  
 &#160; &#9492; Big / Little-Endianness Support | :construction: |  
-&#160; &#9492; Packet Encryption | :construction: |  
+&#160; &#9492; Packet Obfuscation | :construction: |  
 &#160; &#9492; Compression | :construction: |  
 &#160; &#9492; Multiplexer & Demultiplexer | :construction: |
 &#160; &#9492; Ping | :construction: |  
@@ -31,8 +38,8 @@ Feature | Status | Notes
 &#9472; **UDP** |   |  
 &#160; &#9492; Reliable | :construction: |  
 &#160; &#9492; Ordered | :construction: |  
-&#160; &#9492; Hole punching | :construction: | P2P only
-&#160; &#9492; Host migration | :construction: | P2P only
+&#160; &#9492; Hole punching | :construction: |  
+&#160; &#9492; Host migration | :construction: |  
 &#160; &#9492; Keep alive | :construction: | TTL reduced
   |   |  
 &#9472; **TCP** |   |  

@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="right floated right aligned six wide column">
-      <div class="ui animated button black deny">
+      <div class="ui animated button black deny" tabindex="0">
         <div class="visible content">
           <i class="arrow left icon"></i>
         </div>
@@ -33,7 +33,7 @@
           CANCEL
         </div>
       </div>
-      <div id="btn_proceed" class="ui animated green button" onclick="sk_mod_unban_send()">
+      <div id="btn_proceed" class="ui animated green button" onclick="sk_mod_unban_send()" tabindex="0">
         <div class="visible content">
           <i class="icon check"></i>
         </div>

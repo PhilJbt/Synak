@@ -7,7 +7,7 @@
   </div>
 </div>
 <div class="actions">
-  <div class="ui animated button black deny">
+  <div class="ui animated button black deny" tabindex="0">
     <div class="visible content">
       <i class="arrow left icon"></i>
     </div>
@@ -15,7 +15,7 @@
       CANCEL
     </div>
   </div>
-  <div id="btn_proceed" class="ui animated orange button" onclick="requestSend('proc', 'sk_mng_stop')">
+  <div id="btn_proceed" class="ui animated orange button" onclick="requestSend('proc', 'sk_mng_stop')" tabindex="0">
     <div class="visible content">
       <i class="icon stop"></i>
     </div>

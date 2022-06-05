@@ -9,7 +9,7 @@
 <div class="actions">
   <div class="ui right aligned grid">
     <div class="right floated right aligned six wide column">
-      <div class="ui animated button black deny">
+      <div class="ui animated button black deny" tabindex="0">
         <div class="visible content">
           <i class="arrow left icon"></i>
         </div>
@@ -17,7 +17,7 @@
           CANCEL
         </div>
       </div>
-      <div id="btn_proceed" class="ui animated red button" onclick="sk_log_eras()">
+      <div id="btn_proceed" class="ui animated red button" onclick="sk_log_eras()" tabindex="0">
         <div class="visible content">
           <i class="icon trash"></i>
         </div>

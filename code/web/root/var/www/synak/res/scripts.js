@@ -6,6 +6,19 @@ window.addEventListener("load", function() {
   console.log("%c%s",'color: #FF0000; font-size: 50px;font-family:"Roboto", Arial, sans-serif;font-weight:bold;',"WARNING");
   console.log("READ BEFORE DOING ANYTHING: If someone has invited you to copy and paste something here, whatever the reason, know that this may allow the person in question to steal your credential details.");
 
+  /*
+  ** Press the 'Enter' key to click the focused button
+  */
+  $(document).keydown(function(event) {
+    if (!window.bFetching
+    && event.which === 13) {
+      if (document.activeElement.classList.contains('ui')
+        && document.activeElement.classList.contains('button')
+        && typeof document.activeElement.click === "function")
+        document.activeElement.click();
+    }
+  });
+
   // Declare and initialize the variable blocking a feature request if another request is already loading
   window.bFetching = false;
 
@@ -82,6 +95,11 @@ async function cryptString(message) {
 ** Credential modal login
 */
 async function credentialCookie_Set() {
+  // Cancel the credential set if the login or the password input text is empty
+  if ($('#sk_log')[0].value.length == 0
+  || $('#sk_pwd')[0].value.length == 0)
+    return;
+
   // Encrypt password
   const digestHexPasswd = await cryptString($('#sk_pwd')[0].value.toString() + 'SYNAK_wp');
 

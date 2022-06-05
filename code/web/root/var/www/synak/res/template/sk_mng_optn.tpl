@@ -6,7 +6,7 @@
   %FORM_OPT_GLOBAL%
 </div>
 <div class="actions">
-  <div class="ui animated button black deny">
+  <div class="ui animated button black deny" tabindex="0">
     <div class="visible content">
       <i class="arrow left icon"></i>
     </div>
@@ -14,7 +14,7 @@
       CANCEL
     </div>
   </div>
-  <div id="btn_proceed" class="ui animated green button" onclick="sk_mng_optn()">
+  <div id="btn_proceed" class="ui animated green button" onclick="sk_mng_optn()" tabindex="0">
     <div class="visible content">
       <i class="icon check"></i>
     </div>

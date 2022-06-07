@@ -34,6 +34,7 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 &#160; &#9492; Packet payload compression `FORTHCOMING v1.5`\
 &#160; &#9492; Reliable packet delivery\
 &#160; &#9492; Ordered packets\
+&#160; &#9492; Spoofed packet source addresses mitigation\
 &#160; &#9492; Multiplexer & demultiplexer `FORTHCOMING v1.0`\
 &#160; &#9492; Synchronize one-time event packets reception `FORTHCOMING v1.1`\
 &#160; &#9492; Packet payload serializing\
@@ -60,7 +61,8 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 &#160; &#9492; Dual-stack IPv4-IPv6\
 &#160; &#9492; Thread safe\
 &#160; &#9492; Packet checksum control *(CRC-32)*\
-&#160; &#9492; Socket options *(enable/disable Nagle algorithm, change buffers size, etc)*\
+&#160; &#9492; Socket options *(enable/disable Nagle algorithm, change buffers size, etc)*\\
+&#160; &#9492; Spoofed packet source addresses mitigation\
 &#160; &#9492; Big & little-endianness support `TBC`\
 &#160; &#9492; Port assignation\
 &#160; &#9492; Session ID\

@@ -58,8 +58,6 @@ namespace SK {
 #endif
         }
 
-        static CRC::Table<std::uint32_t, 32> m_crcTable;
-
     private:
     };
 }

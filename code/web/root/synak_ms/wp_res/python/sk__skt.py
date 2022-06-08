@@ -4,13 +4,10 @@ import sys
 import socket
 import json
 import struct
+import zlib
 
 import sk__dbg
 import sk__res
-
-
-sys.path.insert(1, '../../dep/cholcombe973')
-from crc32 import CRC32
 
 
 # Function to send a request to the Synak Master Server
@@ -34,36 +31,48 @@ def send(_dictData, _arrKeysExpected = None):
     try:
         sockfd.connect(('localhost', int(jsn_startup['ptwp'])))
     # Socket cannot connect to MS, send an error message to client
-    except:
-        sk__dbg.message(sk__dbg.messtype.NFO, "Master Server seems offline")
+    except Exception as err:
+        # Connection refused
+        if err.errno == 111:
+            sk__dbg.message(sk__dbg.messtype.NFO, f"Master Server seems offline.")
+        else:
+            sk__dbg.message(sk__dbg.messtype.ERR, f"Master Server connection failed:<br/><b>{str(err)}</b>")
         return None, True
     # Socket successfully connected to MS
     else:
-        # Serialize array to json
-        MESSJSN = json.dumps(_dictData)
+        # Serialize python array to json, then to byte array
+        MESSBYT = json.dumps(_dictData).encode()
+        # Calculate size
+        MESSLEN = len(MESSBYT)
+        MESSLEN = MESSLEN.to_bytes(4, 'little')
         # Calculate checksum (network-endianness)
-        CKSMSND = CRC32(type="CRC-32C").calc(MESSJSN)
+        MESSFUL = b''.join([MESSLEN, MESSBYT])
+        CKSMSND = zlib.crc32(MESSFUL)
         CKSMSND = struct.pack("!I", CKSMSND)
-        # String to bytes array
-        MESSJSN = MESSJSN.encode()
-        # Calculate size (network-endianness)
-        MESSLEN = len(MESSJSN)
-        MESSLEN = struct.pack("!I", MESSLEN)
+        # Cast length int to byte array (network-endianness)
+        MESSLEN = struct.pack("!I", int.from_bytes(MESSLEN, "little"))
         # Send message
-        sockfd.send(MESSLEN + CKSMSND + MESSJSN)
+        sockfd.send(CKSMSND + MESSLEN + MESSBYT)
         # Receive answer
         try:
+            # Receive checksum
+            CKSMRECV = sockfd.recv(4)
+            # The Master Server did not answer
+            if CKSMRECV == b'':
+                sk__dbg.message(sk__dbg.messtype.ERR, "The Master Server is online but did not answer.")
+                return None, True
+            # Cast to host-endianness
+            CKSMRECV = struct.unpack("!I", CKSMRECV)[0]
             # Receive buffer size
             BUFFER_SIZE = sockfd.recv(4)
             # Cast to host-endianness
             BUFFER_SIZE = struct.unpack("!I", BUFFER_SIZE)[0]
-            # Receive checksum
-            CKSMRECV = sockfd.recv(4)
-            # Cast to host-endianness
-            CKSMRECV = struct.unpack("!I", CKSMRECV)[0]
+            # The data length exceed the limit
+            if BUFFER_SIZE > 5242880:
+                sk__dbg.message(sk__dbg.messtype.ERR, f"The data to receive exceed the 5 Megabytes maximum limit. ({BUFFER_SIZE})")
+                return None, True
             # Receive data
             DATA = sockfd.recv(BUFFER_SIZE)
-            DATA = DATA.decode()
             sockfd.close()
         # MS does not answer
         except Exception as e:
@@ -72,13 +81,14 @@ def send(_dictData, _arrKeysExpected = None):
         # MS does answer
         else:
             # Verifying checksum
-            CKSMRECV_VERIF = CRC32(type="CRC-32C").calc(str(DATA))
+            MESSFUL = b''.join([BUFFER_SIZE.to_bytes(4, 'big'), DATA])
+            CKSMRECV_VERIF = zlib.crc32(MESSFUL)
             if CKSMRECV_VERIF != CKSMRECV :
                 sk__dbg.message(sk__dbg.messtype.ERR, f"Checksum not valid. CALC({CKSMRECV_VERIF}) != RECV({CKSMRECV})")
                 return None, True
             # Checking Json validity
             try:
-                DATA = json.loads(DATA)
+                DATA = json.loads(DATA.decode())
             except Exception as e:
                 sk__dbg.message(sk__dbg.messtype.ERR, f"Json is not valid ({str(e)}) ({DATA}).")
                 return None, True

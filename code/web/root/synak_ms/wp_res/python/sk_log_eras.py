@@ -26,7 +26,7 @@ def process(_data):
         # Write in log file
         try:
             file_object = open('/synak_ms/synak_ms.log', 'w')
-            file_object.write(f'["1","NFO","N/A 0","{timeCurr}", ["Log has been erased."]]')
+            file_object.write(f'["1","NFO","N/A 0","{timeCurr}", ["Log has been erased."]]\n')
             file_object.close()
             sk__dbg.message(sk__dbg.messtype.SUC, 'Log file "/synak_ms/synak_ms.log" erased.')
         except Exception as e:

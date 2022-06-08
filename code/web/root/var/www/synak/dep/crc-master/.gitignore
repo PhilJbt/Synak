@@ -1,9 +1,0 @@
-.idea
-venv/
-__pycache__/*
-venv/
-docs/_build/*
-.coverage
-*.egg-info/
-*.pyc
-*/__pychache__/*

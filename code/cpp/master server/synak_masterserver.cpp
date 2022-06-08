@@ -42,7 +42,6 @@ void SK::MasterServer::initialization(int _argc, char *_argv[]) {
             SK_LOG_ERR("json parse error:", _e.what(), "data:", std::string(jInitConfig));
             bJsonParsed = false;
         }
-
         if (bJsonParsed
             && jInitConfig.contains("lglv")
             && jInitConfig.contains("ptwp")
@@ -61,7 +60,6 @@ void SK::MasterServer::initialization(int _argc, char *_argv[]) {
                 SK_LOG_ERR("std::stoi failed", _e.what(), "data:", std::string(jInitConfig));
                 bApplyLoadedValues = false;
             }
-
             if (bApplyLoadedValues) {
                 m_LW_eLogLevel = static_cast<SK::MasterServer::eLogType>(iLogLevel_tmp);
                 m_WP_iPort = iPanelPort_tmp;

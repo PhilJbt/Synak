@@ -7,9 +7,6 @@
 #include "synak.h"
 
 
-CRC::Table<std::uint32_t, 32> SK::SynakManager::m_crcTable(CRC::CRC_32_C());
-
-
 /* SynakManager::Initialization
 ** Initialization Network Layer class
 */

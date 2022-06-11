@@ -2,11 +2,10 @@
 
 ```diff
 - ⚠️ SYNAK IS STILL IN DEVELOPMENT ⚠️ -
-- DO NOT USE IT IN ITS CURRENT STATE -
+- DO NOT USE IT FOR PRODUCTION IN ITS CURRENT STATE -
 ```
 
-**Synak** is a network library to connect video game clients together in P2P, written in C++.\
-Its spearhead is to be **quick to install**, **easy to use**.
+**Synak** is a network library to connect video game clients together in P2P, written in C++.
 
 ### Clients
 The liaison between clients is based on **UDP**, with a **client-server P2P architecture** — compatible with nearly all types of **NAT**.

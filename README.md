@@ -28,23 +28,7 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 
 # WIKI
 
-### &#9472; Network Layer
-* :pushpin: Presentation
-* :bookmark_tabs: [**Installation**](wiki/nl/README.md)
-
-&#160;
-
-### &#9472; Master ServerPanel
-* :pushpin: Presentation
-* :bookmark_tabs: [**Installation**](wiki/ms/README.md)
-
-&#160;
-
-### &#9472; Web Panel
-* :pushpin: [Presentation](wiki/wp/wp_presentation.md)
-* :bookmark_tabs: [**Installation**](wiki/wp/README.md)
-* :warning: [Error messages](wiki/wp/wp_errors.md)
-* :chart_with_upwards_trend: [Dedicated Server Optimizations](wiki/wp/wp_optimization.md)
+Please refer directly to the [Wiki](wiki/readme.md) page.
 
 &#160;
 

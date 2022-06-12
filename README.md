@@ -111,8 +111,8 @@ Standard version: C++20
 # DEPENDENCIES
 
 ### &#9472; Network Layer / Master Server
-  * nlohmann-json-3.10.2](https://github.com/nlohmann/json) (included)
-  * Fast CRC32 7a028136d54f8fe93b7cf533ca098f0bf30c3fbd](https://github.com/stbrumme/crc32) (included)
+  * [nlohmann-json-3.10.2](https://github.com/nlohmann/json) (included)
+  * [Fast CRC32 7a028136d54f8fe93b7cf533ca098f0bf30c3fbd](https://github.com/stbrumme/crc32) (included)
 
 &#160;
 

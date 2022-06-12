@@ -2,11 +2,10 @@
 
 ```diff
 - ⚠️ SYNAK IS STILL IN DEVELOPMENT ⚠️ -
-- DO NOT USE IT IN ITS CURRENT STATE -
+- DO NOT USE IT FOR PRODUCTION IN ITS CURRENT STATE -
 ```
 
-**Synak** is a network library to connect video game clients together in P2P, written in C++.\
-Its spearhead is to be **quick to install**, **easy to use**.
+**Synak** is a network library to connect video game clients together in P2P, written in C++.
 
 ### Clients
 The liaison between clients is based on **UDP**, with a **client-server P2P architecture** — compatible with nearly all types of **NAT**.
@@ -97,7 +96,7 @@ Standard version: C++20
 
 - **Network Layer** / **Master Server**
   - [nlohmann-json-3.10.2](https://github.com/nlohmann/json) (included)
-  - [CRCpp 1.1.0.0](https://github.com/d-bahr/CRCpp) (included)
+  - [Fast CRC32 7a028136d54f8fe93b7cf533ca098f0bf30c3fbd](https://github.com/stbrumme/crc32) (included)
 
 &#160;
 
@@ -111,4 +110,3 @@ Standard version: C++20
   - Python ≥3.0
   - [Semantic UI 2.4](https://semantic-ui.com/) (included)
     - Google Font dependency bypassed
-  - [crc32.py 7/11/15](https://gist.github.com/cholcombe973/a0af818d212e58ae151c) (included)

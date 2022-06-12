@@ -3,9 +3,11 @@
 import re
 import string
 
+import sk__dbg
 import sk__cmd
 import sk__res
 import sk__opn
+
 
 # Array with optimizations and explanations
 arrValues = {
@@ -44,6 +46,7 @@ def prepare(_data):
     # Fill stats#1 with hostname
     chk, info_hst = sk__cmd.send('hostnamectl | grep -iF hostname')
     if chk == False:
+        sk__dbg.message(sk__dbg.messtype.ERR, "\"hostnamectl | grep -iF hostname\" failed.")
         return
     info_hst = info_hst.split(": ")
     stat_hst = stat_raw.replace("%NAME%", info_hst[0])
@@ -52,6 +55,7 @@ def prepare(_data):
     # Fill stats#1 with operating system
     chk, info_lin = sk__cmd.send('hostnamectl | grep -iF operating')
     if chk == False:
+        sk__dbg.message(sk__dbg.messtype.ERR, "\"hostnamectl | grep -iF operating\" failed.")
         return
     info_lin = info_lin.split(": ")
     stat_lin = stat_raw.replace("%NAME%", info_lin[0])
@@ -60,6 +64,7 @@ def prepare(_data):
     # Fill stats#1 with architecture
     chk, info_arc = sk__cmd.send('hostnamectl | grep -iF architecture')
     if chk == False:
+        sk__dbg.message(sk__dbg.messtype.ERR, "\"hostnamectl | grep -iF architecture\" failed.")
         return
     info_arc = info_arc.split(": ")
     stat_arc = stat_raw.replace("%NAME%", info_arc[0])
@@ -74,6 +79,7 @@ def prepare(_data):
     chk, info_cpu = sk__cmd.send('top -b -d1 -n1|grep -i "Cpu(s)"|head -c21|awk \'{print $2}\'')
     info_cpu = format(float(info_cpu), '.1f')
     if chk == False:
+        sk__dbg.message(sk__dbg.messtype.ERR, "\"top -b -d1 -n1|grep -i \"Cpu(s)\"|head -c21|awk \'{print $2}\'\" failed.")
         return
     if float(info_cpu) < 0.1:
         info_cpu = '0.1'
@@ -83,9 +89,11 @@ def prepare(_data):
     # Fill stats#2 with ram usage
     chk, info_ram1 = sk__cmd.send("free -m | grep -iF 'mem' | awk '{print $3}'")
     if chk == False:
+        sk__dbg.message(sk__dbg.messtype.ERR, "\"free -m | grep -iF 'mem' | awk '{print $3}'\" failed.")
         return
     chk, info_ram2 = sk__cmd.send("free -m | grep -iF 'mem' | awk '{print $2}'")
     if chk == False:
+        sk__dbg.message(sk__dbg.messtype.ERR, "\"free -m | grep -iF 'mem' | awk '{print $2}'\" failed.")
         return
     stat_ram = stat_raw.replace("%NAME%", "RAM USAGE (MB)")
     stat_ram = stat_ram.replace("%VALUE%", info_ram1 + '/' + info_ram2)
@@ -93,12 +101,14 @@ def prepare(_data):
     # Fill stats#2 with hdd/ssd usage
     chk, info_hdd1 = sk__cmd.send("df --total | grep -iF total | awk '{print $3}'")
     if chk == False:
+        sk__dbg.message(sk__dbg.messtype.ERR, "\"df --total | grep -iF total | awk '{print $3}'\" failed.")
         return
     info_hdd1 = str(format(float(info_hdd1) / 1e+6, '.1f'))
     chk, info_hdd2 = sk__cmd.send("df --total | grep -iF total | awk '{print $2}'")
     if chk == False:
+        sk__dbg.message(sk__dbg.messtype.ERR, "\"df --total | grep -iF total | awk '{print $2}'\" failed.")
         return
-    info_hdd2 = str(format(float() / 1e+6, '.1f'))
+    info_hdd2 = str(format(float(info_hdd2) / 1e+6, '.1f'))
     stat_hdd = stat_raw.replace("%NAME%", "HDD/SSD USAGE (GB)")
     stat_hdd = stat_hdd.replace("%VALUE%", info_hdd1 + '/' + info_hdd2)
 
@@ -115,6 +125,7 @@ def prepare(_data):
     for key in arrValues:
         chk, currValue = sk__cmd.send(f'sysctl -n {key}')
         if chk == False:
+            sk__dbg.message(sk__dbg.messtype.ERR, "\"sysctl -n \{key\}\" failed.")
             return
         bExpected = False
         expectedVal = arrValues[key][1]

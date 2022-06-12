@@ -112,28 +112,28 @@
       <div class="header">
         Credentials
       </div>
-      <div class="ui segment basic">
-        <form class="ui form">
+      <form class="ui form" id="frm_sgup" action="#" autocomplete="on">
+        <div class="ui segment basic">
           <div class="field">
             <label>Login</label>
-            <input type="text" id="sk_log" placeholder="Username">
+            <input type="text" id="sk_log" name="sk_log" placeholder="Username" autocapitalize="none" required>
           </div>
           <div class="field">
             <label>Password</label>
-            <input type="password" id="sk_pwd" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;">
+            <input type="password" id="sk_pwd" name="sk_pwd" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocapitalize="none" required>
           </div>
-        </form>
-      </div>
-      <div class="actions">
-        <div id="btn_login" class="ui animated green button" onclick="credentialCookie_Set()" tabindex="0">
-          <div class="visible content">
-            <i class="icon sign-in"></i>
-          </div>
-          <div class="hidden content">
-            LOGIN
+          <div class="actions">
+            <button type="submit" id="btn_login" class="ui animated green button" tabindex="0">
+              <div class="visible content">
+                <i class="icon sign-in"></i>
+              </div>
+              <div class="hidden content">
+                LOGIN
+              </div>
+            </button>
           </div>
         </div>
-      </div>
+      </form>
       <div class="ui bottom attached warning message">
         <i class="icon exclamation triangle"></i>
         An incorrect username and/or password will result in your IP being banned.

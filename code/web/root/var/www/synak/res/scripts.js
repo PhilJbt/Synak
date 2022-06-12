@@ -4,7 +4,7 @@
 window.addEventListener("load", function() {
   // Show the disclaimer in the console
   console.log("%c%s",'color: #FF0000; font-size: 50px;font-family:"Roboto", Arial, sans-serif;font-weight:bold;',"WARNING");
-  console.log("READ BEFORE DOING ANYTHING: If someone has invited you to copy and paste something here, whatever the reason, know that this may allow the person in question to steal your credential details.");
+  console.log("READ BEFORE DOING ANYTHING: If someone has invited you to copy and paste something here, whatever the reason, be aware that this may allow the person in question to run the Master Server or Dedicated Server/VPS scripts.");
 
   /*
   ** Press the 'Enter' key to click the focused button
@@ -90,6 +90,17 @@ async function cryptString(message) {
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   return hashHex;
 }
+
+/*
+** Bind 'Login' button with ajax login
+*/
+document.getElementById('btn_login').addEventListener('click', event => {
+  // Prevent the form submission
+  event.preventDefault();
+
+  // Run ajax login
+  credentialCookie_Set();
+});
 
 /*
 ** Credential modal login

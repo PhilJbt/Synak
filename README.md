@@ -19,7 +19,7 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 &#160;
 
 
-[WIKI](wiki/readme.md) &#65073; [FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES) &#65073; [COMPILER](README.md#COMPILER-SUPPORT)
+[WIKI](README.md#WIKI) &#65073; [FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES) &#65073; [COMPILER](README.md#COMPILER-SUPPORT)
 ------------ |
 
 &#160;

@@ -67,6 +67,36 @@ void SK::MasterServer::initialization(int _argc, char *_argv[]) {
             }
         }
     }
+    else if (_argc > 1
+        && (_argc % 2) == 1) {
+        // -loglevel 0 -portplayer 45350 -portwebpanel 45318
+        for (int i(1); i < _argc; i += 2) {
+            std::string strArg(_argv[i]);
+            int iVal(0);
+            bool bError(false);
+
+            try {
+                iVal = atoi(_argv[i + 1]);
+            }
+            catch (std::exception const &_e) {
+                SK_LOG_ERR("An argument is not an int", _e.what(), _argv[i]);
+                i = _argc;
+                bError = true;
+            }
+
+            if (!bError) {
+                strArg.erase(strArg.find_last_not_of(' ') + 1);
+                strArg.erase(0, strArg.find_first_not_of(' '));
+
+                if (strArg == "-loglevel")
+                    m_LW_eLogLevel = static_cast<SK::MasterServer::eLogType>(iVal);
+                else if (strArg == "-portplayer")
+                    m_WP_iPort = iVal;
+                else if (strArg == "-portwebpanel")
+                    m_IG_iPort = iVal;
+            }
+        }
+    }
     
     // Write configuration file
     configBackup();

@@ -18,19 +18,16 @@
   </tbody>
   <tfoot>
     <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-    <th>
-      <a class="ui labeled button" tabindex="0" href="https://github.com/PhilJbt/Synak/blob/main/wiki/wp/wp_optimization.md" target="_blank">
-        <div class="ui %ERR_COLOR% button">
-          <i class="lightbulb icon"></i> %ERR_COUNT%
-        </div>
-        <div class="ui basic %ERR_COLOR% left pointing label">
-          Read more about optimizations
-        </div>
-      </a>
-    </th>
+      <th colspan="4">
+        <a class="ui labeled button right floated" tabindex="0" href="https://github.com/PhilJbt/Synak/blob/main/wiki/wp/wp_optimization.md" target="_blank">
+          <div class="ui %ERR_COLOR% button">
+            <i class="lightbulb icon"></i> %ERR_COUNT%
+          </div>
+          <div class="ui basic %ERR_COLOR% left pointing label">
+            Read more about optimizations
+          </div>
+        </a>
+      </th>
     </tr>
   </tfoot>
 </table>

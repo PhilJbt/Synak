@@ -13,6 +13,7 @@
 #include <ostream>
 #include <fstream>
 #include <cstring>
+#include <string>
 #include <stdio.h>
 #include <variant>
 #include <chrono>
@@ -20,7 +21,8 @@
 #include <atomic>
 #include <sstream>
 #include <iomanip>
-#include <ctime>  
+#include <ctime>
+#include <utility>
 
 // NETWORK
 #ifdef _WIN32

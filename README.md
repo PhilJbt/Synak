@@ -99,12 +99,16 @@ Please refer directly to the [Wiki](wiki/readme.md) page.
 
 # COMPILER SUPPORT
 
-Type | Compiler | Version
------------- | ------------ | ------------
-Network Layer | MSVC | 2022 (v143)
-Master Server | g++ | 9.3
-
 Standard version: C++20
+
+### &#9472; NETWORK LAYER
+  * MSVC
+    * v143 (2022)
+
+### &#9472; MASTER SERVER
+  * g++
+    * 9.3
+    * 10.0
 
 &#160;
 

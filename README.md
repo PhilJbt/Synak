@@ -107,8 +107,8 @@ Standard version: C++20
 
 ### &#9472; MASTER SERVER
   * g++
-    * 9.3
-    * 10.0
+    * v9.3
+    * v10.0
 
 &#160;
 

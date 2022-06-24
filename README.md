@@ -35,6 +35,7 @@ Please refer directly to the [Wiki](wiki/readme.md) page.
 # FEATURES
 
 ### &#9472; CLIENT
+* Anti memory scanner variables `FORTHCOMING v1.0`
 * IP alias *(Obfuscation of IP for connections between Clients in case the Master Server is not used)* `FORTHCOMING v1.0`
 * Interpolation *(remote player)* `FORTHCOMING 1.1`
 * Extrapolation *(remote player)* `FORTHCOMING 1.1`

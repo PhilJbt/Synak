@@ -1,41 +1,37 @@
 ![Synak logo](https://raw.githubusercontent.com/PhilJbt/Synak/main/wiki/logo.png)
 
+&#160;
+
+| [WIKI](wiki/readme.md) |
+:----------------------------------------------------------: |
+| [I. PRESENSATION](README.md#PRESENSATION) &#65293; [II. FEATURES](README.md#FEATURES) &#65293; [III. SPECIFICATIONS](README.md#SPECIFICATIONS) &#65293; [IV. COMPILER](README.md#COMPILER-SUPPORT) &#65293; [V. DEPENDENCIES](README.md#DEPENDENCIES) |
+
+
+
+&#160;
+
 ```diff
-- ⚠️ SYNAK IS STILL IN DEVELOPMENT ⚠️ -
-- DO NOT USE IT FOR PRODUCTION IN ITS CURRENT STATE -
+- ⚠️ STILL IN DEVELOPMEN, DO NOT USE IT FOR PRODUCTION IN ITS CURRENT STATE ⚠️ -
 ```
 
-**Synak** is a network library to connect video game clients together in P2P, written in C++.
+#### **Synak** is a network library written in C++ providing a connection between multiple video game clients in P2P, through an optional third point.
 
 &#160;
 
-### &#9472; Clients
+# I. PRESENSATION
+
 The liaison between clients is based on **UDP**, with a **client-server P2P architecture** — compatible with nearly all types of **NAT**.
 
-&#160;
-
-### &#9472; Master Server
 Although optional, a Master Server is provided for a connection with Clients through **TCP** in vue to propose matchmaking or just connections coordination between clients.\
 A **Web Admin Panel** is available to facilitate the interraction with it (e.g. to start/stop, to ban/unban IP or UID, to see logs, etc), for an Unix public dedicated server or VPS.\
 If the Master Server is not used, the gamer hosting an online game will have to provide the IP address of all players connecting to it - as a whitelist of obfuscated IPs - otherwise the host's NAT will block all connections.
 
 &#160;
 
-[WIKI](README.md#WIKI) &#65073; [FEATURES](README.md#FEATURES) &#65073; [DEPENDENCIES](README.md#DEPENDENCIES) &#65073; [COMPILER](README.md#COMPILER-SUPPORT)
------------- |
-
-&#160;
-
-# WIKI
-
-Please refer directly to the [Wiki](wiki/readme.md) page.
-
-&#160;
-
-# FEATURES
+# II. FEATURES
 
 ### &#9472; CLIENT
-* Anti memory scanner variables `FORTHCOMING v1.0`
+* Memory scanner variables mitigation `FORTHCOMING v1.0`
 * IP alias *(Obfuscation of IP for connections between Clients in case the Master Server is not used)* `FORTHCOMING v1.0`
 * Interpolation *(remote player)* `FORTHCOMING 1.1`
 * Extrapolation *(remote player)* `FORTHCOMING 1.1`
@@ -63,7 +59,7 @@ Please refer directly to the [Wiki](wiki/readme.md) page.
 
 &#160;
 
-# SPECIFICATIONS
+# III. SPECIFICATIONS
 
 * Dual-stack IPv4-IPv6
 * Thread safe
@@ -84,7 +80,7 @@ Please refer directly to the [Wiki](wiki/readme.md) page.
 
 &#160;
 
-# COMPILER SUPPORT
+# IV. COMPILER SUPPORT
 
 Standard version: C++20
 
@@ -99,7 +95,7 @@ Standard version: C++20
 
 &#160;
 
-# DEPENDENCIES
+# V. DEPENDENCIES
 
 ### &#9472; Network Layer / Master Server
   * [nlohmann-json-3.10.2](https://github.com/nlohmann/json) (included)

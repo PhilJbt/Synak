@@ -4,7 +4,7 @@
 
 | [WIKI](wiki/readme.md) |
 :----------------------------------------------------------: |
-| [I. PRESENSATION](README.md#PRESENSATION) &#65293; [II. FEATURES](README.md#FEATURES) &#65293; [III. SPECIFICATIONS](README.md#SPECIFICATIONS) &#65293; [IV. COMPILER](README.md#COMPILER-SUPPORT) &#65293; [V. DEPENDENCIES](README.md#DEPENDENCIES) |
+| [I. PRESENSATION](README.md#i-presensation) &#65293; [II. FEATURES](README.md#ii-features) &#65293; [III. SPECIFICATIONS](README.md#iii-specifications) &#65293; [IV. COMPILER](README.md#iv-compiler-support) &#65293; [V. DEPENDENCIES](README.md#v-dependencies) |
 
 
 

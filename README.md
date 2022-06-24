@@ -116,4 +116,4 @@ Standard version: C++20
     * mod_rewrite
   * Python ≥3.0
   * [Semantic UI 2.4](https://semantic-ui.com/) (included)
-    * Google Font dependency bypassed
+    * Google Font dependency has been manually bypassed

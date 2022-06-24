@@ -34,66 +34,52 @@ Please refer directly to the [Wiki](wiki/readme.md) page.
 
 # FEATURES
 
-### &#9472; LIAISON from CLIENT to CLIENT (UDP)
-* Dual-stack IPv4-IPv6
-* Thread safe
-* Packet checksum control *(CRC-32)*
-* Packet payload compression `FORTHCOMING v1.5`
-* Reliable packet delivery
-* Ordered packets
-* Spoofed packet source addresses mitigation
-* Multiplexer & demultiplexer `FORTHCOMING v1.0`
-* Synchronize one-time event packets reception `FORTHCOMING v1.1`
-* Packet payload serializing
-* Packet payload obfuscation
-* Big & little-endianness support `TBC`
-* Ping
-* Keep alive
-* Hole punching
-* Socket options *(change buffers size, etc)*
-* IP alias *(Obfuscation of IP for connections between Clients in case the Master Server is not used.)* `FORTHCOMING v1.0`
-* Host migration `FORTHCOMING v1.3`
-
-&#160;
-
 ### &#9472; CLIENT
+* IP alias *(Obfuscation of IP for connections between Clients in case the Master Server is not used)* `FORTHCOMING v1.0`
 * Interpolation *(remote player)* `FORTHCOMING 1.1`
 * Extrapolation *(remote player)* `FORTHCOMING 1.1`
+* Host migration `FORTHCOMING v1.3`
+* Send & receive HTTP GET/POST requests `FORTHCOMING v1.4`
 * Prediction *(local player)* `FORTHCOMING 1.6`
 * Reconciliation *(local player)* `FORTHCOMING 1.6`
-* Send HTTP GET requests `FORTHCOMING v1.4`
-* Receive HTTP GET answers `FORTHCOMING v1.4`
-* Send HTTP POST requests `FORTHCOMING v1.4`
-* Receive HTTP POST answers `FORTHCOMING v1.4`
 
 &#160;
 
-### &#9472; LIAISON from MASTER SERVER to CLIENT (TCP)
-* Dual-stack IPv4-IPv6
-* Thread safe
-* Packet checksum control *(CRC-32)*
-* Socket options *(enable/disable Nagle algorithm, change buffers size, etc)*\
-* Spoofed packet source addresses mitigation
-* Big & little-endianness support `TBC`
+### &#9472; MASTER SERVER
 * Port assignation
-* Session ID
+* Session ID *(To join a private session)*
 * Matchmaking
 
 &#160;
 
-### &#9472; LIAISON from MASTER SERVER to WEB PANEL (TCP)
-* Socket options *(enable/disable Nagle algorithm, change buffers size, etc)*
-* Statistics
-
-&#160;
-
 ### &#9472; WEB PANEL
+* Statistics
 * Logs
 * Start, Stop/Kill
 * Ban / Unban IPv4/v6
-* Ban / Unban UID
-* Master Server statistics
+* Ban / Unban UID *(Volume UID by default, can be overridden)*
 * Dedicated server optimization reporter
+
+&#160;
+
+# SPECIFICATIONS
+
+* Dual-stack IPv4-IPv6
+* Thread safe
+* Packet checksum control *(CRC-32)*
+* Reliable packet delivery
+* Ordered packets
+* Spoofed packet source addresses mitigation
+* Ping
+* Keep alive
+* Socket options *(enable/disable Nagle algorithm for TCP, change buffers size for TCP and UDP, etc)*
+* Hole punching (UDP)
+* Packet payload serializing
+* Packet payload encryption *(BLOWFISH and RSA)*
+* Packet payload compression `FORTHCOMING v1.5`
+* Multiplexer & demultiplexer `FORTHCOMING v1.0`
+* Synchronize one-time event packets reception `FORTHCOMING v1.1`
+* Big & little-endianness support `TBC`
 
 &#160;
 

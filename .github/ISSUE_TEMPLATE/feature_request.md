@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: An idea for this project
-title: "[FEATURE]"
+title: "[FEATURE] synthesizethefeature"
 labels: feature
 assignees: PhilJbt
 

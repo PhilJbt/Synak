@@ -2,6 +2,8 @@
 
 &#160;
 
+# MENU
+
 | [WIKI](wiki/readme.md) |
 :----------------------------------------------------------: |
 | [I. PRESENSATION](README.md#i-presensation) &#65293; [II. FEATURES](README.md#ii-features) &#65293; [III. SPECIFICATIONS](README.md#iii-specifications) &#65293; [IV. COMPILER](README.md#iv-compiler-support) &#65293; [V. DEPENDENCIES](README.md#v-dependencies) |
@@ -25,6 +27,8 @@ The liaison between clients is based on **UDP**, with a **client-server P2P arch
 Although optional, a Master Server is provided for a connection with Clients through **TCP** in vue to propose matchmaking or just connections coordination between clients.\
 A **Web Admin Panel** is available to facilitate the interraction with it (e.g. to start/stop, to ban/unban IP or UID, to see logs, etc), for an Unix public dedicated server or VPS.\
 If the Master Server is not used, the gamer hosting an online game will have to provide the IP address of all players connecting to it - as a whitelist of obfuscated IPs - otherwise the host's NAT will block all connections.
+
+###### [Return to menu](README.md#menu)
 
 &#160;
 
@@ -57,6 +61,8 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 * Ban / Unban UID *(Volume UID by default, can be overridden)*
 * Dedicated server optimization reporter
 
+###### [Return to menu](README.md#menu)
+
 &#160;
 
 # III. SPECIFICATIONS
@@ -78,6 +84,8 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 * Synchronize one-time event packets reception `FORTHCOMING v1.1`
 * Big & little-endianness support `TBC`
 
+###### [Return to menu](README.md#menu)
+
 &#160;
 
 # IV. COMPILER SUPPORT
@@ -92,6 +100,8 @@ Standard version: C++20
   * g++
     * v9.3
     * v10.0
+
+###### [Return to menu](README.md#menu)
 
 &#160;
 
@@ -113,3 +123,5 @@ Standard version: C++20
   * Python ≥3.0
   * [Semantic UI 2.4](https://semantic-ui.com/) (included)
     * Google Font dependency has been manually bypassed
+
+###### [Return to menu](README.md#menu)

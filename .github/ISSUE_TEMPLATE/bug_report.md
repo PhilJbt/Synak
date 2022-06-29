@@ -9,7 +9,7 @@ assignees: PhilJbt
 **- Version of Synak:**\
 Version: XXX
 
-**- My Issue / Question:**\
+**- Issue:**\
 Please provide as much context as possible, error message, etc.
 
 **- Additional information, context, step to reproduce:**\

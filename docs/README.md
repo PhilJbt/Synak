@@ -4,10 +4,9 @@
 
 # MENU
 
-| [WIKI](wiki/readme.md) |
-:----------------------------------------------------------: |
-| [I. PRESENSATION](README.md#i-presensation) &#65293; [II. FEATURES](README.md#ii-features) &#65293; [III. SPECIFICATIONS](README.md#iii-specifications) &#65293; [IV. COMPILER](README.md#iv-compiler-support) &#65293; [V. DEPENDENCIES](README.md#v-dependencies) |
 
+| [I. PRESENSATION](README.md#i-presensation) &#65293; [II. DOCUMENTATION](README.md#ii-documentation) &#65293; [III. FEATURES](README.md#iii-features) &#65293; [IV. SPECIFICATIONS](README.md#iv-specifications) &#65293; [V. COMPILER](README.md#v-compiler-support) &#65293; [VI. DEPENDENCIES](README.md#vi-dependencies) |
+:----------------------------------------------------------: |
 
 
 &#160;
@@ -32,7 +31,27 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 
 &#160;
 
-# II. FEATURES
+# II. DOCUMENTATION
+
+### &#8212; Network Layer
+* :pushpin: Presentation
+* :bookmark_tabs: [**Installation**](nl/README.md)
+
+### &#8212; Master ServerPanel
+* :pushpin: Presentation
+* :bookmark_tabs: [**Installation**](ms/README.md)
+
+### &#8212; Web Panel
+* :pushpin: [Presentation](wp/wp_presentation.md)
+* :bookmark_tabs: [**Installation**](wp/README.md)
+* :warning: [Error messages](wp/wp_errors.md)
+* :chart_with_upwards_trend: [Dedicated Server Optimizations](wp/wp_optimization.md)
+
+###### [Return to menu](README.md#menu)
+
+&#160;
+
+# III. FEATURES
 
 ### &#9472; CLIENT
 * Memory scanner variables mitigation `FORTHCOMING v1.0`
@@ -44,14 +63,10 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 * Prediction *(local player)* `FORTHCOMING 1.6`
 * Reconciliation *(local player)* `FORTHCOMING 1.6`
 
-&#160;
-
 ### &#9472; MASTER SERVER
 * Port assignation
 * Session ID *(To join a private session)*
 * Matchmaking
-
-&#160;
 
 ### &#9472; WEB PANEL
 * Statistics
@@ -65,7 +80,7 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 
 &#160;
 
-# III. SPECIFICATIONS
+# IV. SPECIFICATIONS
 
 * Dual-stack IPv4-IPv6
 * Thread safe
@@ -88,7 +103,7 @@ If the Master Server is not used, the gamer hosting an online game will have to 
 
 &#160;
 
-# IV. COMPILER SUPPORT
+# V. COMPILER SUPPORT
 
 Standard version: C++20
 
@@ -105,13 +120,11 @@ Standard version: C++20
 
 &#160;
 
-# V. DEPENDENCIES
+# VI. DEPENDENCIES
 
 ### &#9472; Network Layer / Master Server
   * [nlohmann-json-3.10.2](https://github.com/nlohmann/json) (included)
   * [Fast CRC32 7a028136d54f8fe93b7cf533ca098f0bf30c3fbd](https://github.com/stbrumme/crc32) (included)
-
-&#160;
 
 ### &#9472; Web Panel
   * Tmux ≥1.8

@@ -6,15 +6,11 @@ labels: bug
 assignees: PhilJbt
 
 ---
+**- Version of Synak:**\
+Version: XXX
 
-**Commit ID**
-Synak/commit/68d54d312da4b43f03b1fe51edc50561d3bc081e
+**- My Issue / Question:**\
+Please provide as much context as possible, error message, etc.
 
-**Synak version**
---.--
-
-**Describe the bug**
-A clear and concise description of what the bug is.
-
-**Additional information, context, step to reproduce**
+**- Additional information, context, step to reproduce:**\
 Add any other context about the problem here.

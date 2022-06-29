@@ -1,4 +1,4 @@
-![Synak logo](https://raw.githubusercontent.com/PhilJbt/Synak/main/wiki/logo.png)
+![Synak logo](https://raw.githubusercontent.com/PhilJbt/Synak/main/docs/logo.png)
 
 &#160;
 

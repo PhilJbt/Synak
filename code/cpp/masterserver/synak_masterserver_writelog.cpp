@@ -4,7 +4,7 @@
 * synak_masterserver_writelog.cpp
 */
 
-#include "master server/synak_masterserver.h"
+#include "masterserver/synak_masterserver.h"
 
 
 int SK::MasterServer::m_LW_iLogID = 0;

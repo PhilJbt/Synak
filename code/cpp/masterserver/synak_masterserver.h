@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "master server/synak_masterserver_define.h"
+#include "masterserver/synak_masterserver_define.h"
 
 
 namespace SK {

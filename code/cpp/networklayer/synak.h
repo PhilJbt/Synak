@@ -54,7 +54,7 @@
 #include "dependencies/nlohmann-json-3.10.2/nlohmann/json.hpp"
 
 // SYNAK
-#include "network layer/synak_security.h"
-#include "network layer/synak_define.h"
-#include "network layer/synak_tools.h"
-#include "network layer/synak_manager.h"
+#include "networklayer/synak_security.h"
+#include "networklayer/synak_define.h"
+#include "networklayer/synak_tools.h"
+#include "networklayer/synak_manager.h"

@@ -4,7 +4,7 @@
 * synak_masterserver_webpanel.cpp
 */
 
-#include "master server/synak_masterserver.h"
+#include "masterserver/synak_masterserver.h"
 
 int SK::MasterServer::m_WP_fdPipeKill[2] { -1, -1 };
 

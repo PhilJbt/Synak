@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "network layer/synak.h"
+#include "networklayer/synak.h"
 
 
 #define SK_BUILDTIMESTAMP       std::string(__DATE__) + std::string(" ") + std::string(__TIME__)

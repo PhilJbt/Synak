@@ -4,6 +4,9 @@
 * synak_masterserver_writelog_template.cpp
 */
 
+#pragma once
+
+#include "synak_masterserver.h"
 
 /* MasterServer::LW_writeLog
 ** Write messages in log file

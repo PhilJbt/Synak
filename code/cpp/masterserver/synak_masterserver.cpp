@@ -4,7 +4,7 @@
 * synak_masterserver.cpp
 */
 
-#include "master server/synak_masterserver.h"
+#include "masterserver/synak_masterserver.h"
 
 
 volatile std::atomic_bool SK::MasterServer::m_bRun = false;
@@ -67,34 +67,43 @@ void SK::MasterServer::initialization(int _argc, char *_argv[]) {
             }
         }
     }
-    else if (_argc > 1
-        && (_argc % 2) == 1) {
+    else if (_argc > 1) {
         // -loglevel 0 -portplayer 45350 -portwebpanel 45318
-        for (int i(1); i < _argc; i += 2) {
-            std::string strArg(_argv[i]);
-            int iVal(0);
-            bool bError(false);
+        int iArgCurr(1);
+        while (iArgCurr < _argc) {
+            if (std::string(_argv[iArgCurr]).find("-") != std::string::npos) {
+                std::string strArg(_argv[iArgCurr]);
+                int iVal(0);
+                bool bError(false);
 
-            try {
-                iVal = atoi(_argv[i + 1]);
-            }
-            catch (std::exception const &_e) {
-                SK_LOG_ERR("An argument is not an int", _e.what(), _argv[i]);
-                i = _argc;
-                bError = true;
-            }
+                if (iArgCurr + 1 < _argc) {
+                    try {
+                        iVal = atoi(_argv[iArgCurr + 1]);
+                    }
+                    catch (std::exception const &_e) {
+                        SK_LOG_ERR("An argument is not an int", _e.what(), _argv[iArgCurr]);
+                        bError = true;
+                    }
+                }
+                else
+                    bError = true;
 
-            if (!bError) {
-                strArg.erase(strArg.find_last_not_of(' ') + 1);
-                strArg.erase(0, strArg.find_first_not_of(' '));
+                if (!bError) {
+                    strArg.erase(strArg.find_last_not_of(' ') + 1);
+                    strArg.erase(0, strArg.find_first_not_of(' '));
 
-                if (strArg == "-loglevel")
-                    m_LW_eLogLevel = static_cast<SK::MasterServer::eLogType>(iVal);
-                else if (strArg == "-portplayer")
-                    m_WP_iPort = iVal;
-                else if (strArg == "-portwebpanel")
-                    m_IG_iPort = iVal;
+                    if (strArg == "-loglevel")
+                        m_LW_eLogLevel = static_cast<SK::MasterServer::eLogType>(iVal);
+                    else if (strArg == "-portplayer")
+                        m_WP_iPort = iVal;
+                    else if (strArg == "-portwebpanel")
+                        m_IG_iPort = iVal;
+                }
+
+                iArgCurr += 2;
             }
+            else
+                ++iArgCurr;
         }
     }
     

@@ -6,8 +6,8 @@
 
 #define SK_NO_CPP_INCLUDING
 
-#include "network layer/synak.h"
-#include "master server/synak_masterserver.h"
+#include "networklayer/synak.h"
+#include "masterserver/synak_masterserver.h"
 
 #define TYPEFORVARIANT     uint8_t, uint16_t, uint32_t, uint64_t, int8_t, int16_t, int32_t, int64_t, float, double, bool, std::string
 using VariantType_t     =  std::variant<TYPEFORVARIANT>;

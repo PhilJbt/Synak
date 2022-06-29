@@ -7,5 +7,5 @@ assignees: PhilJbt
 
 ---
 
-**- My question:**\
+**- My question:**
 Please provide as much context as possible.

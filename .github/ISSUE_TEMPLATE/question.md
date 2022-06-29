@@ -1,7 +1,7 @@
 ---
 name: Question
 about: Ask a question
-title: "[QUESTION]"
+title: "[QUESTION] synthesizeyourquestion"
 labels: question
 assignees: PhilJbt
 

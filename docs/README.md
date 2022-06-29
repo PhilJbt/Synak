@@ -5,7 +5,7 @@
 # MENU
 
 
-| [I. PRESENSATION](README.md#i-presensation) &#65293; [II. DOCUMENTATION](README.md#ii-documentation) &#65293; [III. FEATURES](README.md#iii-features) &#65293; [IV. SPECIFICATIONS](README.md#iv-specifications) &#65293; [V. COMPILER](README.md#v-compiler-support) &#65293; [VI. DEPENDENCIES](README.md#vi-dependencies) |
+| [I. PRESENSATION](https://github.com/PhilJbt/Synak/README.md#i-presensation) &#65293; [II. DOCUMENTATION](README.md#ii-documentation) &#65293; [III. FEATURES](README.md#iii-features) &#65293; [IV. SPECIFICATIONS](README.md#iv-specifications) &#65293; [V. COMPILER](README.md#v-compiler-support) &#65293; [VI. DEPENDENCIES](README.md#vi-dependencies) |
 :----------------------------------------------------------: |
 
 

@@ -10,9 +10,6 @@ assignees: PhilJbt
 **Commit ID**
 Synak/commit/68d54d312da4b43f03b1fe51edc50561d3bc081e
 
-**Synak version**
---.--
-
 **Describe the bug**
 A clear and concise description of what the bug is.
 

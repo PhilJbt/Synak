@@ -6,11 +6,11 @@ labels: bug
 assignees: PhilJbt
 
 ---
-**- Version of Synak:**\
+**- Version of Synak:**
 Version: XXX
 
-**- Issue:**\
+**- Issue:**
 Please provide as much context as possible, error message, etc.
 
-**- Additional information, context, step to reproduce:**\
+**- Additional information, context, step to reproduce:**
 Add any other context about the problem here.

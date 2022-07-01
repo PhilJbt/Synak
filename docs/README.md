@@ -5,7 +5,7 @@
 # MENU
 
 
-| [I.&#160;PRESENSATION](#i-presensation) &#65293; [II.&#160;DOCUMENTATION](#ii-documentation) &#65293; [III.&#160;FEATURES](#iii-features) &#65293; [IV.&#160;SPECIFICATIONS](#iv-specifications) &#65293; [V.&#160;COMPILER](#v-compiler-support) &#65293; [VI.&#160;DEPENDENCIES](#vi-dependencies) |
+| [I.&#160;PRESENSATION](#i-presentation) &#65293; [II.&#160;DOCUMENTATION](#ii-documentation) &#65293; [III.&#160;FEATURES](#iii-features) &#65293; [IV.&#160;SPECIFICATIONS](#iv-specifications) &#65293; [V.&#160;COMPILER](#v-compiler-support) &#65293; [VI.&#160;DEPENDENCIES](#vi-dependencies) |
 :----------------------------------------------------------: |
 
 
@@ -19,7 +19,7 @@
 
 &#160;
 
-# I. PRESENSATION
+# I. PRESENTATION
 
 The liaison between clients is based on **UDP**, with a **client-server P2P architecture** — compatible with nearly all types of **NAT**.
 
